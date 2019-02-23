@@ -9,6 +9,7 @@ from jinja_app import generate_report
 class MyFirstGUI:
     def __init__(self, master):
         self.master = master
+
         master.title("A simple GUI")
 
         self.label = Label(master, text="Best GUI ever!")
@@ -26,7 +27,10 @@ class MyFirstGUI:
         self.close_button = Button(master, text="That's enough magic for now", command=master.quit)
         self.close_button.pack()
 
-        
+        self.filename_1 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_1.csv'
+        self.filename_2 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_2.csv' 
+
+
     def open_file_1(self):
         self.filename_1 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
     
@@ -34,6 +38,7 @@ class MyFirstGUI:
         self.filename_2 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
 
     def run_jinja(self):
+
         generate_report(self.filename_1, self.filename_2)
 
 root = Tk()
