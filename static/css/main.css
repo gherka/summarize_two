@@ -2,8 +2,15 @@ body {
     background-color: gainsboro;
 }
 
+.table_top {
+
+  border-top: 1px solid gainsboro;
+  border-left: 1px solid gainsboro;
+  border-right: 1px solid gainsboro;
+}
+
 table, th, td {
-    border: 1px solid grey;
+    border: 1px dotted grey;
     border-collapse: collapse;
     text-align: center;
   }

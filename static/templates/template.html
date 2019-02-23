@@ -22,15 +22,7 @@
     <div class="row">
         <div>
             <h4>What can we tell you about these two datasets?</h4>
-            <p>They are awesome. And have these columns in common:</p>
-            <ul>
-                {% for item in summary['Metadata'] %}
-
-                    <li style="font-size: 20px">{{ item }}</li>
-
-                {% endfor %}
-            </ul>
-            <p>How about the sizes?</p>
+            <p>How long and wide are these boys?</p>
 
             <div class="row">
 
@@ -38,7 +30,7 @@
                 <div class="col-md-6">
                 <table>
                     <TR>
-                        <TD colspan="2">{{ df }}</TD>
+                        <TD class="table_top" colspan="2">{{ df }}</TD>
                     </TR>
                     <TR>
                         <TD>Number of rows</TD>
@@ -53,12 +45,34 @@
                 {% endfor %}
 
             </div>
+            <p></p>
+            <p>I want more! Tell me what <u>mismatching</u> columns they have:</p>
+            <ul>
+                {% for item in summary['Metadata']['diff_vars'] %}
 
+                    <li style="font-size: 20px">
+
+                    {% if item|length == 2 %}
+                        {{ item[0] }} - from {{ item[1] }}
+                    {% else %}
+                        {{ item }}
+                    {% endif %}
+                    
+                    </li>
+
+                {% endfor %}
+            </ul>
 
         </div>
     </div>
-    <p> </p>
 
+    <div class="row">
+
+    <p>OK, you got me interested. Show me what they have in common:</p>
+
+    </div>
+
+    <p></p>
     <div class="row">
         <div>
         <h4>Okay, but how do they actually look like. In person, you know?</h4>

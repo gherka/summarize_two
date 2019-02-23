@@ -10,10 +10,22 @@ def generate_summary():
     shape_2 = df2.shape
 
     #Find out common variables between the two datasets:
-    common_vars = [col_a for col_a, col_b in zip(df1.columns.values, df2.columns.values) if col_a == col_b]
+
+    diff_vars = ([(a, 'DF1') for a in df1.columns.values if a not in df2.columns.values] + 
+                 [(b, 'DF2') for b in df2.columns.values if b not in df1.columns.values])
+
+
+    common_vars = [a for a in df1.columns.values if a in df2.columns.values]
+
+    if len(diff_vars) == 0 :
+        diff_vars = ['None']
+
 
     output = {
-        'Metadata' : common_vars,
+        'Metadata' : {
+            'diff_vars': diff_vars,
+            'common_vars' : common_vars
+            },
         'DFs' : {
             'DF1' : {'shape' : shape_1},
             'DF2' : {'shape' : shape_2}
