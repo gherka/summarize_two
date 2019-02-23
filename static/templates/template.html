@@ -13,7 +13,7 @@
     </head>
 </head>
 <body>
-<div class="container" style="max-width: 1400px;">
+<div class="container" style="max-width: 800px;">
     <!-- Title across the entire container -->
     <div style="text-align: center;">
         <h1>Visual report comparing two datasets</h1>
@@ -21,15 +21,43 @@
     </div>
     <div class="row">
         <div>
-        <h4>What can we tell you about these two datasets?</h4>
-        <p>They are awesome. And have these things in common:</p>
-        <ul>
-            <li>Spam</li>
-            <li>Eggs</li>
-            <li>Bacon</li>
-          </ul> 
+            <h4>What can we tell you about these two datasets?</h4>
+            <p>They are awesome. And have these columns in common:</p>
+            <ul>
+                {% for item in summary['Metadata'] %}
+
+                    <li style="font-size: 20px">{{ item }}</li>
+
+                {% endfor %}
+            </ul>
+            <p>How about the sizes?</p>
+
+            <div class="row">
+
+                {% for df in summary['DFs'] %}
+                <div class="col-md-6">
+                <table>
+                    <TR>
+                        <TD colspan="2">{{ df }}</TD>
+                    </TR>
+                    <TR>
+                        <TD>Number of rows</TD>
+                        <TD>Number of columns</TD>
+                    </TR>
+                    <TR>
+                        <TD>{{ summary['DFs'][df]['shape'][0] }}</TD>
+                        <TD>{{ summary['DFs'][df]['shape'][1] }}</TD>
+                    </TR>
+                </table>
+                </div>
+                {% endfor %}
+
+            </div>
+
+
         </div>
     </div>
+    <p> </p>
 
     <div class="row">
         <div>

@@ -1,3 +1,17 @@
 body {
     background-color: gainsboro;
 }
+
+table, th, td {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+table {
+    border-spacing: 5px;
+  }
+
+th, td {
+    padding: 5px;
+  }
