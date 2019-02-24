@@ -1,10 +1,10 @@
 import pandas as pd
 from collections import defaultdict
 
-def generate_summary():
+def generate_summary(data_path_1, data_path_2):
 
-    df1 = pd.read_csv('data_1.csv')
-    df2 = pd.read_csv('data_2.csv')
+    df1 = pd.read_csv(data_path_1)
+    df2 = pd.read_csv(data_path_2)
 
     #Find out shapes of the two datasets:
     shape_1 = df1.shape
@@ -21,12 +21,10 @@ def generate_summary():
     #Build a nested dictionary of common column metadata
     common_vars = {}
 
-    d = {'DFs':{'DF1':{'Uniques':0, 'NAs':0}, 'DF2':{'Uniques':0, 'NAs':0}}}
-    dd = defaultdict(dict, d)
-
     for col in common_var_names:
 
-        common_vars[col] = dict(dd) 
+        #dictionary has to be defined inside the loop to generate a new object every time
+        common_vars[col] = {'DFs':{'DF1':{'Uniques':0, 'NAs':0}, 'DF2':{'Uniques':0, 'NAs':0}}}
 
         #collect information from the first dataframe
         common_vars[col]['DFs']['DF1']['Uniques'] = df1[col].nunique()

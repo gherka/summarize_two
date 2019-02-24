@@ -13,7 +13,7 @@
     </head>
 </head>
 <body>
-<div class="container" style="max-width: 800px;">
+<div class="container" style="max-width: 1000px;">
     <!-- Title across the entire container -->
     <div style="text-align: center;">
         <h1>Visual report comparing two datasets</h1>
@@ -48,7 +48,7 @@
             <ul>
                 {% for item in summary['Metadata']['diff_vars'] %}
 
-                    <li style="font-size: 20px">
+                    <li style="font-size: 18px">
 
                     {% if item|length == 2 %}
                         {{ item[0] }} - only in {{ item[1] }}
@@ -84,10 +84,26 @@
             {% for key in summary['Metadata']['common_vars'].keys() %}
                 <TR>
                     <TD>{{ key }}</TD>
-                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] }}</TD>
-                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}</TD>
-                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] }}</TD>
-                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}</TD>
+                    <TD class={{ 'unique_highlight' if 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] != 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}>
+                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] }}
+                    </TD>
+                    <TD class={{ 'unique_highlight' if 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] != 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}>
+                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}
+                    </TD>
+                    <TD class={{ 'na_highlight' if 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] != 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}>
+                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] }}
+                    </TD>
+                    <TD class={{ 'na_highlight' if 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] != 
+                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}>
+                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}
+                    </TD>
                 </TR>
             {% endfor %}
             </tbody>
@@ -106,12 +122,14 @@
     </div>
 
     <div class="row">
+        <div class= "d-flex align-content-start">
         <div class="col-md-6" style="text-align: center;">
-            <span>Here's the first dataset</span>
+            <p>Here's the first dataset</p>
             <img src="static/images/image_1.png" class="img-fluid"/></div>
         <div class="col-md-6" style="text-align: center;">
-            <span>Here's the second dataset</span>
+            <p>Here's the second dataset</p>
             <img src="static/images/image_2.png" class="img-fluid"/></div>
+        </div>
     </div>
 </div>
 

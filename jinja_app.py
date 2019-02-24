@@ -7,7 +7,7 @@ from summary_stats import generate_summary
 def generate_report(data_path_1, data_path_2):
 
     #Generate basic dataset information
-    summary = generate_summary()
+    summary = generate_summary(data_path_1, data_path_2)
 
     #Generate images to be used in Jinja template
     generate_plots(data_path_1, data_path_2)

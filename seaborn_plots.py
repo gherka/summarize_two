@@ -12,7 +12,8 @@ def generate_plots(data_path_1, data_path_2):
     #Customise Seaborn using Matplotlib's parameters
     #Seaborn's set() is sneaky in bringing in a bunch of default parameters!
     sns.set(style=None, palette='deep', font='sans-serif', font_scale=1, color_codes=True, rc={
-        'font.size':8,
+        'font.size':10,
+        'figure.figsize':(3,5),
         'axes.facecolor':'gainsboro',
         'savefig.facecolor':'gainsboro',
         'savefig.edgecolor':'gainsboro',
@@ -23,17 +24,19 @@ def generate_plots(data_path_1, data_path_2):
         'axes.spines.bottom':False
         })
 
-    max_y = max(df1.Value.max(), df2.Value.max())
+    max_y = max(max(df1['hbres_name'].value_counts()), max(df1['hbres_name'].value_counts()))
 
-    #Bar graph of the first dataset
+    #Frequency graph of the first dataset
     fig_1, ax_1 = plt.subplots()
     ax_1.set_ylim(0,max_y)
-    sns.barplot(x=df1.Category, y=df1.Value, color='blue', ax=ax_1)
+    sns.countplot(y='hbres_name', data=df1, color='blue')
 
-    #Bar graph of the seconda dataset
+    #Frequency graph of the seconda dataset
+    #interesting point: if draw in different sorting orders, the pixel-by-pixel will fail
+    #order=df2['hbres_name'].value_counts().index
     fig_2, ax_2 = plt.subplots()
     ax_2.set_ylim(0,max_y)
-    sns.barplot(x=df2.Category, y=df2.Value, color='blue', ax=ax_2)
+    sns.countplot(y='hbres_name', data=df2, color='blue')
 
     fig_1.savefig(r'static/images/image_1.png', bbox_inches="tight")
 
@@ -63,7 +66,7 @@ def generate_plots(data_path_1, data_path_2):
                 counter += 1
                 if pixel_a != pixel_b:
                     mismatches += 1
-                    new_image_data.append((227,108,10,100))
+                    new_image_data.append((227,108,10,255))
                 else:
                     new_image_data.append(pixel_b)
             else:

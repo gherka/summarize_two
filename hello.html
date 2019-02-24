@@ -13,7 +13,7 @@
     </head>
 </head>
 <body>
-<div class="container" style="max-width: 800px;">
+<div class="container" style="max-width: 1000px;">
     <!-- Title across the entire container -->
     <div style="text-align: center;">
         <h1>Visual report comparing two datasets</h1>
@@ -35,8 +35,8 @@
                         <TD>Number of columns</TD>
                     </TR>
                     <TR>
-                        <TD>4</TD>
-                        <TD>2</TD>
+                        <TD>10</TD>
+                        <TD>6</TD>
                     </TR>
                 </table>
                 </div>
@@ -51,8 +51,8 @@
                         <TD>Number of columns</TD>
                     </TR>
                     <TR>
-                        <TD>4</TD>
-                        <TD>2</TD>
+                        <TD>9</TD>
+                        <TD>5</TD>
                     </TR>
                 </table>
                 </div>
@@ -64,10 +64,10 @@
             <ul>
                 
 
-                    <li style="font-size: 20px">
+                    <li style="font-size: 18px">
 
                     
-                        None
+                        stays - only in DF1
                     
                     
                     </li>
@@ -97,19 +97,83 @@
             <tbody>
             
                 <TR>
-                    <TD>Category</TD>
-                    <TD>4</TD>
-                    <TD>3</TD>
-                    <TD>0</TD>
-                    <TD>0</TD>
+                    <TD>hbres_name</TD>
+                    <TD class=>
+                        4
+                    </TD>
+                    <TD class=>
+                        4
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
                 </TR>
             
                 <TR>
-                    <TD>Value</TD>
-                    <TD>4</TD>
-                    <TD>3</TD>
-                    <TD>0</TD>
-                    <TD>0</TD>
+                    <TD>location</TD>
+                    <TD class=unique_highlight>
+                        10
+                    </TD>
+                    <TD class=unique_highlight>
+                        9
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
+                </TR>
+            
+                <TR>
+                    <TD>gender</TD>
+                    <TD class=>
+                        2
+                    </TD>
+                    <TD class=>
+                        2
+                    </TD>
+                    <TD class=na_highlight>
+                        2
+                    </TD>
+                    <TD class=na_highlight>
+                        1
+                    </TD>
+                </TR>
+            
+                <TR>
+                    <TD>age</TD>
+                    <TD class=>
+                        6
+                    </TD>
+                    <TD class=>
+                        6
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
+                </TR>
+            
+                <TR>
+                    <TD>episodes</TD>
+                    <TD class=unique_highlight>
+                        7
+                    </TD>
+                    <TD class=unique_highlight>
+                        6
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
+                    <TD class=>
+                        0
+                    </TD>
                 </TR>
             
             </tbody>
@@ -128,12 +192,14 @@
     </div>
 
     <div class="row">
+        <div class= "d-flex align-content-start">
         <div class="col-md-6" style="text-align: center;">
-            <span>Here's the first dataset</span>
+            <p>Here's the first dataset</p>
             <img src="static/images/image_1.png" class="img-fluid"/></div>
         <div class="col-md-6" style="text-align: center;">
-            <span>Here's the second dataset</span>
+            <p>Here's the second dataset</p>
             <img src="static/images/image_2.png" class="img-fluid"/></div>
+        </div>
     </div>
 </div>
 
