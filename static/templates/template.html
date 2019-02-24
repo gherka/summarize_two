@@ -23,9 +23,7 @@
         <div>
             <h4>What can we tell you about these two datasets?</h4>
             <p>How long and wide are these boys?</p>
-
             <div class="row">
-
                 {% for df in summary['DFs'] %}
                 <div class="col-md-6">
                 <table>
@@ -53,7 +51,7 @@
                     <li style="font-size: 20px">
 
                     {% if item|length == 2 %}
-                        {{ item[0] }} - from {{ item[1] }}
+                        {{ item[0] }} - only in {{ item[1] }}
                     {% else %}
                         {{ item }}
                     {% endif %}
@@ -69,6 +67,33 @@
     <div class="row">
 
     <p>OK, you got me interested. Show me what they have in common:</p>
+
+        
+        <div>
+        <table class="table table-hover">
+            <thead>
+            <TR>
+                <TD class="table_top">Variable Name</TD>
+                <TD class="table_top">DF1 - Uniques</TD>
+                <TD class="table_top">DF2 - Uniques</TD>
+                <TD class="table_top">DF1 - NAs</TD>
+                <TD class="table_top">DF2 - NAs</TD>
+            </TR>
+            </thead>
+            <tbody>
+            {% for key in summary['Metadata']['common_vars'].keys() %}
+                <TR>
+                    <TD>{{ key }}</TD>
+                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] }}</TD>
+                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}</TD>
+                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] }}</TD>
+                    <TD>{{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}</TD>
+                </TR>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
 
     </div>
 

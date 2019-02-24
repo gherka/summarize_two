@@ -4,13 +4,13 @@ body {
 
 .table_top {
 
-  border-top: 1px solid gainsboro;
-  border-left: 1px solid gainsboro;
-  border-right: 1px solid gainsboro;
+  border-top: 1px solid gainsboro !important;
+  border-left: 1px solid gainsboro !important;
+  border-right: 1px solid gainsboro !important;
 }
 
 table, th, td {
-    border: 1px dotted grey;
+    border: 1px dotted grey !important;
     border-collapse: collapse;
     text-align: center;
   }
