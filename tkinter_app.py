@@ -6,12 +6,13 @@ Use subprocess call to add support for running external scripts
 Re-factor into more meaningful classes
 '''
 
-from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, W
+from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, W, LEFT
+from tkinter import ttk
 import os
 import pandas as pd
 
 from jinja_app import generate_report
-
+from summary_stats import generate_summary
 
 class BasicGUI:
     #CHILD OF ROOT (TOP-LEVEL WINDOW)
@@ -24,7 +25,8 @@ class BasicGUI:
 
         master.title("Dataset comparison tool")
 
-        self.label = Label(self.myContainer, text="Use the buttons to operate the tool!").grid(row=0, column=0, pady=10, padx=5)
+        self.label = (Label(self.myContainer, text="Use the buttons to operate the tool!")
+                            .grid(row=0, column=0, columnspan=2, pady=10, padx=5))
 
         self.first_button = Button(self.myContainer, text="Pick the First File", command=self.open_file_1)
         self.first_button.grid(row=1, column=0, sticky=W)
@@ -37,25 +39,32 @@ class BasicGUI:
         self.filename_2 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_2.csv'
         
         #Create a dropdown
-        self.tkvar = StringVar(self.myContainer)
-        self.choices = ['Pizza','Lasagne','Fries','Fish','Potatoe']
-        self.tkvar.set('Pizza')
 
-        popupMenu = OptionMenu(self.myContainer, self.tkvar, *self.choices)
-        Label(self.myContainer, text="Choose a dish").grid(row=3, column=0, sticky=W)
-        popupMenu.grid(row=3, column=1, pady=(2,8), sticky=W)
+        def populateDropdown():
+
+            common_values = list(generate_summary(self.filename_1, self.filename_2)['Metadata']['common_vars'].keys())
+            popupMenu['values']=common_values
+
+        dropdownText = "Choose a common variable to plot"
+        dropdownLabel=Label(self.myContainer, text=dropdownText, wraplength=110, anchor=W, justify=LEFT)
+        dropdownLabel.grid(row=3, column=0, pady=(5,20), sticky=W)
+
+        self.choices = ['None']
+        popupMenu = ttk.Combobox(self.myContainer, values=self.choices, postcommand=populateDropdown)
+        popupMenu.grid(row=3, column=1, padx=10, pady=(5,20), sticky=W)
+        popupMenu.current(0)
 
         # on change dropdown value
-        def change_dropdown(*args):
-            print( self.tkvar.get() )
-
-        # link function to change dropdown
-        self.tkvar.trace('w', change_dropdown)
+        def callbackFunc(event):
+            print(popupMenu.get())
+            self.var_to_plot = popupMenu.get()
+    
+        popupMenu.bind("<<ComboboxSelected>>", callbackFunc)
 
         self.jinja_button = Button(self.myContainer, text="MAGIC!", command=self.run_jinja)
         self.jinja_button.grid(row=4, column=0, sticky=W)
 
-        self.close_button = Button(self.myContainer, text="That's enough magic for now", command=self.myContainer.quit)
+        self.close_button = Button(self.myContainer, text="CLOSE APP", command=self.myContainer.quit)
         self.close_button.grid(row=5, column=0, sticky=W)
 
     #FUNCTIONS:
@@ -66,10 +75,10 @@ class BasicGUI:
         self.filename_2 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
 
     def run_jinja(self):
-        generate_report(self.filename_1, self.filename_2)
+        generate_report(self.filename_1, self.filename_2, self.var_to_plot)
 
 root = Tk()
-root.geometry("500x500")
+root.geometry("320x400")
 my_gui = BasicGUI(root)
 
 #Position the myContainer in the middle of the Main Window 3x3 grid
@@ -77,7 +86,6 @@ root.grid_rowconfigure(1, weight=1)
 root.grid_rowconfigure(2, weight=1)
 root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(2, weight=1)
-
 
 #RUN TKINTER LOOP
 root.mainloop()

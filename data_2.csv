@@ -2,8 +2,10 @@ hbres_name,location,gender,age,episodes
 A,a,f,1,12
 A,c,f,3,35
 B,d,m,4,2
+C,b,,,
 C,e,f,2,245
-C,f,f,6,2
+C,f,f,,2
+C,,m,2,43
 D,g,m,1,1
 D,h,f,4,6
 D,k,m,5,2

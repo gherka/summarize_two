@@ -4,7 +4,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import io
 
-def generate_plots(data_path_1, data_path_2):
+def generate_plots(data_path_1, data_path_2, var_name):
 
     df1 = pd.read_csv(data_path_1)
     df2 = pd.read_csv(data_path_2)
@@ -24,19 +24,19 @@ def generate_plots(data_path_1, data_path_2):
         'axes.spines.bottom':False
         })
 
-    max_y = max(max(df1['hbres_name'].value_counts()), max(df1['hbres_name'].value_counts()))
+    max_y = max(max(df1[var_name].value_counts()), max(df1[var_name].value_counts()))
 
     #Frequency graph of the first dataset
     fig_1, ax_1 = plt.subplots()
     ax_1.set_ylim(0,max_y)
-    sns.countplot(y='hbres_name', data=df1, color='blue')
+    sns.countplot(y=var_name, data=df1, color='blue')
 
     #Frequency graph of the seconda dataset
     #interesting point: if draw in different sorting orders, the pixel-by-pixel will fail
-    #order=df2['hbres_name'].value_counts().index
+    #order=df2[var_name].value_counts().index
     fig_2, ax_2 = plt.subplots()
     ax_2.set_ylim(0,max_y)
-    sns.countplot(y='hbres_name', data=df2, color='blue')
+    sns.countplot(y=var_name, data=df2, color='blue')
 
     fig_1.savefig(r'static/images/image_1.png', bbox_inches="tight")
 
