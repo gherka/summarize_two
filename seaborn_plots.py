@@ -4,12 +4,14 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import io
 
-from helper_funcs import cross_hatching_bars
+from helper_funcs import cross_hatching_bars, transform_frequencies
 
 def generate_plots(data_path_1, data_path_2, var_name):
 
     df1 = pd.read_csv(data_path_1)
     df2 = pd.read_csv(data_path_2)
+
+    freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
     
     #Customise Seaborn using Matplotlib's parameters
     #Seaborn's set() is sneaky in bringing in a bunch of default parameters!
@@ -31,12 +33,12 @@ def generate_plots(data_path_1, data_path_2, var_name):
     #Frequency graph of the first dataset
     fig_1, ax_1 = plt.subplots()
     ax_1.set_ylim(0,max_y)
-    sns.countplot(y=var_name, data=df1, color='coral')
+    sns.barplot(x=freq_1[1], y=freq_1[0], color='coral', ax=ax_1)
 
     #Frequency graph of the seconda dataset
     fig_2, ax_2 = plt.subplots()
     ax_2.set_ylim(0,max_y)
-    sns.countplot(y=var_name, data=df2, color='coral')
+    sns.barplot(x=freq_2[1], y=freq_2[0], color='coral', ax=ax_2)
 
     fig_1.savefig(r'static/images/image_1.png', bbox_inches="tight")
 

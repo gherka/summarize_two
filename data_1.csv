@@ -2,7 +2,6 @@ hbres_name,location,gender,age,episodes,stays
 A,a,f,1,12,
 A,b,m,2,22,
 A,c,f,3,35,
-B,d,m,4,2,
 C,e,f,5,245,
 C,f,,6,2,
 D,g,m,1,1,

@@ -1,5 +1,6 @@
 from PIL import Image
 from collections import deque
+import numpy as np
 
 #CROSS-HATCHING FOR SEABORN PLOTS
 def cross_hatching_bars(img_1, img_2):
@@ -70,3 +71,30 @@ def cross_hatching_bars(img_1, img_2):
     new_image.putdata(new_image_data)
 
     return new_image
+
+def transform_frequencies(df1, df2, var_name):
+
+    freq_1 = df1[var_name].value_counts()
+    freq_2 = df2[var_name].value_counts()
+
+    all_vars = set([var for var in list(df1[var_name].unique()) + list(df2[var_name].unique())])
+
+    new_freq_1 = []
+    new_freq_2 = []
+
+    for var in all_vars:
+        if var in freq_1:
+            new_freq_1.append([var, freq_1[var]])
+        else:
+            new_freq_1.append([var, 0])
+        
+        if var in freq_2:
+            new_freq_2.append([var, freq_2[var]])
+        else:
+            new_freq_2.append([var, 0])
+
+    bar_1 = np.array(new_freq_1, dtype=object).T
+    bar_2 = np.array(new_freq_2, dtype=object).T
+
+    return(bar_1, bar_2)
+

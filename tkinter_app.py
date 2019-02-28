@@ -56,7 +56,6 @@ class BasicGUI:
 
         # on change dropdown value
         def callbackFunc(event):
-            print(popupMenu.get())
             self.var_to_plot = popupMenu.get()
     
         popupMenu.bind("<<ComboboxSelected>>", callbackFunc)
