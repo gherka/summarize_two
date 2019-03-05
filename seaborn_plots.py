@@ -28,16 +28,16 @@ def generate_plots(data_path_1, data_path_2, var_name):
         'axes.spines.bottom':False
         })
 
-    max_y = max(max(df1[var_name].value_counts()), max(df1[var_name].value_counts()))
+    max_x = max(max(df1[var_name].value_counts()), max(df2[var_name].value_counts()))
 
     #Frequency graph of the first dataset
     fig_1, ax_1 = plt.subplots()
-    ax_1.set_ylim(0,max_y)
+    ax_1.set_xlim(0, max_x)
     sns.barplot(x=freq_1[1], y=freq_1[0], color='coral', ax=ax_1)
 
     #Frequency graph of the seconda dataset
     fig_2, ax_2 = plt.subplots()
-    ax_2.set_ylim(0,max_y)
+    ax_2.set_xlim(0, max_x)
     sns.barplot(x=freq_2[1], y=freq_2[0], color='coral', ax=ax_2)
 
     fig_1.savefig(r'static/images/image_1.png', bbox_inches="tight")

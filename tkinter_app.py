@@ -40,7 +40,6 @@ class VisRow:
         #export the callback value to the master
         self.mainMaster.var_to_plot = self.popupMenu.get()
 
-
 class BasicGUI:
     #CHILD OF ROOT (TOP-LEVEL WINDOW)
     def __init__(self, master):
@@ -64,21 +63,23 @@ class BasicGUI:
         #Set defaults for testing
         self.filename_1 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_1.csv'
         self.filename_2 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_2.csv'
-        
-        #Common values for populating dropdowns:
         self.common_values = list(generate_summary(self.filename_1, self.filename_2)['Metadata']['common_vars'].keys())
+
+        #Read in the datasets and generate common values
+        self.ready_button = Button(self.mainContainer, text="Read in datasets", command=self.ready_datasets)
+        self.ready_button.grid(row=3, column=0, sticky=W)
         
         #Create the first vis row:
         self.visrow_1 = VisRow(self)
-        self.visrow_1.visContainer.grid(row=3, column=0, columnspan=2)
+        self.visrow_1.visContainer.grid(row=4, column=0, columnspan=2)
 
         #Magic Button
         self.jinja_button = Button(self.mainContainer, text="MAGIC!", command=self.run_jinja)
-        self.jinja_button.grid(row=4, column=0, sticky=W)
+        self.jinja_button.grid(row=5, column=0, sticky=W)
 
         #Close App Button
         self.close_button = Button(self.mainContainer, text="CLOSE APP", command=self.mainContainer.quit)
-        self.close_button.grid(row=5, column=0, sticky=W)
+        self.close_button.grid(row=6, column=0, sticky=W)
 
     #FUNCTIONS:
     def open_file_1(self):
@@ -87,6 +88,9 @@ class BasicGUI:
     def open_file_2(self):
         self.filename_2 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
 
+    def ready_datasets(self):
+        self.common_values = list(generate_summary(self.filename_1, self.filename_2)['Metadata']['common_vars'].keys())
+
     def run_jinja(self):
         generate_report(self.filename_1, self.filename_2, self.var_to_plot)
 
@@ -94,7 +98,7 @@ root = Tk()
 root.geometry("320x400")
 my_gui = BasicGUI(root)
 
-#Position the mainContainer in the middle of the Main Window 3x3 grid
+#Position the mainContainer in the middle of the root window's 3x3 grid
 root.grid_rowconfigure(1, weight=1)
 root.grid_rowconfigure(2, weight=1)
 root.grid_columnconfigure(0, weight=1)

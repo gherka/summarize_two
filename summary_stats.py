@@ -38,7 +38,6 @@ def generate_summary(data_path_1, data_path_2):
     if len(diff_vars) == 0 :
         diff_vars = ['None']
 
-
     output = {
         'Metadata' : {
             'diff_vars': diff_vars,
