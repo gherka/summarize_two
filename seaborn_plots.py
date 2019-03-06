@@ -5,20 +5,11 @@ import matplotlib.pyplot as plt
 import io
 import os.path
 
-from helper_funcs import cross_hatching_bars, transform_frequencies
+from helper_funcs import cross_hatching_bars, transform_frequencies, read_data
 
 def generate_plots(data_path_1, data_path_2, var_name):
 
-    if (os.path.splitext(data_path_1)[1] == '.csv') & (os.path.splitext(data_path_2)[1] == '.csv'):
-
-        df1 = pd.read_csv(data_path_1)
-        df2 = pd.read_csv(data_path_2)
-
-    if (os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']) & (os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']):
-
-        df1 = pd.read_excel(data_path_1)
-        df2 = pd.read_excel(data_path_2)
-
+    df1, df2 = read_data(data_path_1, data_path_2)
 
     freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
     

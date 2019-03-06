@@ -1,8 +1,9 @@
 from PIL import Image
 from collections import deque
 import numpy as np
+import os.path
+import pandas as pd
 
-#CROSS-HATCHING FOR SEABORN PLOTS
 def cross_hatching_bars(img_1, img_2):
     '''
     Given two bar graphs, compare them pixel by pixel and output
@@ -97,4 +98,30 @@ def transform_frequencies(df1, df2, var_name):
     bar_2 = np.array(new_freq_2, dtype=object).T
 
     return(bar_1, bar_2)
+
+def read_data(data_path_1, data_path_2):
+    #Read the first dataset
+    if os.path.splitext(data_path_1)[1] == '.csv':
+
+        df1 = pd.read_csv(data_path_1)
+
+    elif os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']:
+
+        df1 = pd.read_excel(data_path_1)
+
+    #Read the second dataset
+    if os.path.splitext(data_path_2)[1] == '.csv':
+
+        df2 = pd.read_csv(data_path_2)
+
+    elif os.path.splitext(data_path_2)[1] in ['.xlsx', '.xls']:
+
+        df2 = pd.read_excel(data_path_2)
+
+    return df1, df2
+    
+    
+ 
+
+
 

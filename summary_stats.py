@@ -2,17 +2,11 @@ import pandas as pd
 from collections import defaultdict
 import os.path
 
+from helper_funcs import read_data
+
 def generate_summary(data_path_1, data_path_2):
 
-    if (os.path.splitext(data_path_1)[1] == '.csv') & (os.path.splitext(data_path_2)[1] == '.csv'):
-
-        df1 = pd.read_csv(data_path_1)
-        df2 = pd.read_csv(data_path_2)
-
-    if (os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']) & (os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']):
-
-        df1 = pd.read_excel(data_path_1)
-        df2 = pd.read_excel(data_path_2)
+    df1, df2 = read_data(data_path_1, data_path_2)
 
     #Find out shapes of the two datasets:
     shape_1 = df1.shape
