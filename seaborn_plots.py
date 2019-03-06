@@ -3,13 +3,22 @@ import seaborn as sns
 from PIL import Image
 import matplotlib.pyplot as plt
 import io
+import os.path
 
 from helper_funcs import cross_hatching_bars, transform_frequencies
 
 def generate_plots(data_path_1, data_path_2, var_name):
 
-    df1 = pd.read_csv(data_path_1)
-    df2 = pd.read_csv(data_path_2)
+    if (os.path.splitext(data_path_1)[1] == '.csv') & (os.path.splitext(data_path_2)[1] == '.csv'):
+
+        df1 = pd.read_csv(data_path_1)
+        df2 = pd.read_csv(data_path_2)
+
+    if (os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']) & (os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']):
+
+        df1 = pd.read_excel(data_path_1)
+        df2 = pd.read_excel(data_path_2)
+
 
     freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
     

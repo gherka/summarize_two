@@ -8,3 +8,4 @@ Python dependencies:
 * Seaborn
 * PIL
 * Jinja2
+* xlrd
