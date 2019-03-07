@@ -7,9 +7,7 @@ import os.path
 
 from helper_funcs import cross_hatching_bars, transform_frequencies, read_data
 
-def generate_plots(data_path_1, data_path_2, var_name):
-
-    df1, df2 = read_data(data_path_1, data_path_2)
+def generate_plots(df1, df2, var_name):
 
     freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
     

@@ -4,13 +4,13 @@ from seaborn_plots import generate_plots
 from summary_stats import generate_summary
 
 
-def generate_report(data_path_1, data_path_2, var_to_plot):
+def generate_report(df1, df2, var_to_plot):
 
     #Generate basic dataset information
-    summary = generate_summary(data_path_1, data_path_2)
+    summary = generate_summary(df1, df2)
 
     #Generate images to be used in Jinja template
-    generate_plots(data_path_1, data_path_2, var_to_plot)
+    generate_plots(df1, df2, var_to_plot)
 
     #Template Loading Machinery
     env = Environment(loader=FileSystemLoader(os.getcwd()))

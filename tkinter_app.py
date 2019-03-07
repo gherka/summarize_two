@@ -1,6 +1,4 @@
 '''
-NEED TO THINK ABOUT THE BEST WAY TO PASS DATA BETWEEN
-TKINTER, SEABORN_PLOTS AND SUMMARY_STATS; MAYBE PICKLE?
 Use subprocess call to add support for running external scripts
 '''
 
@@ -11,10 +9,11 @@ import pandas as pd
 
 from jinja_app import generate_report
 from summary_stats import generate_summary
+from helper_funcs import read_data
 
 class VisRow:
     def __init__(self, master):
-        #save the master reference for internal use of this class outside of __init__
+        #save the master reference for internal use
         self.mainMaster = master
 
         self.visContainer = Frame(master.mainContainer)
@@ -60,10 +59,9 @@ class BasicGUI:
         self.second_button = Button(self.mainContainer, text="Pick the Second File", command=self.open_file_2)
         self.second_button.grid(row=2, column=0, sticky=W)
 
-        #Set defaults for testing
+        #Set defaults for testing; don't forget to press Ready Datasets to read them in
         self.filename_1 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_1.csv'
         self.filename_2 = 'C:\\Users\\germap01\\Python\\UNSORTED\\Hackathon\\2019\\Working\\data_2.csv'
-        self.common_values = list(generate_summary(self.filename_1, self.filename_2)['Metadata']['common_vars'].keys())
 
         #Read in the datasets and generate common values
         self.ready_button = Button(self.mainContainer, text="Read in datasets", command=self.ready_datasets)
@@ -89,10 +87,12 @@ class BasicGUI:
         self.filename_2 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
 
     def ready_datasets(self):
-        self.common_values = list(generate_summary(self.filename_1, self.filename_2)['Metadata']['common_vars'].keys())
+        #Datasets are read in once for the life-time of the GUI; passed by reference to other modules
+        self.df1, self.df2 = read_data(self.filename_1, self.filename_2)
+        self.common_values = list(generate_summary(self.df1, self.df2)['Metadata']['common_vars'].keys())
 
     def run_jinja(self):
-        generate_report(self.filename_1, self.filename_2, self.var_to_plot)
+        generate_report(self.df1, self.df2, self.var_to_plot)
 
 root = Tk()
 root.geometry("320x400")

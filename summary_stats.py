@@ -2,11 +2,7 @@ import pandas as pd
 from collections import defaultdict
 import os.path
 
-from helper_funcs import read_data
-
-def generate_summary(data_path_1, data_path_2):
-
-    df1, df2 = read_data(data_path_1, data_path_2)
+def generate_summary(df1, df2):
 
     #Find out shapes of the two datasets:
     shape_1 = df1.shape
