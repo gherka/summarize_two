@@ -1,8 +1,8 @@
 from jinja2 import Template, Environment, FileSystemLoader
 import os
-from seaborn_plots import generate_plots
-from summary_stats import generate_summary
 
+from core.seaborn_plots import generate_plots
+from core.summary_stats import generate_summary
 
 def generate_report(df1, df2, var_to_plot):
 

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import io
 import os.path
 
-from helper_funcs import cross_hatching_bars, transform_frequencies, read_data
+from core.helper_funcs import cross_hatching_bars, transform_frequencies, read_data
 
 def generate_plots(df1, df2, var_name):
 

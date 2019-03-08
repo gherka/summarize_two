@@ -7,9 +7,10 @@ from tkinter import ttk
 import os
 import pandas as pd
 
-from jinja_app import generate_report
-from summary_stats import generate_summary
-from helper_funcs import read_data
+from core.jinja_app import generate_report
+from core.summary_stats import generate_summary
+from core.helper_funcs import read_data
+
 
 class VisRow:
     def __init__(self, master):
