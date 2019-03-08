@@ -10,12 +10,17 @@ from core.helper_funcs import cross_hatching_bars, transform_frequencies, read_d
 def generate_plots(df1, df2, var_name):
 
     freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
-    
+   
     #Customise Seaborn using Matplotlib's parameters
     #Seaborn's set() is sneaky in bringing in a bunch of default parameters!
     sns.set(style=None, palette='deep', font='sans-serif', font_scale=1, color_codes=True, rc={
         'font.size':10,
-        'figure.figsize':(3,5),
+        'figure.figsize':(3, len(freq_1[0])*0.5),
+        'xtick.labelsize':'small',
+        'ytick.labelsize': 'small',
+        'xtick.major.size':5,
+        'xtick.major.width':0.5,
+        'ytick.major.size':0,
         'axes.facecolor':'gainsboro',
         'savefig.facecolor':'gainsboro',
         'savefig.edgecolor':'gainsboro',
