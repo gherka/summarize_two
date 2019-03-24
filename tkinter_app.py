@@ -2,7 +2,8 @@
 Use subprocess call to add support for running external scripts
 '''
 
-from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, W, LEFT, Toplevel, Message
+from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, Toplevel, Message, Radiobutton
+from tkinter import W, E, LEFT
 from tkinter import ttk
 import os
 import pandas as pd
@@ -11,18 +12,24 @@ from core.jinja_app import generate_report
 from core.summary_stats import generate_summary
 from core.helper_funcs import read_data
 
+class RadioButtonGroup(Radiobutton):
+    """
+    Extend RadioButton class to add a setter and getter methods for group name
+    """
+    def set_group_name(self, name):
+        self.group = name
+
+    def get_group_name(self):
+        return self.group
 
 class DataTypePopup:
     def __init__(self, gui, master):
         #save the master reference for internal use
-
         self.mainMaster = master
         self.toplevel = Toplevel(master)
-
         self.toplevel.title("Data types")
 
-        #self.toplevel.geometry("300x350")
-
+        #to take full advantage of the grid system, create a Frame to position it within TopLevel
         self.popup = Frame(self.toplevel)
         self.popup.grid(row=0, column=1)
 
@@ -30,19 +37,50 @@ class DataTypePopup:
         self.popup.grid_columnconfigure(0, minsize=50)
         self.popup.grid_columnconfigure(3, minsize=50)
 
+        #resizing the window pushes the extra space into egde columns
         self.toplevel.grid_rowconfigure(1, weight=1)
         self.toplevel.grid_rowconfigure(2, weight=1)
         self.toplevel.grid_columnconfigure(0, weight=1)
         self.toplevel.grid_columnconfigure(2, weight=1)
 
-        Message(self.popup, text='Please confirm data types for each common variable:', aspect=400).grid(row=0, columnspan=4)
+        self.popup_headline = "Please confirm data types for each common variable:"
+        Label(self.popup, text=self.popup_headline).grid(row=0, columnspan=5, sticky=W+E)
 
+        self.dtype_dict = {}
+        self.dtype_choices = ['Categorical', 'Continuous', 'Timeseries']
+
+        #Create the header row
+        for i, val in enumerate(self.dtype_choices):
+            #keep the first column empty for row headers
+            Label(self.popup, text=f"{val}").grid(row=1, column=i+1)
+
+        #Create radio button "rows"
         for i, var in enumerate(gui.common_values):
 
-            Label(self.popup, text=f"{var}").grid(row=i+1, column=1)
-            Label(self.popup, text=f"{gui.dtypes[var]}").grid(row=i+1, column=2)
+            self.dtype_dict[var] = StringVar()
+            self.dtype_dict[var].set('Categorical')
 
-        Button(self.popup, text="Done", command=self.toplevel.destroy).grid(row=i+2, column=4)
+            #first row is headline, second row is headers
+            Label(self.popup, text=f"{var}").grid(row=i+2, column=0, sticky=W)
+
+            for j, val in enumerate(self.dtype_choices):
+            
+                btn = RadioButtonGroup(
+                                self.popup,
+                                text="",
+                                variable=self.dtype_dict[var],
+                                value=val
+                                )
+
+                btn.grid(row=i+2, column=j+1)
+                btn.set_group_name(var)
+                btn.bind("<Button-1>", lambda e, w=btn: self.RadioButtonClick(w))
+
+        Button(self.popup, text="Done", command=self.toplevel.destroy).grid(row=i+3, column=4)
+
+    def RadioButtonClick(self, widget):
+
+        print(f"New value of {widget.get_group_name()} is {widget['value']}")
         
 class VisRow:
     def __init__(self, master):
