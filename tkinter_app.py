@@ -10,17 +10,7 @@ import pandas as pd
 
 from core.jinja_app import generate_report
 from core.summary_stats import generate_summary
-from core.helper_funcs import read_data
-
-class RadioButtonGroup(Radiobutton):
-    """
-    Extend RadioButton class to add a setter and getter methods for group name
-    """
-    def set_group_name(self, name):
-        self.group = name
-
-    def get_group_name(self):
-        return self.group
+from core.helper_funcs import read_data, dtype_mapping
 
 class DataTypePopup:
     def __init__(self, gui, master):
@@ -46,7 +36,7 @@ class DataTypePopup:
         self.popup_headline = "Please confirm data types for each common variable:"
         Label(self.popup, text=self.popup_headline).grid(row=0, columnspan=5, sticky=W+E)
 
-        self.dtype_dict = {}
+        self.dtype_radio_dict = {}
         self.dtype_choices = ['Categorical', 'Continuous', 'Timeseries']
 
         #Create the header row
@@ -57,30 +47,31 @@ class DataTypePopup:
         #Create radio button "rows"
         for i, var in enumerate(gui.common_values):
 
-            self.dtype_dict[var] = StringVar()
-            self.dtype_dict[var].set('Categorical')
+            self.dtype_radio_dict[var] = StringVar()
+            self.dtype_radio_dict[var].set(dtype_mapping(gui.dtypes[var]))
 
             #first row is headline, second row is headers
             Label(self.popup, text=f"{var}").grid(row=i+2, column=0, sticky=W)
 
             for j, val in enumerate(self.dtype_choices):
             
-                btn = RadioButtonGroup(
+                btn = Radiobutton(
                                 self.popup,
                                 text="",
-                                variable=self.dtype_dict[var],
+                                variable=self.dtype_radio_dict[var],
                                 value=val
                                 )
 
                 btn.grid(row=i+2, column=j+1)
-                btn.set_group_name(var)
-                btn.bind("<Button-1>", lambda e, w=btn: self.RadioButtonClick(w))
 
-        Button(self.popup, text="Done", command=self.toplevel.destroy).grid(row=i+3, column=4)
+        #Create Confirm and Exit button
+        Button(self.popup, text="Done", command=self.ConfimDataTypes).grid(row=i+3, column=4)
 
-    def RadioButtonClick(self, widget):
+    #CLASS FUNCTIONS:
+    def ConfimDataTypes(self):
+        print([(key, value.get()) for key, value in self.dtype_radio_dict.items()])
+        self.toplevel.destroy()
 
-        print(f"New value of {widget.get_group_name()} is {widget['value']}")
         
 class VisRow:
     def __init__(self, master):
@@ -102,6 +93,7 @@ class VisRow:
         #on change dropdown value
         self.popupMenu.bind("<<ComboboxSelected>>", self.callbackFunc)
 
+    #CLASS FUNCTIONS:
     def populateDropdown(self):
         #import the common values from BasicGui
         self.popupMenu['values']=self.mainMaster.common_values
@@ -153,7 +145,7 @@ class BasicGUI:
         self.close_button = Button(self.mainContainer, text="CLOSE APP", command=self.mainContainer.quit)
         self.close_button.grid(row=7, column=0, sticky=W)
 
-    #FUNCTIONS:
+    #CLASS FUNCTIONS:
     def open_file_1(self):
         self.filename_1 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
     

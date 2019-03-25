@@ -74,6 +74,9 @@ def cross_hatching_bars(img_1, img_2):
     return new_image
 
 def transform_frequencies(df1, df2, var_name):
+    """
+    Adds zero frequency to a variable that is present in one DF, but missing from another
+    """
 
     freq_1 = df1[var_name].value_counts()
     freq_2 = df2[var_name].value_counts()
@@ -119,9 +122,24 @@ def read_data(data_path_1, data_path_2):
         df2 = pd.read_excel(data_path_2)
 
     return df1, df2
+
+def dtype_mapping(input_key, reverse=False):
+    """
+    Performs conversion between Pandas inferred data types and user-generated ones
+    Returns mapped value given an input key; parse_dates is a magic value
+    """
     
+    dtype_map = {'object':'Categorical', 'int':'Continuous', 'float':'Continuous', 'datetime':'Timeseries'}
+    dtype_map_reverse = {'Categorical':'object', 'Continuous':'float64', 'Timeseries':'parse_dates'}
     
- 
+    if reverse:
+        return dtype_map_reverse[input_key]
+            
+    for mapping_key in dtype_map.keys():
+        if mapping_key in str(input_key):
+            return dtype_map[mapping_key]
+        
+    return 'unknown'
 
 
 
