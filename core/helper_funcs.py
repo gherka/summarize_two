@@ -74,9 +74,9 @@ def cross_hatching_bars(img_1, img_2):
     return new_image
 
 def transform_frequencies(df1, df2, var_name):
-    """
-    Adds zero frequency to a variable that is present in one DF, but missing from another
-    """
+    '''
+    Adds zero frequency to a variable that is present in one DF, but missing from another.
+    '''
 
     freq_1 = df1[var_name].value_counts()
     freq_2 = df2[var_name].value_counts()
@@ -103,6 +103,11 @@ def transform_frequencies(df1, df2, var_name):
     return(bar_1, bar_2)
 
 def read_data(data_path_1, data_path_2):
+    '''
+    Currently, only .csv and Excel files are supported.
+    Possible to bring more, as long as they integrate into Pandas
+    '''
+
     #Read the first dataset
     if os.path.splitext(data_path_1)[1] == '.csv':
 
@@ -124,10 +129,10 @@ def read_data(data_path_1, data_path_2):
     return df1, df2
 
 def dtype_mapping(input_key, reverse=False):
-    """
+    '''
     Performs conversion between Pandas inferred data types and user-generated ones
     Returns mapped value given an input key; parse_dates is a magic value
-    """
+    '''
     
     dtype_map = {'object':'Categorical', 'int':'Continuous', 'float':'Continuous', 'datetime':'Timeseries'}
     dtype_map_reverse = {'Categorical':'object', 'Continuous':'float64', 'Timeseries':'parse_dates'}
@@ -140,6 +145,4 @@ def dtype_mapping(input_key, reverse=False):
             return dtype_map[mapping_key]
         
     return 'unknown'
-
-
-
+    

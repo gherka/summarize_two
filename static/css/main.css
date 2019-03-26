@@ -23,18 +23,9 @@ th, td {
     padding: 5px;
   }
 
-.unique_highlight {
+.diff_highlight {
 
-  color: green !important;
+  color: rgb(35, 153, 35) !important;
   font-weight: bold !important;
 
 }
-
-.na_highlight {
-
-  color: orange !important;
-  font-weight: bold !important;
-
-}
-
-

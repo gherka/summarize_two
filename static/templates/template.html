@@ -72,51 +72,59 @@
         </ul>
     </div>
 
-    <!-- Detailed tables text -->
+    <!-- Detailed tables headline -->
     <p class="py-2">OK, you got me interested. Show me what they have in common:</p>
 
-    <!-- Detailed tables -->
+    <!-- Detailed tables generator -->
+    <div>
+    <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
+    {% for var_type in summary['Metadata']['common_vars'].keys() %}
+
+    <p>{{var_type}} Variables</p>
+
     <div class="row">
-        <div class="col-md-8">
-        <table class="table table-hover">
-            <thead>
-            <TR>
-                <TD class="table_top">Variable Name</TD>
-                <TD class="table_top">DF1 - Uniques</TD>
-                <TD class="table_top">DF2 - Uniques</TD>
-                <TD class="table_top">DF1 - NAs</TD>
-                <TD class="table_top">DF2 - NAs</TD>
-            </TR>
-            </thead>
-            <tbody>
-            {% for key in summary['Metadata']['common_vars'].keys() %}
-                <TR>
-                    <TD>{{ key }}</TD>
-                    <TD class={{ 'unique_highlight' if 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] != 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}>
-                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] }}
-                    </TD>
-                    <TD class={{ 'unique_highlight' if 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['Uniques'] != 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}>
-                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['Uniques'] }}
-                    </TD>
-                    <TD class={{ 'na_highlight' if 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] != 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}>
-                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] }}
-                    </TD>
-                    <TD class={{ 'na_highlight' if 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF1']['NAs'] != 
-                    summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}>
-                        {{ summary['Metadata']['common_vars'][key]['DFs']['DF2']['NAs'] }}
-                    </TD>
-                </TR>
-            {% endfor %}
-            </tbody>
-        </table>
+            <div class="col-md-9">
+            <table class="table table-hover">
+                <thead>
+                    <TR>
+                        <TD class="table_top">Variable Name</TD>
+                        <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
+                        {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                        <TD class="table_top">DF1 - {{ col_name }}</TD>
+                        <TD class="table_top">DF2 - {{ col_name }}</TD>
+                        {% endfor %}
+
+                    </TR>
+                </thead>
+                <tbody>
+                    <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
+                    {% for var_name in summary['Metadata']['common_vars'][var_type].keys() %}
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        {% set root_dict = summary['Metadata']['common_vars'][var_type][var_name]['DFs'] %}
+        
+                        <TR>
+                            <TD>{{ var_name }}</TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                            {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+        
+                            <TD class={{ 'diff_highlight' if root_dict['DF1'][col_name] != root_dict['DF2'][col_name] }}>
+                                {{ root_dict['DF1'][col_name] }}
+                            </TD>
+                            <TD class={{ 'diff_highlight' if root_dict['DF1'][col_name] != root_dict['DF2'][col_name] }}>
+                                {{ root_dict['DF2'][col_name] }}
+                            </TD>
+
+                            {% endfor %}
+                        </TR>
+        
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+    </div>
+
+    {% endfor %}
+
     </div>
 
     <!-- Plot headline text -->

@@ -9,7 +9,7 @@ import os
 import pandas as pd
 
 from core.jinja_app import generate_report
-from core.summary_stats import generate_summary
+from core.summary_stats import generate_common_vars, generate_summary
 from core.helper_funcs import read_data, dtype_mapping
 
 class GroupedRadioButton(Radiobutton):
@@ -26,6 +26,7 @@ class DataTypePopup:
     def __init__(self, gui, master):
         #save the master reference for internal use
         self.mainMaster = master
+        self.mainGui = gui
         self.toplevel = Toplevel(master)
         self.toplevel.title("Data types")
 
@@ -92,10 +93,6 @@ class DataTypePopup:
         Button(self.popup, text="Done", command=self.ConfimDataTypes, padx=5, pady=5).grid(row=i+3, column=4)
 
     #CLASS FUNCTIONS:
-    def ConfimDataTypes(self):
-        print([(key, value.get()) for key, value in self.dtype_radio_dict.items()])
-        self.toplevel.destroy()
-
     def RadioButtonClick(self, widget):
         """
         Change background colour of the selected radio button
@@ -106,6 +103,13 @@ class DataTypePopup:
                 w.configure(background='bisque')
             else:
                 w.configure(background=self.toplevel['bg'])
+
+    def ConfimDataTypes(self):
+        """
+        Overwrite dtypes dictionary from main GUI and exit popup
+        """
+        self.mainGui.dtypes = {key:value.get() for key, value in self.dtype_radio_dict.items()}
+        self.toplevel.destroy()
 
 class VisRow:
     def __init__(self, master):
@@ -137,7 +141,6 @@ class VisRow:
         self.mainMaster.var_to_plot = self.popupMenu.get()
 
 class BasicGUI:
-    #CHILD OF ROOT (TOP-LEVEL WINDOW)
     def __init__(self, master):
 
         self.master = master
@@ -189,7 +192,7 @@ class BasicGUI:
     def ready_datasets(self):
         #Datasets are read in once for the life-time of the GUI; passed by reference to other modules
         self.df1, self.df2 = read_data(self.filename_1, self.filename_2)
-        self.common_values = list(generate_summary(self.df1, self.df2)['Metadata']['common_vars'].keys())
+        self.common_values = generate_common_vars(self.df1, self.df2)
         self.dtypes = self.df1[self.common_values].dtypes.to_dict()
 
     def confirm_dt(self):
@@ -197,7 +200,7 @@ class BasicGUI:
         DataTypePopup(self, self.master)
 
     def run_jinja(self):
-        generate_report(self.df1, self.df2, self.var_to_plot)
+        generate_report(self.df1, self.df2, self.dtypes, self.var_to_plot)
 
 root = Tk()
 root.geometry("320x400")
