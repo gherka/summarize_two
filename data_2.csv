@@ -1,22 +1,31 @@
-reporting_date,hbres_name,location,gender,age,episodes
-01/01/2018,A,a,f,1,4
-01/01/2018,A,a,f,1,3
-01/01/2018,A,b,m,2,3
-01/01/2018,A,c,f,3,2
-01/01/2018,B,b,m,2,3
-01/01/2018,B,c,f,3,2
-01/01/2018,C,e,f,5,5
-01/01/2018,D,g,m,1,3
-01/01/2018,D,h,f,4,2
-01/01/2018,D,k,m,5,0
-01/01/2018,D,l,,2,3
-01/02/2018,A,a,f,1,1
-01/02/2018,A,a,f,1,2
-01/02/2018,A,b,m,2,2
-01/02/2018,A,c,f,3,3
-01/02/2018,C,e,f,5,2
-,C,f,,6,1
-01/02/2018,D,g,m,1,1
-01/02/2018,D,h,f,4,0
-01/02/2018,D,k,m,5,3
-01/02/2018,D,l,,2,3
+reporting_date,hbres_name,gender,age,episodes,length_of_stay,admission_type
+01/01/2018,C,Not Known,68,19,21,Routine
+01/01/2018,D,F,24,5,24,Routine
+01/01/2018,A,F,73,3,92,Routine
+01/01/2018,D,M,100,16,5,Emergency
+01/01/2018,D,Not Known,30,17,26,Emergency
+01/01/2018,A,M,7,15,98,Routine
+01/01/2018,C,Not Known,88,9,3,Emergency
+01/01/2018,D,F,70,8,97,Routine
+01/01/2018,B,F,77,10,12,Emergency
+01/01/2018,C,F,84,3,20,Emergency
+01/01/2018,A,F,48,10,4,Emergency
+01/01/2018,D,F,34,15,56,Routine
+01/01/2018,B,F,48,15,88,Emergency
+01/01/2018,C,F,13,14,64,Routine
+01/01/2018,D,F,65,8,91,Routine
+01/04/2018,D,F,19,4,20,Emergency
+01/04/2018,D,Not Known,83,18,92,Routine
+01/04/2018,B,Not Known,80,8,100,Routine
+01/04/2018,A,F,40,14,44,Routine
+01/04/2018,C,M,15,3,58,Routine
+01/04/2018,D,Not Known,79,15,99,Emergency
+01/04/2018,D,Not Known,33,10,31,Emergency
+01/04/2018,B,Not Known,78,16,89,Emergency
+01/04/2018,B,M,83,20,7,Routine
+01/04/2018,A,M,57,7,4,Routine
+01/04/2018,D,F,16,2,78,Emergency
+01/04/2018,C,M,92,4,37,Emergency
+01/04/2018,C,M,63,12,54,Routine
+01/04/2018,C,F,5,15,29,Routine
+01/04/2018,D,M,82,7,58,Emergency

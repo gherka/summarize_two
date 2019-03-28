@@ -43,8 +43,8 @@
                     <TD>Number of columns</TD>
                 </TR>
                 <TR>
-                    <TD>20</TD>
-                    <TD>7</TD>
+                    <TD>25</TD>
+                    <TD>6</TD>
                 </TR>
             </table>
             </div>
@@ -59,8 +59,8 @@
                     <TD>Number of columns</TD>
                 </TR>
                 <TR>
-                    <TD>21</TD>
-                    <TD>6</TD>
+                    <TD>30</TD>
+                    <TD>7</TD>
                 </TR>
             </table>
             </div>
@@ -77,7 +77,7 @@
                 <li style="font-size: 18px">
 
                 
-                    length_of_stay - only in DF1
+                    admission_type - only in DF2
                 
                 
                 </li>
@@ -91,9 +91,8 @@
 
     <!-- Detailed tables generator -->
     <div>
-
+    <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
     
-    <!-- Table groupings: Categorical, Continuous, Timeseries -->
 
     <p>Categorical Variables</p>
 
@@ -103,7 +102,7 @@
                 <thead>
                     <TR>
                         <TD class="table_top">Variable Name</TD>
-
+                        <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
                         <TD class="table_top">DF1 - Uniques</TD>
                         <TD class="table_top">DF2 - Uniques</TD>
@@ -115,20 +114,23 @@
                     </TR>
                 </thead>
                 <tbody>
+                    <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
                     
-        
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
         
                         <TR>
                             <TD>hbres_name</TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
                             
         
-                            <TD class=diff_highlight>
-                                3
-                            </TD>
-                            <TD class=diff_highlight>
+                            <TD class=>
                                 4
                             </TD>
+                            <TD class=>
+                                4
+                            </TD>
+
                             
         
                             <TD class=>
@@ -137,73 +139,54 @@
                             <TD class=>
                                 0
                             </TD>
+
                             
                         </TR>
         
                     
-        
-                        
-        
-                        <TR>
-                            <TD>location</TD>
-                            
-        
-                            <TD class=>
-                                9
-                            </TD>
-                            <TD class=>
-                                9
-                            </TD>
-                            
-        
-                            <TD class=>
-                                0
-                            </TD>
-                            <TD class=>
-                                0
-                            </TD>
-                            
-                        </TR>
-        
-                    
-        
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
         
                         <TR>
                             <TD>gender</TD>
-                            
-        
-                            <TD class=>
-                                2
-                            </TD>
-                            <TD class=>
-                                2
-                            </TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
                             
         
                             <TD class=diff_highlight>
-                                4
+                                2
                             </TD>
                             <TD class=diff_highlight>
                                 3
                             </TD>
+
+                            
+        
+                            <TD class=>
+                                0
+                            </TD>
+                            <TD class=>
+                                0
+                            </TD>
+
                             
                         </TR>
         
                     
-        
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
         
                         <TR>
                             <TD>age</TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
                             
         
-                            <TD class=>
-                                6
+                            <TD class=diff_highlight>
+                                24
                             </TD>
-                            <TD class=>
-                                6
+                            <TD class=diff_highlight>
+                                28
                             </TD>
+
                             
         
                             <TD class=>
@@ -212,6 +195,7 @@
                             <TD class=>
                                 0
                             </TD>
+
                             
                         </TR>
         
@@ -222,7 +206,6 @@
     </div>
 
     
-    <!-- Table groupings: Categorical, Continuous, Timeseries -->
 
     <p>Continuous Variables</p>
 
@@ -232,7 +215,7 @@
                 <thead>
                     <TR>
                         <TD class="table_top">Variable Name</TD>
-
+                        <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
                         <TD class="table_top">DF1 - Min</TD>
                         <TD class="table_top">DF2 - Min</TD>
@@ -247,12 +230,69 @@
                     </TR>
                 </thead>
                 <tbody>
+                    <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
                     
-        
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
         
                         <TR>
                             <TD>episodes</TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                            
+        
+                            <TD class=diff_highlight>
+                                1.0
+                            </TD>
+                            <TD class=diff_highlight>
+                                2
+                            </TD>
+
+                            
+        
+                            <TD class=>
+                                20.0
+                            </TD>
+                            <TD class=>
+                                20
+                            </TD>
+
+                            
+        
+                            <TD class=diff_highlight>
+                                1
+                            </TD>
+                            <TD class=diff_highlight>
+                                0
+                            </TD>
+
+                            
+                        </TR>
+        
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+        
+                        <TR>
+                            <TD>length_of_stay</TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                            
+        
+                            <TD class=diff_highlight>
+                                10
+                            </TD>
+                            <TD class=diff_highlight>
+                                3
+                            </TD>
+
+                            
+        
+                            <TD class=>
+                                100
+                            </TD>
+                            <TD class=>
+                                100
+                            </TD>
+
                             
         
                             <TD class=>
@@ -261,22 +301,7 @@
                             <TD class=>
                                 0
                             </TD>
-                            
-        
-                            <TD class=>
-                                5
-                            </TD>
-                            <TD class=>
-                                5
-                            </TD>
-                            
-        
-                            <TD class=>
-                                0
-                            </TD>
-                            <TD class=>
-                                0
-                            </TD>
+
                             
                         </TR>
         
@@ -287,7 +312,6 @@
     </div>
 
     
-    <!-- Table groupings: Categorical, Continuous, Timeseries -->
 
     <p>Timeseries Variables</p>
 
@@ -297,7 +321,7 @@
                 <thead>
                     <TR>
                         <TD class="table_top">Variable Name</TD>
-
+                        <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
                         <TD class="table_top">DF1 - Uniques</TD>
                         <TD class="table_top">DF2 - Uniques</TD>
@@ -309,28 +333,32 @@
                     </TR>
                 </thead>
                 <tbody>
+                    <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
                     
-        
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
         
                         <TR>
                             <TD>reporting_date</TD>
-                            
-        
-                            <TD class=>
-                                2
-                            </TD>
-                            <TD class=>
-                                2
-                            </TD>
+                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
                             
         
                             <TD class=diff_highlight>
+                                5
+                            </TD>
+                            <TD class=diff_highlight>
+                                2
+                            </TD>
+
+                            
+        
+                            <TD class=>
                                 0
                             </TD>
-                            <TD class=diff_highlight>
-                                1
+                            <TD class=>
+                                0
                             </TD>
+
                             
                         </TR>
         
@@ -343,7 +371,6 @@
     
 
     </div>
-
 
     <!-- Plot headline text -->
     <div>
