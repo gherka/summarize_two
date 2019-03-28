@@ -26,7 +26,6 @@
     <!-- Summary text -->
     <div>
         <h4>What can we tell you about these two datasets?</h4>
-        How long and wide are these boys?
     </div>
 
     <!-- Summary tables with number of rows and columns in each dataset -->
@@ -37,6 +36,9 @@
             <table>
                 <TR>
                     <TD class="table_top" colspan="2">{{ df }}</TD>
+                </TR>
+                <TR>
+                    <TD class="table_top file_name" colspan="2">{{ summary['DFs'][df]['file_name'] }}</TD>
                 </TR>
                 <TR>
                     <TD>Number of rows</TD>
@@ -54,7 +56,7 @@
 
     <!-- Mismatching columns -->
     <div>
-        <p class="py-2">I want more! Tell me what <u>mismatching</u> columns they have:</p>
+        <h5 class="py-2 col-md-9" style="text-align: center"><u>Mismatching</u> variable names:</h5>
         <ul>
             {% for item in summary['Metadata']['diff_vars'] %}
 
@@ -72,15 +74,12 @@
         </ul>
     </div>
 
-    <!-- Detailed tables headline -->
-    <p class="py-2">OK, you got me interested. Show me what they have in common:</p>
-
     <!-- Detailed tables generator -->
     <div>
     <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
     {% for var_type in summary['Metadata']['common_vars'].keys() %}
 
-    <p>{{var_type}} Variables</p>
+    <h5 class="col-md-9" style="text-align: center">{{var_type}} variables</h5>
 
     <div class="row">
             <div class="col-md-9">

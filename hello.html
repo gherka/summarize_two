@@ -26,7 +26,6 @@
     <!-- Summary text -->
     <div>
         <h4>What can we tell you about these two datasets?</h4>
-        How long and wide are these boys?
     </div>
 
     <!-- Summary tables with number of rows and columns in each dataset -->
@@ -37,6 +36,9 @@
             <table>
                 <TR>
                     <TD class="table_top" colspan="2">DF1</TD>
+                </TR>
+                <TR>
+                    <TD class="table_top file_name" colspan="2">data_1.csv</TD>
                 </TR>
                 <TR>
                     <TD>Number of rows</TD>
@@ -55,6 +57,9 @@
                     <TD class="table_top" colspan="2">DF2</TD>
                 </TR>
                 <TR>
+                    <TD class="table_top file_name" colspan="2">data_2.csv</TD>
+                </TR>
+                <TR>
                     <TD>Number of rows</TD>
                     <TD>Number of columns</TD>
                 </TR>
@@ -70,7 +75,7 @@
 
     <!-- Mismatching columns -->
     <div>
-        <p class="py-2">I want more! Tell me what <u>mismatching</u> columns they have:</p>
+        <h5 class="py-2 col-md-9" style="text-align: center"><u>Mismatching</u> variable names:</h5>
         <ul>
             
 
@@ -86,15 +91,12 @@
         </ul>
     </div>
 
-    <!-- Detailed tables headline -->
-    <p class="py-2">OK, you got me interested. Show me what they have in common:</p>
-
     <!-- Detailed tables generator -->
     <div>
     <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
     
 
-    <p>Categorical Variables</p>
+    <h5 class="col-md-9" style="text-align: center">Categorical Variables</h5>
 
     <div class="row">
             <div class="col-md-9">
@@ -207,7 +209,7 @@
 
     
 
-    <p>Continuous Variables</p>
+    <h5 class="col-md-9" style="text-align: center">Continuous Variables</h5>
 
     <div class="row">
             <div class="col-md-9">
@@ -313,7 +315,7 @@
 
     
 
-    <p>Timeseries Variables</p>
+    <h5 class="col-md-9" style="text-align: center">Timeseries Variables</h5>
 
     <div class="row">
             <div class="col-md-9">

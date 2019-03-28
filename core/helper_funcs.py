@@ -106,25 +106,32 @@ def read_data(data_path_1, data_path_2):
     '''
     Currently, only .csv and Excel files are supported.
     Possible to bring more, as long as they integrate into Pandas
+    Filename is written into _metadata attribute of each dataframe.
+    Watch out for version updates as work is underway to change
+    how metadata is stored and propagated in dataframes
     '''
 
     #Read the first dataset
     if os.path.splitext(data_path_1)[1] == '.csv':
 
         df1 = pd.read_csv(data_path_1)
+        df1._metadata = {'file_name':os.path.basename(data_path_1)}
 
     elif os.path.splitext(data_path_1)[1] in ['.xlsx', '.xls']:
 
         df1 = pd.read_excel(data_path_1)
+        df1._metadata = {'file_name':os.path.basename(data_path_1)}
 
     #Read the second dataset
     if os.path.splitext(data_path_2)[1] == '.csv':
 
         df2 = pd.read_csv(data_path_2)
+        df2._metadata = {'file_name':os.path.basename(data_path_2)}
 
     elif os.path.splitext(data_path_2)[1] in ['.xlsx', '.xls']:
 
         df2 = pd.read_excel(data_path_2)
+        df2._metadata = {'file_name':os.path.basename(data_path_2)}
 
     return df1, df2
 

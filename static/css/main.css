@@ -3,10 +3,13 @@ body {
 }
 
 .table_top {
-
   border-top: 1px solid gainsboro !important;
   border-left: 1px solid gainsboro !important;
   border-right: 1px solid gainsboro !important;
+}
+
+.file_name {
+  font-style: italic;
 }
 
 table, th, td {
@@ -24,8 +27,6 @@ th, td {
   }
 
 .diff_highlight {
-
   color: rgb(35, 153, 35) !important;
   font-weight: bold !important;
-
 }
