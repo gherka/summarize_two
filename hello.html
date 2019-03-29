@@ -1,3 +1,8 @@
+
+
+
+
+
 <!DOCTYPE html>
 
 <html>
@@ -100,17 +105,16 @@
 
     <div class="row">
             <div class="col-md-9">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <TR>
-                        <TD class="table_top">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">DF1 - Uniques</TD>
-                        <TD class="table_top">DF2 - Uniques</TD>
+                        <TD class="table_top">Uniques</TD>
                         
-                        <TD class="table_top">DF1 - NAs</TD>
-                        <TD class="table_top">DF2 - NAs</TD>
+                        <TD class="table_top">NAs</TD>
                         
 
                     </TR>
@@ -120,87 +124,210 @@
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
-        
                         <TR>
-                            <TD>hbres_name</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            
-        
-                            <TD class=>
-                                4
-                            </TD>
-                            <TD class=>
-                                4
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">hbres_name</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        4
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        0
+                                    </TD>
+                                
+                            </TR>
 
-                            
-        
-                            <TD class=>
-                                0
-                            </TD>
-                            <TD class=>
-                                0
-                            </TD>
+                            <TR>
+                                
 
-                            
-                        </TR>
-        
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                
+                                    <TD class= "align-middle">
+                                            4
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            0
+                                    </TD>
+                                
+                            </TR>
+                    </TR>
+
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
-        
                         <TR>
-                            <TD>gender</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            
-        
-                            <TD class=diff_highlight>
-                                2
-                            </TD>
-                            <TD class=diff_highlight>
-                                3
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">gender</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        2
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        0
+                                    </TD>
+                                
+                            </TR>
 
-                            
-        
-                            <TD class=>
-                                0
-                            </TD>
-                            <TD class=>
-                                0
-                            </TD>
+                            <TR>
+                                
 
-                            
-                        </TR>
-        
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        <
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                
+                                    <TD class= "align-middle">
+                                            3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            0
+                                    </TD>
+                                
+                            </TR>
+                    </TR>
+
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
-        
                         <TR>
-                            <TD>age</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            
-        
-                            <TD class=diff_highlight>
-                                24
-                            </TD>
-                            <TD class=diff_highlight>
-                                28
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">age</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        24
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        0
+                                    </TD>
+                                
+                            </TR>
 
-                            
-        
-                            <TD class=>
-                                0
-                            </TD>
-                            <TD class=>
-                                0
-                            </TD>
+                            <TR>
+                                
 
-                            
-                        </TR>
-        
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        <
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                
+                                    <TD class= "align-middle">
+                                            28
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            0
+                                    </TD>
+                                
+                            </TR>
+                    </TR>
+
                     
                 </tbody>
             </table>
@@ -213,20 +340,18 @@
 
     <div class="row">
             <div class="col-md-9">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <TR>
-                        <TD class="table_top">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">DF1 - Min</TD>
-                        <TD class="table_top">DF2 - Min</TD>
+                        <TD class="table_top">Min</TD>
                         
-                        <TD class="table_top">DF1 - Max</TD>
-                        <TD class="table_top">DF2 - Max</TD>
+                        <TD class="table_top">Max</TD>
                         
-                        <TD class="table_top">DF1 - NAs</TD>
-                        <TD class="table_top">DF2 - NAs</TD>
+                        <TD class="table_top">NAs</TD>
                         
 
                     </TR>
@@ -236,77 +361,185 @@
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
-        
                         <TR>
-                            <TD>episodes</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            
-        
-                            <TD class=diff_highlight>
-                                1.0
-                            </TD>
-                            <TD class=diff_highlight>
-                                2
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">episodes</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        1.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        20.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        1
+                                    </TD>
+                                
+                            </TR>
 
-                            
-        
-                            <TD class=>
-                                20.0
-                            </TD>
-                            <TD class=>
-                                20
-                            </TD>
+                            <TR>
+                                
 
-                            
-        
-                            <TD class=diff_highlight>
-                                1
-                            </TD>
-                            <TD class=diff_highlight>
-                                0
-                            </TD>
+                                    
 
-                            
-                        </TR>
-        
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        <
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        >
+    
+
+
+                                    </TD>
+  
+                                
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                
+                                    <TD class= "align-middle">
+                                            2
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            20
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            0
+                                    </TD>
+                                
+                            </TR>
+                    </TR>
+
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
-        
                         <TR>
-                            <TD>length_of_stay</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            
-        
-                            <TD class=diff_highlight>
-                                10
-                            </TD>
-                            <TD class=diff_highlight>
-                                3
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">length_of_stay</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        10
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        100
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        0
+                                    </TD>
+                                
+                            </TR>
 
-                            
-        
-                            <TD class=>
-                                100
-                            </TD>
-                            <TD class=>
-                                100
-                            </TD>
+                            <TR>
+                                
 
-                            
-        
-                            <TD class=>
-                                0
-                            </TD>
-                            <TD class=>
-                                0
-                            </TD>
+                                    
 
-                            
-                        </TR>
-        
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        >
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        =
+    
+
+
+                                    </TD>
+  
+                                
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                
+                                    <TD class= "align-middle">
+                                            3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            100
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            0
+                                    </TD>
+                                
+                            </TR>
+                    </TR>
+
                     
                 </tbody>
             </table>
@@ -319,29 +552,24 @@
 
     <div class="row">
             <div class="col-md-9">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <TR>
-                        <TD class="table_top">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">DF1 - Format</TD>
-                        <TD class="table_top">DF2 - Format</TD>
+                        <TD class="table_top">Format</TD>
                         
-                        <TD class="table_top">DF1 - Date From</TD>
-                        <TD class="table_top">DF2 - Date From</TD>
+                        <TD class="table_top">Date From</TD>
                         
-                        <TD class="table_top">DF1 - Date To</TD>
-                        <TD class="table_top">DF2 - Date To</TD>
+                        <TD class="table_top">Date To</TD>
                         
-                        <TD class="table_top">DF1 - Frequency</TD>
-                        <TD class="table_top">DF2 - Frequency</TD>
+                        <TD class="table_top">Frequency</TD>
                         
-                        <TD class="table_top">DF1 - Any Breaks?</TD>
-                        <TD class="table_top">DF2 - Any Breaks?</TD>
+                        <TD class="table_top">Breaks?</TD>
                         
-                        <TD class="table_top">DF1 - NAs</TD>
-                        <TD class="table_top">DF2 - NAs</TD>
+                        <TD class="table_top">NAs</TD>
                         
 
                     </TR>
@@ -351,67 +579,160 @@
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
-        
                         <TR>
-                            <TD>reporting_date</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            
-        
-                            <TD class=diff_highlight>
-                                %d/%m/%Y
-                            </TD>
-                            <TD class=diff_highlight>
-                                %d-%m-%Y
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">reporting_date</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        %d/%m/%Y
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        01/01/2018
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        01/06/2018
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        month
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        interruped
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        0
+                                    </TD>
+                                
+                            </TR>
 
-                            
-        
-                            <TD class=diff_highlight>
-                                01/01/2018
-                            </TD>
-                            <TD class=diff_highlight>
-                                01-01-2018
-                            </TD>
+                            <TR>
+                                
 
-                            
-        
-                            <TD class=diff_highlight>
-                                01/06/2018
-                            </TD>
-                            <TD class=diff_highlight>
-                                01-01-2018
-                            </TD>
+                                    
 
-                            
-        
-                            <TD class=diff_highlight>
-                                month
-                            </TD>
-                            <TD class=diff_highlight>
-                                quarter
-                            </TD>
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        >
+    
 
-                            
-        
-                            <TD class=diff_highlight>
-                                likely interruped
-                            </TD>
-                            <TD class=diff_highlight>
-                                continuous
-                            </TD>
 
-                            
-        
-                            <TD class=diff_highlight>
-                                0
-                            </TD>
-                            <TD class=diff_highlight>
-                                1
-                            </TD>
+                                    </TD>
+  
+                                
 
-                            
-                        </TR>
-        
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        >
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        >
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        <
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        >
+    
+
+
+                                    </TD>
+  
+                                
+
+                                    
+
+                                    <TD class="align-middle" rowspan="2">
+                                        
+    
+    
+        <
+    
+
+
+                                    </TD>
+  
+                                
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                
+                                    <TD class= "align-middle">
+                                            %d-%m-%Y
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            01-01-2018
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            01-01-2018
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            quarter
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            continuous
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            1
+                                    </TD>
+                                
+                            </TR>
+                    </TR>
+
                     
                 </tbody>
             </table>

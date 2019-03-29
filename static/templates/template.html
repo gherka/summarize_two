@@ -1,3 +1,18 @@
+{#  JINJA2 MACROS aka FUNCTIONS:  #}
+
+{% macro diff(a, b, type) %}
+    
+    {% if a > b %}
+        {{ ">" }}
+    {% elif a == b %}
+        {{ "=" }}
+    {% elif a < b  %}
+        {{ "<" }}
+    {% endif %}
+
+{% endmacro %}
+
+
 <!DOCTYPE html>
 
 <html>
@@ -83,14 +98,14 @@
 
     <div class="row">
             <div class="col-md-9">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <TR>
-                        <TD class="table_top">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         {% for col_name in summary['Metadata']['table_columns'][var_type] %}
-                        <TD class="table_top">DF1 - {{ col_name }}</TD>
-                        <TD class="table_top">DF2 - {{ col_name }}</TD>
+                        <TD class="table_top">{{ col_name }}</TD>
                         {% endfor %}
 
                     </TR>
@@ -100,22 +115,44 @@
                     {% for var_name in summary['Metadata']['common_vars'][var_type].keys() %}
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         {% set root_dict = summary['Metadata']['common_vars'][var_type][var_name]['DFs'] %}
-        
                         <TR>
-                            <TD>{{ var_name }}</TD>
-                            <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                            {% for col_name in summary['Metadata']['table_columns'][var_type] %}
-        
-                            <TD class={{ 'diff_highlight' if root_dict['DF1'][col_name] != root_dict['DF2'][col_name] }}>
-                                {{ root_dict['DF1'][col_name] }}
-                            </TD>
-                            <TD class={{ 'diff_highlight' if root_dict['DF1'][col_name] != root_dict['DF2'][col_name] }}>
-                                {{ root_dict['DF2'][col_name] }}
-                            </TD>
+                            <TR>
+                                <TD class="align-middle" style="text-align: left" rowspan="4">{{ var_name }}</TD>
+                                <TD class="align-middle" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
+                                {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                                    <TD class= "align-middle">
+                                        {{ root_dict['DF1'][col_name] }}
+                                    </TD>
+                                {% endfor %}
+                            </TR>
 
-                            {% endfor %}
-                        </TR>
-        
+                            <TR>
+                                {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+
+                                    {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], var_type) %}
+
+                                    <TD class="align-middle" rowspan="2">
+                                        {{ diff_output }}
+                                    </TD>
+  
+                                {% endfor %}
+                            </TR>
+
+                            <TR>
+                                <TD class="align-middle" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR>
+                                {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                                    <TD class= "align-middle">
+                                            {{ root_dict['DF2'][col_name] }}
+                                    </TD>
+                                {% endfor %}
+                            </TR>
+                    </TR>
+
                     {% endfor %}
                 </tbody>
             </table>

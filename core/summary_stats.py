@@ -87,10 +87,10 @@ def date_continuity_guess(timeseries):
         return "continuous"
     
     elif time_diffs.max().days - time_diffs.min().days in range(0,3):
-        return "likely continuous"
+        return "continuous"
     
     else:
-        return "likely interruped"     
+        return "interruped"     
 
 def generate_summary(df1, df2, user_dtypes):
     """
@@ -165,7 +165,7 @@ def generate_summary(df1, df2, user_dtypes):
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date From'] = f"{df1[col].min():{format_1}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date To'] = f"{df1[col].max():{format_1}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['Frequency'] = date_frequency_guess(df1[col])
-                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Any Breaks?'] = date_continuity_guess(df1[col])
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Breaks?'] = date_continuity_guess(df1[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
 
                 #collect information from the second dataframe
@@ -174,7 +174,7 @@ def generate_summary(df1, df2, user_dtypes):
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date From'] = f"{df2[col].min():{format_2}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date To'] = f"{df2[col].min():{format_2}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Frequency'] = date_frequency_guess(df2[col])
-                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Any Breaks?'] = date_continuity_guess(df2[col])
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Breaks?'] = date_continuity_guess(df2[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
             
 
@@ -191,7 +191,7 @@ def generate_summary(df1, df2, user_dtypes):
 
     table_columns = {'Categorical':['Uniques', 'NAs'],
                      'Continuous':['Min', 'Max', 'NAs'],
-                     'Timeseries':['Format', 'Date From', 'Date To', 'Frequency', 'Any Breaks?', 'NAs']
+                     'Timeseries':['Format', 'Date From', 'Date To', 'Frequency', 'Breaks?', 'NAs']
                      }
 
     output = {

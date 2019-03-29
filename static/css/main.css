@@ -28,5 +28,6 @@ th, td {
 
 .diff_highlight {
   color: rgb(35, 153, 35) !important;
+  font-size: 1.6rem;
   font-weight: bold !important;
 }
