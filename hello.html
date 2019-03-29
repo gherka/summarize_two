@@ -75,7 +75,7 @@
 
     <!-- Mismatching columns -->
     <div>
-        <h5 class="py-2 col-md-9" style="text-align: center"><u>Mismatching</u> variable names:</h5>
+        <h5 class="py-4 col-md-9" style="text-align: center"><u>Mismatching</u> variable names:</h5>
         <ul>
             
 
@@ -96,7 +96,7 @@
     <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
     
 
-    <h5 class="col-md-9" style="text-align: center">Categorical Variables</h5>
+    <h5 class="py-2 col-md-9" style="text-align: center">Categorical variables</h5>
 
     <div class="row">
             <div class="col-md-9">
@@ -209,7 +209,7 @@
 
     
 
-    <h5 class="col-md-9" style="text-align: center">Continuous Variables</h5>
+    <h5 class="py-2 col-md-9" style="text-align: center">Continuous variables</h5>
 
     <div class="row">
             <div class="col-md-9">
@@ -315,7 +315,7 @@
 
     
 
-    <h5 class="col-md-9" style="text-align: center">Timeseries Variables</h5>
+    <h5 class="py-2 col-md-9" style="text-align: center">Timeseries variables</h5>
 
     <div class="row">
             <div class="col-md-9">
@@ -325,8 +325,20 @@
                         <TD class="table_top">Variable Name</TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">DF1 - Uniques</TD>
-                        <TD class="table_top">DF2 - Uniques</TD>
+                        <TD class="table_top">DF1 - Format</TD>
+                        <TD class="table_top">DF2 - Format</TD>
+                        
+                        <TD class="table_top">DF1 - Date From</TD>
+                        <TD class="table_top">DF2 - Date From</TD>
+                        
+                        <TD class="table_top">DF1 - Date To</TD>
+                        <TD class="table_top">DF2 - Date To</TD>
+                        
+                        <TD class="table_top">DF1 - Frequency</TD>
+                        <TD class="table_top">DF2 - Frequency</TD>
+                        
+                        <TD class="table_top">DF1 - Any Breaks?</TD>
+                        <TD class="table_top">DF2 - Any Breaks?</TD>
                         
                         <TD class="table_top">DF1 - NAs</TD>
                         <TD class="table_top">DF2 - NAs</TD>
@@ -346,19 +358,55 @@
                             
         
                             <TD class=diff_highlight>
-                                5
+                                %d/%m/%Y
                             </TD>
                             <TD class=diff_highlight>
-                                2
+                                %d-%m-%Y
                             </TD>
 
                             
         
-                            <TD class=>
+                            <TD class=diff_highlight>
+                                01/01/2018
+                            </TD>
+                            <TD class=diff_highlight>
+                                01-01-2018
+                            </TD>
+
+                            
+        
+                            <TD class=diff_highlight>
+                                01/06/2018
+                            </TD>
+                            <TD class=diff_highlight>
+                                01-01-2018
+                            </TD>
+
+                            
+        
+                            <TD class=diff_highlight>
+                                month
+                            </TD>
+                            <TD class=diff_highlight>
+                                quarter
+                            </TD>
+
+                            
+        
+                            <TD class=diff_highlight>
+                                likely interruped
+                            </TD>
+                            <TD class=diff_highlight>
+                                continuous
+                            </TD>
+
+                            
+        
+                            <TD class=diff_highlight>
                                 0
                             </TD>
-                            <TD class=>
-                                0
+                            <TD class=diff_highlight>
+                                1
                             </TD>
 
                             

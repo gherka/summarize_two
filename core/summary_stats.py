@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 def generate_var_dict(var_type):
     """
@@ -13,7 +14,6 @@ def generate_var_dict(var_type):
     
     #Only Timeseries left
     return {'DFs':{'DF1':{'Uniques':0, 'NAs':0}, 'DF2':{'Uniques':0, 'NAs':0}}}
-        
 
 def generate_common_vars(df1, df2):
     """
@@ -24,6 +24,73 @@ def generate_common_vars(df1, df2):
 
     return common_var_names
 
+def date_format_guess(date):
+    """
+    A very basic date parser; only takes two common formats:
+    ISO year/month/day and UK day/month/year with various separators.
+    """
+
+    date_patterns = ["%Y/%m/%d", "%d/%m/%Y",
+                     "%Y-%m-%d", "%d-%m-%Y",
+                     "%Y.%m.%d", "%d.%m.%Y"]
+
+    for pattern in date_patterns:      
+        try:
+            assert (datetime.datetime.strptime(date, pattern))
+            return pattern
+        except:
+            pass
+    return "No match"
+
+def dateseries_format_guess(series):
+    """
+    Look at the first 5 values to see if they all match a date pattern.
+    """
+    matches = series.head().apply(date_format_guess).unique()
+
+    if len(matches) == 1:
+
+        return matches[0]
+
+    return False
+
+def date_frequency_guess(timeseries):
+    
+    time_diff_counts = timeseries.drop_duplicates().sort_values().diff().value_counts()
+    
+    if len(time_diff_counts.index) == 1:
+        
+        if time_diff_counts.index[0].days in range(28,32):
+            return "month"
+        elif time_diff_counts.index[0].days in range(90,92):
+            return "quarter"
+        elif time_diff_counts.index[0].days in range(365, 367):
+            return "year"
+    
+    elif time_diff_counts.index[0].days - time_diff_counts.index[1].days in range(0,3):
+        
+        if time_diff_counts.index[0].days in range(28,32):
+            return "month"
+        elif time_diff_counts.index[0].days in range(90,92):
+            return "quarter"
+        elif time_diff_counts.index[0].days in range(365, 367):
+            return "year"
+        
+    else:
+        return "no idea"
+
+def date_continuity_guess(timeseries):
+    
+    time_diffs = timeseries.drop_duplicates().sort_values().diff()
+    
+    if len(time_diffs.value_counts().index) == 1:
+        return "continuous"
+    
+    elif time_diffs.max().days - time_diffs.min().days in range(0,3):
+        return "likely continuous"
+    
+    else:
+        return "likely interruped"     
 
 def generate_summary(df1, df2, user_dtypes):
     """
@@ -79,19 +146,53 @@ def generate_summary(df1, df2, user_dtypes):
 
         else:
 
-            #collect information from the first dataframe
-            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Uniques'] = df1[col].nunique()
-            common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
-        
-            #collect information from the second dataframe
-            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Uniques'] = df2[col].nunique()
-            common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
+            #If a format could be inferred from the user-selected timeseries column in both datasets, 
+            #process the column as timeseries, otherwise fall back to categorical columns
+            if dateseries_format_guess(df1[col]) and dateseries_format_guess(df2[col]):
+
+                #save format strings:
+                format_1 = dateseries_format_guess(df1[col])
+                format_2 = dateseries_format_guess(df2[col])
+
+                #convert the columns' original dtype to datetype
+
+                df1[col] = pd.to_datetime(df1[col], format=format_1)
+                df2[col] = pd.to_datetime(df2[col], format=format_2)
+
+                #collect information from the first dataframe
+
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Format'] = format_1
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date From'] = f"{df1[col].min():{format_1}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date To'] = f"{df1[col].max():{format_1}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Frequency'] = date_frequency_guess(df1[col])
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Any Breaks?'] = date_continuity_guess(df1[col])
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
+
+                #collect information from the second dataframe
+
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Format'] = format_2
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date From'] = f"{df2[col].min():{format_2}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date To'] = f"{df2[col].min():{format_2}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Frequency'] = date_frequency_guess(df2[col])
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Any Breaks?'] = date_continuity_guess(df2[col])
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
+            
+
+            else:
+
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Uniques'] = df1[col].nunique()
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Uniques'] = df2[col].nunique()
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
 
 
     if len(diff_vars) == 0 :
         diff_vars = ['None']
 
-    table_columns = {'Categorical':['Uniques', 'NAs'], 'Continuous':['Min', 'Max', 'NAs'], 'Timeseries':['Uniques', 'NAs']}
+    table_columns = {'Categorical':['Uniques', 'NAs'],
+                     'Continuous':['Min', 'Max', 'NAs'],
+                     'Timeseries':['Format', 'Date From', 'Date To', 'Frequency', 'Any Breaks?', 'NAs']
+                     }
 
     output = {
         'Metadata' : {
