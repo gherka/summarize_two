@@ -172,7 +172,7 @@ def generate_summary(df1, df2, user_dtypes):
 
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Format'] = format_2
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date From'] = f"{df2[col].min():{format_2}}"
-                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date To'] = f"{df2[col].min():{format_2}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date To'] = f"{df2[col].max():{format_2}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Frequency'] = date_frequency_guess(df2[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Breaks?'] = date_continuity_guess(df2[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())

@@ -1,17 +1,17 @@
 {#  JINJA2 MACROS aka FUNCTIONS:  #}
 
 {% macro diff(a, b, type) %}
+{#  for some reason comparing macro string output with a string fails   #}
     
-    {% if a > b %}
-        {{ ">" }}
-    {% elif a == b %}
-        {{ "=" }}
+    {% if a == b %}
+        {{ 1 }}
+    {% elif a > b %}
+        {{ 2 }}
     {% elif a < b  %}
-        {{ "<" }}
+        {{ 3 }}
     {% endif %}
 
 {% endmacro %}
-
 
 <!DOCTYPE html>
 
@@ -131,10 +131,16 @@
                                 {% for col_name in summary['Metadata']['table_columns'][var_type] %}
 
                                     {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], var_type) %}
+                                        
+                                        {% if diff_output|int != 1 %}
+                                        
+                                        {{ '<TD class="align-middle diff_highlight" rowspan="2">Different</TD>' }}
+                                        
+                                        {% else %}
 
-                                    <TD class="align-middle" rowspan="2">
-                                        {{ diff_output }}
-                                    </TD>
+                                        {{ '<TD class="align-middle" rowspan="2">Same</TD>' }}
+
+                                        {% endif %}
   
                                 {% endfor %}
                             </TR>
