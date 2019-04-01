@@ -49,3 +49,9 @@ th, td {
   background-color: #e6e5e3;
 
 }
+
+.fixed_height_row {
+
+  height: 40px !important;
+
+}

@@ -66,3 +66,39 @@ def generate_plots(df1, df2, var_name):
     #Save the image with highlighted differences
     new_bar_chart = pixel_by_pixel(fig_1, fig_2)
     new_bar_chart.save(r'static/images/image_2.png')
+
+
+def generate_kde(df1, df2, var_name, shade):
+
+    #banded row colors: 
+
+    if shade == 'even':
+        band_color = '#e6e5e3'
+    else:
+        band_color = 'gainsboro'
+
+    #Customise Seaborn using Matplotlib's parameters
+    #Seaborn's set() is sneaky in bringing in a bunch of default parameters!
+    sns.set(style=None, palette='deep', font='sans-serif', font_scale=1, color_codes=True, rc={
+        'font.size':10,
+        'xtick.labelsize':'small',
+        'ytick.labelsize': 'small',
+        'xtick.major.size':5,
+        'xtick.major.width':0.5,
+        'ytick.major.size':0,
+        'axes.facecolor': band_color,
+        'savefig.facecolor':band_color,
+        'savefig.edgecolor':band_color,
+        'grid.linewidth':0,
+        'axes.spines.left':False,
+        'axes.spines.right':False,
+        'axes.spines.top':False,
+        'axes.spines.bottom':False
+        })
+
+    fig, ax = plt.subplots()
+
+    sns.kdeplot(df1[var_name].dropna().values, shade=True, label="DF1", ax=ax)
+    sns.kdeplot(df2[var_name].dropna().values, shade=True, label="DF2", ax=ax)
+
+    fig.savefig(f'static//images//kde_{var_name}.png', bbox_inches="tight")

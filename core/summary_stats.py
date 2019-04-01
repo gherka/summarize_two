@@ -125,10 +125,12 @@ def generate_summary(df1, df2, user_dtypes):
         
             #collect information from the first dataframe
             common_vars[user_dtypes[col]][col]['DFs']['DF1']['Uniques'] = df1[col].nunique()
+            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Duplicates'] = df1[col].duplicated().any()
             common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
         
             #collect information from the second dataframe
             common_vars[user_dtypes[col]][col]['DFs']['DF2']['Uniques'] = df2[col].nunique()
+            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Duplicates'] = df2[col].duplicated().any()
             common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
 
         
@@ -196,7 +198,7 @@ def generate_summary(df1, df2, user_dtypes):
     if len(diff_vars) == 0 :
         diff_vars = ['None']
 
-    table_columns = {'Categorical':['Uniques', 'NAs'],
+    table_columns = {'Categorical':['Uniques', 'Duplicates', 'NAs'],
                      'Continuous':['Min', 'Max', 'Mean', '25%', '75%', 'NAs'],
                      'Timeseries':['Format', 'Date From', 'Date To', 'Frequency', 'Breaks?', 'NAs']
                      }

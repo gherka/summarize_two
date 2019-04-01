@@ -114,6 +114,10 @@
                         <TD class="table_top" style=>{{ col_name }}</TD>
                         {% endfor %}
 
+                        {% if var_type == 'Continuous' %}
+                            <TD class="table_top" style="text-align: left"></TD>
+                        {% endif %}
+
                     </TR>
                 </thead>
                 <tbody>
@@ -121,8 +125,8 @@
                     {% for var_name in summary['Metadata']['common_vars'][var_type].keys() %}
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         {% set root_dict = summary['Metadata']['common_vars'][var_type][var_name]['DFs'] %}
-                        <TR>
-                            <TR  class="{{ loop.cycle('odd', 'even') }}">
+
+                            <TR  class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
                                 <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">{{ var_name }}</TD>
                                 <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
@@ -131,9 +135,18 @@
                                         {{ root_dict['DF1'][col_name] }}
                                     </TD>
                                 {% endfor %}
+
+                                {% if var_type == 'Continuous' %}
+
+                                    <TD class="align-middle" style="width:20%;" rowspan="4">
+                                        <img src="static/images/kde_{{var_name}}.png" class="img-fluid"/>
+                                    </TD>
+                                                            
+                                {% endif %}
+
                             </TR>
 
-                            <TR class="{{ loop.cycle('odd', 'even') }}">
+                            <TR class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
                                 {% for col_name in summary['Metadata']['table_columns'][var_type] %}
 
                                     {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], col_name) %}
@@ -148,11 +161,11 @@
                                         
                                         {% elif diff_output|int == 2  %}
 
-                                        {{ '<TD class="align-middle diff_highlight_greater" rowspan="2">Greater Than > </TD>' }}
+                                        {{ '<TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>' }}
 
                                         {% elif diff_output|int == 3  %}
 
-                                        {{ '<TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>' }}
+                                        {{ '<TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>' }}
 
 
 
@@ -161,19 +174,19 @@
                                 {% endfor %}
                             </TR>
 
-                            <TR class="{{ loop.cycle('odd', 'even') }}">
+                            <TR class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
+                                
                                 <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR class="{{ loop.cycle('odd', 'even') }}">
+                            <TR class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
                                 {% for col_name in summary['Metadata']['table_columns'][var_type] %}
                                     <TD class= "align-middle">
                                             {{ root_dict['DF2'][col_name] }}
                                     </TD>
                                 {% endfor %}
                             </TR>
-                    </TR>
                     <!-- Extra row to act as a separator -->
                     <TR style="height:1px"></TR>
 
