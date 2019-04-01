@@ -79,7 +79,7 @@
 
     <!-- Mismatching columns -->
     <div>
-        <h5 class="py-4 col-md-9" style="text-align: center"><u>Mismatching</u> variable names:</h5>
+        <h5 class="py-4 col-md-9" style="text-align: left"><u>Mismatching</u> variable names:</h5>
         <ul>
             
 
@@ -100,10 +100,10 @@
     <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
     
 
-    <h5 class="py-2 col-md-9" style="text-align: center">Categorical variables</h5>
+    <h5 class="py-2 col-md-12" style="text-align: center">Categorical variables</h5>
 
     <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
             <table class="table">
                 <thead>
                     <TR>
@@ -111,9 +111,9 @@
                         <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">Uniques</TD>
+                        <TD class="table_top" style=>Uniques</TD>
                         
-                        <TD class="table_top">NAs</TD>
+                        <TD class="table_top" style=>NAs</TD>
                         
 
                     </TR>
@@ -124,9 +124,9 @@
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">hbres_name</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">hbres_name</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 
                                     <TD class= "align-middle">
@@ -139,13 +139,13 @@
                                 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
 
                                     
                                         
                                         
-
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -155,7 +155,7 @@
                                     
                                         
                                         
-
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -163,12 +163,12 @@
                                 
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="odd">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
                                     <TD class= "align-middle">
                                             4
@@ -180,14 +180,16 @@
                                 
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">gender</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">gender</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 
                                     <TD class= "align-middle">
@@ -200,15 +202,17 @@
                                 
                             </TR>
 
-                            <TR>
+                            <TR class="even">
                                 
 
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
                                         
   
                                 
@@ -216,7 +220,7 @@
                                     
                                         
                                         
-
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -224,12 +228,12 @@
                                 
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="even">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="even">
                                 
                                     <TD class= "align-middle">
                                             3
@@ -241,14 +245,16 @@
                                 
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">age</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">age</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 
                                     <TD class= "align-middle">
@@ -261,15 +267,17 @@
                                 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
 
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
                                         
   
                                 
@@ -277,7 +285,7 @@
                                     
                                         
                                         
-
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -285,12 +293,12 @@
                                 
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="odd">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
                                     <TD class= "align-middle">
                                             28
@@ -302,6 +310,8 @@
                                 
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     
                 </tbody>
@@ -311,10 +321,10 @@
 
     
 
-    <h5 class="py-2 col-md-9" style="text-align: center">Continuous variables</h5>
+    <h5 class="py-2 col-md-12" style="text-align: center">Continuous variables</h5>
 
     <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
             <table class="table">
                 <thead>
                     <TR>
@@ -322,11 +332,17 @@
                         <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">Min</TD>
+                        <TD class="table_top" style=>Min</TD>
                         
-                        <TD class="table_top">Max</TD>
+                        <TD class="table_top" style=>Max</TD>
                         
-                        <TD class="table_top">NAs</TD>
+                        <TD class="table_top" style=>Mean</TD>
+                        
+                        <TD class="table_top" style=>25%</TD>
+                        
+                        <TD class="table_top" style=>75%</TD>
+                        
+                        <TD class="table_top" style=>NAs</TD>
                         
 
                     </TR>
@@ -337,9 +353,9 @@
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">episodes</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">episodes</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 
                                     <TD class= "align-middle">
@@ -351,20 +367,34 @@
                                     </TD>
                                 
                                     <TD class= "align-middle">
+                                        10.42
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        5.25
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        16.25
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
                                         1
                                     </TD>
                                 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
 
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
                                         
   
                                 
@@ -372,7 +402,7 @@
                                     
                                         
                                         
-
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -382,20 +412,54 @@
                                     
                                         
                                         
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
                                         
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
+  
+                                
+
+                                    
                                         
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater Than > </TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater Than > </TD>
+
                                         
   
                                 
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="odd">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
                                     <TD class= "align-middle">
                                             2
@@ -406,19 +470,33 @@
                                     </TD>
                                 
                                     <TD class= "align-middle">
+                                            10.73
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            7.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            15.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
                                             0
                                     </TD>
                                 
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">length_of_stay</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">length_of_stay</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 
                                     <TD class= "align-middle">
@@ -430,20 +508,32 @@
                                     </TD>
                                 
                                     <TD class= "align-middle">
+                                        44.64
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        18.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        63.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
                                         0
                                     </TD>
                                 
                             </TR>
 
-                            <TR>
+                            <TR class="even">
                                 
 
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater Than > </TD>
+
                                         
   
                                 
@@ -451,7 +541,7 @@
                                     
                                         
                                         
-
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -462,6 +552,42 @@
                                         
                                         
 
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
                                         <TD class="align-middle" rowspan="2">Same</TD>
 
                                         
@@ -469,12 +595,12 @@
                                 
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="even">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="even">
                                 
                                     <TD class= "align-middle">
                                             3
@@ -485,11 +611,25 @@
                                     </TD>
                                 
                                     <TD class= "align-middle">
+                                            50.03
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            20.25
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            88.75
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
                                             0
                                     </TD>
                                 
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     
                 </tbody>
@@ -499,10 +639,10 @@
 
     
 
-    <h5 class="py-2 col-md-9" style="text-align: center">Timeseries variables</h5>
+    <h5 class="py-2 col-md-12" style="text-align: center">Timeseries variables</h5>
 
     <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
             <table class="table">
                 <thead>
                     <TR>
@@ -510,17 +650,17 @@
                         <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         
-                        <TD class="table_top">Format</TD>
+                        <TD class="table_top" style=>Format</TD>
                         
-                        <TD class="table_top">Date From</TD>
+                        <TD class="table_top" style=>Date From</TD>
                         
-                        <TD class="table_top">Date To</TD>
+                        <TD class="table_top" style=>Date To</TD>
                         
-                        <TD class="table_top">Frequency</TD>
+                        <TD class="table_top" style=>Frequency</TD>
                         
-                        <TD class="table_top">Breaks?</TD>
+                        <TD class="table_top" style=>Breaks?</TD>
                         
-                        <TD class="table_top">NAs</TD>
+                        <TD class="table_top" style=>NAs</TD>
                         
 
                     </TR>
@@ -531,9 +671,9 @@
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">reporting_date</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">reporting_date</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 
                                     <TD class= "align-middle">
@@ -541,11 +681,11 @@
                                     </TD>
                                 
                                     <TD class= "align-middle">
-                                        01/01/2018
+                                        2018-01-01
                                     </TD>
                                 
                                     <TD class= "align-middle">
-                                        01/06/2018
+                                        2018-06-01
                                     </TD>
                                 
                                     <TD class= "align-middle">
@@ -562,14 +702,14 @@
                                 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
 
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
+
+                                        <TD class="align-middle diff_highlight_time" rowspan="2">Different</TD>
                                         
                                         
   
@@ -579,7 +719,27 @@
                                         
                                         
                                         
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater Than > </TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_time" rowspan="2">Different</TD>
                                         
                                         
   
@@ -588,8 +748,8 @@
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
+
+                                        <TD class="align-middle diff_highlight_time" rowspan="2">Different</TD>
                                         
                                         
   
@@ -598,51 +758,33 @@
                                     
                                         
                                         
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
-                                        
-  
-                                
 
-                                    
-                                        
-                                        
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
-                                        
-  
-                                
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>
 
-                                    
-                                        
-                                        
-                                        
-                                        <TD class="align-middle diff_highlight" rowspan="2">Different</TD>
-                                        
+
+
                                         
   
                                 
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="odd">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="odd">
                                 
                                     <TD class= "align-middle">
                                             %d-%m-%Y
                                     </TD>
                                 
                                     <TD class= "align-middle">
-                                            01-01-2018
+                                            2018-01-01
                                     </TD>
                                 
                                     <TD class= "align-middle">
-                                            01-04-2018
+                                            2018-04-01
                                     </TD>
                                 
                                     <TD class= "align-middle">
@@ -659,6 +801,8 @@
                                 
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     
                 </tbody>

@@ -26,8 +26,26 @@ th, td {
     padding: 5px;
   }
 
-.diff_highlight {
-  color: rgb(238, 98, 4) !important;
-  font-size: 1.3rem;
+.diff_highlight_time {
+  color: rgb(87, 89, 110) !important;
+  font-size: 1rem;
   font-weight: bold !important;
+}
+
+.diff_highlight_greater {
+  color: rgb(82, 117, 99) !important;
+  font-size: 1rem;
+  font-weight: bold !important;
+}
+
+.diff_highlight_less {
+  color: rgb(135, 99, 136) !important;
+  font-size: 1rem;
+  font-weight: bold !important;
+}
+
+.odd { 
+
+  background-color: #e6e5e3;
+
 }

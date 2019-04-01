@@ -135,13 +135,19 @@ def generate_summary(df1, df2, user_dtypes):
         elif user_dtypes[col] == 'Continuous':
 
             #collect information from the first dataframe
-            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Min'] = df1[col].min()
-            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Max'] = df1[col].max()
+            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Min'] = round(df1[col].min(),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Max'] = round(df1[col].max(),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF1']['Mean'] = round(df1[col].mean(),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF1']['25%'] = round(df1[col].quantile(q=0.25),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF1']['75%'] = round(df1[col].quantile(q=0.75),2)
             common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
         
             #collect information from the second dataframe
-            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Min'] = df2[col].min()
-            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Max'] = df2[col].max()
+            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Min'] = round(df2[col].min(),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Max'] = round(df2[col].max(),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF2']['Mean'] = round(df2[col].mean(),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF2']['25%'] = round(df2[col].quantile(q=0.25),2)
+            common_vars[user_dtypes[col]][col]['DFs']['DF2']['75%'] = round(df2[col].quantile(q=0.75),2)
             common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
 
         else:
@@ -153,6 +159,7 @@ def generate_summary(df1, df2, user_dtypes):
                 #save format strings:
                 format_1 = dateseries_format_guess(df1[col])
                 format_2 = dateseries_format_guess(df2[col])
+                format_iso = '%Y-%m-%d'
 
                 #convert the columns' original dtype to datetype
 
@@ -162,8 +169,8 @@ def generate_summary(df1, df2, user_dtypes):
                 #collect information from the first dataframe
 
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['Format'] = format_1
-                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date From'] = f"{df1[col].min():{format_1}}"
-                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date To'] = f"{df1[col].max():{format_1}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date From'] = f"{df1[col].min():{format_iso}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF1']['Date To'] = f"{df1[col].max():{format_iso}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['Frequency'] = date_frequency_guess(df1[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['Breaks?'] = date_continuity_guess(df1[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF1']['NAs'] = sum(df1[col].isna())
@@ -171,8 +178,8 @@ def generate_summary(df1, df2, user_dtypes):
                 #collect information from the second dataframe
 
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Format'] = format_2
-                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date From'] = f"{df2[col].min():{format_2}}"
-                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date To'] = f"{df2[col].max():{format_2}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date From'] = f"{df2[col].min():{format_iso}}"
+                common_vars[user_dtypes[col]][col]['DFs']['DF2']['Date To'] = f"{df2[col].max():{format_iso}}"
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Frequency'] = date_frequency_guess(df2[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['Breaks?'] = date_continuity_guess(df2[col])
                 common_vars[user_dtypes[col]][col]['DFs']['DF2']['NAs'] = sum(df2[col].isna())
@@ -190,7 +197,7 @@ def generate_summary(df1, df2, user_dtypes):
         diff_vars = ['None']
 
     table_columns = {'Categorical':['Uniques', 'NAs'],
-                     'Continuous':['Min', 'Max', 'NAs'],
+                     'Continuous':['Min', 'Max', 'Mean', '25%', '75%', 'NAs'],
                      'Timeseries':['Format', 'Date From', 'Date To', 'Frequency', 'Breaks?', 'NAs']
                      }
 

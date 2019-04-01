@@ -1,14 +1,20 @@
 {#  JINJA2 MACROS aka FUNCTIONS:  #}
 
-{% macro diff(a, b, type) %}
+{% macro diff(a, b, col) %}
 {#  for some reason comparing macro string output with a string fails   #}
     
     {% if a == b %}
         {{ 1 }}
+    
+    {% elif a != b and (col == 'Format' or col == 'Breaks?' or col == 'Frequency') %}
+        {{ 0 }}
+
     {% elif a > b %}
         {{ 2 }}
+
     {% elif a < b  %}
         {{ 3 }}
+
     {% endif %}
 
 {% endmacro %}
@@ -71,7 +77,7 @@
 
     <!-- Mismatching columns -->
     <div>
-        <h5 class="py-4 col-md-9" style="text-align: center"><u>Mismatching</u> variable names:</h5>
+        <h5 class="py-4 col-md-9" style="text-align: left"><u>Mismatching</u> variable names:</h5>
         <ul>
             {% for item in summary['Metadata']['diff_vars'] %}
 
@@ -94,10 +100,10 @@
     <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
     {% for var_type in summary['Metadata']['common_vars'].keys() %}
 
-    <h5 class="py-2 col-md-9" style="text-align: center">{{var_type}} variables</h5>
+    <h5 class="py-2 col-md-12" style="text-align: center">{{var_type}} variables</h5>
 
     <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
             <table class="table">
                 <thead>
                     <TR>
@@ -105,7 +111,7 @@
                         <TD class="table_top" style="text-align: left"></TD>
                         <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
                         {% for col_name in summary['Metadata']['table_columns'][var_type] %}
-                        <TD class="table_top">{{ col_name }}</TD>
+                        <TD class="table_top" style=>{{ col_name }}</TD>
                         {% endfor %}
 
                     </TR>
@@ -116,9 +122,9 @@
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
                         {% set root_dict = summary['Metadata']['common_vars'][var_type][var_name]['DFs'] %}
                         <TR>
-                            <TR>
-                                <TD class="align-middle" style="text-align: left" rowspan="4">{{ var_name }}</TD>
-                                <TD class="align-middle" rowspan="2">DF1</TD>
+                            <TR  class="{{ loop.cycle('odd', 'even') }}">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">{{ var_name }}</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
                                 <!-- Since we don't know how many columns each var_type has, we need another loop -->
                                 {% for col_name in summary['Metadata']['table_columns'][var_type] %}
                                     <TD class= "align-middle">
@@ -127,30 +133,40 @@
                                 {% endfor %}
                             </TR>
 
-                            <TR>
+                            <TR class="{{ loop.cycle('odd', 'even') }}">
                                 {% for col_name in summary['Metadata']['table_columns'][var_type] %}
 
-                                    {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], var_type) %}
+                                    {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], col_name) %}
                                         
-                                        {% if diff_output|int != 1 %}
+                                        {% if diff_output|int == 1 %}
                                         
-                                        {{ '<TD class="align-middle diff_highlight" rowspan="2">Different</TD>' }}
-                                        
-                                        {% else %}
-
                                         {{ '<TD class="align-middle" rowspan="2">Same</TD>' }}
+
+                                        {% elif diff_output|int == 0 %}
+
+                                        {{ '<TD class="align-middle diff_highlight_time" rowspan="2">Different</TD>' }}
+                                        
+                                        {% elif diff_output|int == 2  %}
+
+                                        {{ '<TD class="align-middle diff_highlight_greater" rowspan="2">Greater Than > </TD>' }}
+
+                                        {% elif diff_output|int == 3  %}
+
+                                        {{ '<TD class="align-middle diff_highlight_less" rowspan="2">Less Than < </TD>' }}
+
+
 
                                         {% endif %}
   
                                 {% endfor %}
                             </TR>
 
-                            <TR>
-                                <TD class="align-middle" rowspan="2">DF2</TD>
+                            <TR class="{{ loop.cycle('odd', 'even') }}">
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
 
                             </TR>
 
-                            <TR>
+                            <TR class="{{ loop.cycle('odd', 'even') }}">
                                 {% for col_name in summary['Metadata']['table_columns'][var_type] %}
                                     <TD class= "align-middle">
                                             {{ root_dict['DF2'][col_name] }}
@@ -158,6 +174,8 @@
                                 {% endfor %}
                             </TR>
                     </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
 
                     {% endfor %}
                 </tbody>
