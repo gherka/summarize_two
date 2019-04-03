@@ -8,6 +8,9 @@ import os.path
 from core.helper_funcs import cross_hatching_bars, transform_frequencies, read_data
 
 def generate_plots(df1, df2, var_name):
+    #clear current (if any) figure and axes
+    plt.clf()
+    plt.cla()
 
     freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
    
@@ -70,6 +73,10 @@ def generate_plots(df1, df2, var_name):
 
 def generate_kde(df1, df2, var_name, shade):
 
+    #clear current (if any) figure and axes
+    plt.clf()
+    plt.cla()
+
     #banded row colors: 
 
     if shade == 'even':
@@ -81,6 +88,7 @@ def generate_kde(df1, df2, var_name, shade):
     #Seaborn's set() is sneaky in bringing in a bunch of default parameters!
     sns.set(style=None, palette='deep', font='sans-serif', font_scale=1, color_codes=True, rc={
         'font.size':10,
+        'figure.figsize':(5, 5),
         'xtick.labelsize':'small',
         'ytick.labelsize': 'small',
         'xtick.major.size':5,

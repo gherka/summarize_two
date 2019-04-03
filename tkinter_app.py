@@ -199,8 +199,20 @@ class BasicGUI:
         #self is the my_gui object (instacne of the BasicGUI class), self.master is root widget 
         DataTypePopup(self, self.master)
 
+    def clean_up(self):
+
+        img_path = os.path.join(os.getcwd(),'Static', 'Images')
+
+        for item in os.listdir(img_path):
+            if item.endswith(".png"):
+                os.remove(os.path.join(img_path, item))
+
     def run_jinja(self):
+        self.clean_up()
         generate_report(self.df1, self.df2, self.dtypes, self.var_to_plot)
+
+
+
 
 root = Tk()
 root.geometry("320x400")

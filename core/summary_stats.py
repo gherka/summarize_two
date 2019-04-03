@@ -30,6 +30,11 @@ def date_format_guess(date):
     ISO year/month/day and UK day/month/year with various separators.
     """
 
+    #check if date already a time object:
+
+    if isinstance(date, datetime.date):
+        return "%Y/%m/%d"
+
     date_patterns = ["%Y/%m/%d", "%d/%m/%Y",
                      "%Y-%m-%d", "%d-%m-%Y",
                      "%Y.%m.%d", "%d.%m.%Y"]
