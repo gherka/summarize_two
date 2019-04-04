@@ -6,6 +6,7 @@ Python dependencies:
 
 * Pandas
 * Seaborn
+* Bokeh
 * PIL
 * Jinja2
 * xlrd

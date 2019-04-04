@@ -14,6 +14,8 @@
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/bokeh-1.0.4.min.css">
+
     <title>Dataset comparison report</title>
 </head>
 
@@ -24,7 +26,7 @@
     <!-- Title across the entire container -->
     <div style="text-align: center;">
         <h1>Visual report comparing two datasets</h1>
-        <p><i>Built using Seaborn, Bootstrap and Jinja2 templates</i></p>
+        <p><i>Built using Bokeh, Seaborn, Bootstrap and Jinja2 templates</i></p>
     </div>
 
     <!-- Summary text -->
@@ -120,6 +122,10 @@
 
                         
 
+                            <TD class="table_top" style="text-align: center">Frequencies Plot</TD>
+
+                        
+
                     </TR>
                 </thead>
                 <tbody>
@@ -146,6 +152,11 @@
                                     </TD>
                                 
 
+                                
+
+                                    <TD class="align-middle" id="cat_hbres_name" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
                                 
 
                             </TR>
@@ -232,6 +243,11 @@
 
                                 
 
+                                    <TD class="align-middle" id="cat_gender" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
                             </TR>
 
                             <TR class="fixed_height_row even">
@@ -316,6 +332,11 @@
                                     </TD>
                                 
 
+                                
+
+                                    <TD class="align-middle" id="cat_age" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
                                 
 
                             </TR>
@@ -413,7 +434,9 @@
                         
 
                         
-                            <TD class="table_top" style="text-align: left"></TD>
+
+                            <TD class="table_top" style="text-align: center">KDE Distribution Plot</TD>
+
                         
 
                     </TR>
@@ -459,7 +482,7 @@
                                     <TD class="align-middle" style="width:20%;" rowspan="4">
                                         <img src="static/images/kde_episodes.png" class="img-fluid"/>
                                     </TD>
-                                                            
+
                                 
 
                             </TR>
@@ -609,7 +632,7 @@
                                     <TD class="align-middle" style="width:20%;" rowspan="4">
                                         <img src="static/images/kde_length_of_stay.png" class="img-fluid"/>
                                     </TD>
-                                                            
+
                                 
 
                             </TR>
@@ -927,6 +950,31 @@
     </div>
 
 </div>
+
+<script src="static/scripts/bokeh-1.0.4.min.js"></script>
+<script> 
+// Use BokehJS to rended plots from their JSON representation
+
+
+    console.log('hbres_name');
+    var item = JSON.parse('{"target_id": null, "root_id": "1002", "doc": {"roots": {"references": [{"attributes": {"data_source": {"id": "1001", "type": "ColumnDataSource"}, "glyph": {"id": "1028", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1029", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1031", "type": "CDSView"}}, "id": "1030", "type": "GlyphRenderer"}, {"attributes": {"source": {"id": "1001", "type": "ColumnDataSource"}}, "id": "1031", "type": "CDSView"}, {"attributes": {"callback": null}, "id": "1005", "type": "DataRange1d"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1046", "type": "Selection"}, "selection_policy": {"id": "1045", "type": "UnionRenderers"}}, "id": "1032", "type": "ColumnDataSource"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1033", "type": "Ray"}, {"attributes": {"callback": null, "factors": ["A", "B", "C", "D"]}, "id": "1003", "type": "FactorRange"}, {"attributes": {}, "id": "1009", "type": "LinearScale"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1034", "type": "Ray"}, {"attributes": {"formatter": {"id": "1042", "type": "CategoricalTickFormatter"}, "plot": {"id": "1002", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1012", "type": "CategoricalTicker"}, "visible": false}, "id": "1011", "type": "CategoricalAxis"}, {"attributes": {"data_source": {"id": "1032", "type": "ColumnDataSource"}, "glyph": {"id": "1033", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1034", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1036", "type": "CDSView"}}, "id": "1035", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1012", "type": "CategoricalTicker"}, {"attributes": {"source": {"id": "1032", "type": "ColumnDataSource"}}, "id": "1036", "type": "CDSView"}, {"attributes": {}, "id": "1040", "type": "BasicTickFormatter"}, {"attributes": {"plot": {"id": "1002", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1012", "type": "CategoricalTicker"}, "visible": false}, "id": "1014", "type": "Grid"}, {"attributes": {}, "id": "1044", "type": "Selection"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1040", "type": "BasicTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "plot": {"id": "1002", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1016", "type": "BasicTicker"}}, "id": "1015", "type": "LinearAxis"}, {"attributes": {}, "id": "1016", "type": "BasicTicker"}, {"attributes": {"plot": null, "text": ""}, "id": "1037", "type": "Title"}, {"attributes": {"dimension": 1, "plot": {"id": "1002", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1016", "type": "BasicTicker"}, "visible": false}, "id": "1019", "type": "Grid"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1028", "type": "VBar"}, {"attributes": {}, "id": "1045", "type": "UnionRenderers"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#527563", "#527563"], "DF1": [8, 5, 7, 5], "DF2": [5, 5, 8, 12], "DIFF": [-3, 0, 1, 7], "VAR": ["A", "B", "C", "D"], "index": [2, 1, 0, 3]}, "selected": {"id": "1044", "type": "Selection"}, "selection_policy": {"id": "1043", "type": "UnionRenderers"}}, "id": "1001", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1046", "type": "Selection"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1021", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1020", "type": "PanTool"}, {"id": "1021", "type": "WheelZoomTool"}, {"id": "1022", "type": "HoverTool"}]}, "id": "1023", "type": "Toolbar"}, {"attributes": {}, "id": "1042", "type": "CategoricalTickFormatter"}, {"attributes": {}, "id": "1043", "type": "UnionRenderers"}, {"attributes": {}, "id": "1020", "type": "PanTool"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1011", "type": "CategoricalAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "left": [{"id": "1015", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1011", "type": "CategoricalAxis"}, {"id": "1014", "type": "Grid"}, {"id": "1015", "type": "LinearAxis"}, {"id": "1019", "type": "Grid"}, {"id": "1030", "type": "GlyphRenderer"}, {"id": "1035", "type": "GlyphRenderer"}], "title": {"id": "1037", "type": "Title"}, "toolbar": {"id": "1023", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1003", "type": "FactorRange"}, "x_scale": {"id": "1007", "type": "CategoricalScale"}, "y_range": {"id": "1005", "type": "DataRange1d"}, "y_scale": {"id": "1009", "type": "LinearScale"}}, "id": "1002", "subtype": "Figure", "type": "Plot"}, {"attributes": {}, "id": "1021", "type": "WheelZoomTool"}, {"attributes": {"callback": null, "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Difference", "@DIFF"]]}, "id": "1022", "type": "HoverTool"}, {"attributes": {}, "id": "1007", "type": "CategoricalScale"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1029", "type": "VBar"}], "root_ids": ["1002"]}, "title": "", "version": "1.0.4"}}');
+    Bokeh.embed.embed_item(item, 'cat_hbres_name');
+
+
+
+    console.log('gender');
+    var item = JSON.parse('{"target_id": null, "root_id": "1088", "doc": {"roots": {"references": [{"attributes": {"callback": null, "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Difference", "@DIFF"]]}, "id": "1108", "type": "HoverTool"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1107", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1106", "type": "PanTool"}, {"id": "1107", "type": "WheelZoomTool"}, {"id": "1108", "type": "HoverTool"}]}, "id": "1109", "type": "Toolbar"}, {"attributes": {"source": {"id": "1118", "type": "ColumnDataSource"}}, "id": "1122", "type": "CDSView"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1115", "type": "VBar"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#527563", "#527563"], "DF1": [13, 12, 0], "DF2": [8, 14, 8], "DIFF": [-5, 2, 8], "VAR": ["M", "F", "Not Known"], "index": [2, 1, 0]}, "selected": {"id": "1130", "type": "Selection"}, "selection_policy": {"id": "1129", "type": "UnionRenderers"}}, "id": "1087", "type": "ColumnDataSource"}, {"attributes": {"background_fill_color": {"value": "gainsboro"}, "below": [{"id": "1097", "type": "CategoricalAxis"}], "border_fill_color": {"value": "gainsboro"}, "left": [{"id": "1101", "type": "LinearAxis"}], "outline_line_color": {"value": "gainsboro"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1097", "type": "CategoricalAxis"}, {"id": "1100", "type": "Grid"}, {"id": "1101", "type": "LinearAxis"}, {"id": "1105", "type": "Grid"}, {"id": "1116", "type": "GlyphRenderer"}, {"id": "1121", "type": "GlyphRenderer"}], "title": {"id": "1123", "type": "Title"}, "toolbar": {"id": "1109", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1089", "type": "FactorRange"}, "x_scale": {"id": "1093", "type": "CategoricalScale"}, "y_range": {"id": "1091", "type": "DataRange1d"}, "y_scale": {"id": "1095", "type": "LinearScale"}}, "id": "1088", "subtype": "Figure", "type": "Plot"}, {"attributes": {"data_source": {"id": "1087", "type": "ColumnDataSource"}, "glyph": {"id": "1114", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1115", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1117", "type": "CDSView"}}, "id": "1116", "type": "GlyphRenderer"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1114", "type": "VBar"}, {"attributes": {"source": {"id": "1087", "type": "ColumnDataSource"}}, "id": "1117", "type": "CDSView"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1132", "type": "Selection"}, "selection_policy": {"id": "1131", "type": "UnionRenderers"}}, "id": "1118", "type": "ColumnDataSource"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 3}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1119", "type": "Ray"}, {"attributes": {"callback": null, "factors": ["M", "F", "Not Known"]}, "id": "1089", "type": "FactorRange"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 3}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1120", "type": "Ray"}, {"attributes": {}, "id": "1095", "type": "LinearScale"}, {"attributes": {}, "id": "1107", "type": "WheelZoomTool"}, {"attributes": {"plot": null, "text": ""}, "id": "1123", "type": "Title"}, {"attributes": {"plot": {"id": "1088", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1098", "type": "CategoricalTicker"}, "visible": false}, "id": "1100", "type": "Grid"}, {"attributes": {}, "id": "1126", "type": "BasicTickFormatter"}, {"attributes": {}, "id": "1098", "type": "CategoricalTicker"}, {"attributes": {"formatter": {"id": "1128", "type": "CategoricalTickFormatter"}, "plot": {"id": "1088", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1098", "type": "CategoricalTicker"}, "visible": false}, "id": "1097", "type": "CategoricalAxis"}, {"attributes": {}, "id": "1128", "type": "CategoricalTickFormatter"}, {"attributes": {}, "id": "1129", "type": "UnionRenderers"}, {"attributes": {"callback": null}, "id": "1091", "type": "DataRange1d"}, {"attributes": {}, "id": "1130", "type": "Selection"}, {"attributes": {}, "id": "1102", "type": "BasicTicker"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1126", "type": "BasicTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "plot": {"id": "1088", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1102", "type": "BasicTicker"}}, "id": "1101", "type": "LinearAxis"}, {"attributes": {"data_source": {"id": "1118", "type": "ColumnDataSource"}, "glyph": {"id": "1119", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1120", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1122", "type": "CDSView"}}, "id": "1121", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1131", "type": "UnionRenderers"}, {"attributes": {}, "id": "1132", "type": "Selection"}, {"attributes": {}, "id": "1106", "type": "PanTool"}, {"attributes": {"dimension": 1, "plot": {"id": "1088", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1102", "type": "BasicTicker"}, "visible": false}, "id": "1105", "type": "Grid"}, {"attributes": {}, "id": "1093", "type": "CategoricalScale"}], "root_ids": ["1088"]}, "title": "", "version": "1.0.4"}}');
+    Bokeh.embed.embed_item(item, 'cat_gender');
+
+
+
+    console.log('age');
+    var item = JSON.parse('{"target_id": null, "root_id": "1174", "doc": {"roots": {"references": [{"attributes": {"plot": {"id": "1174", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1184", "type": "CategoricalTicker"}, "visible": false}, "id": "1186", "type": "Grid"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1212", "type": "BasicTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "plot": {"id": "1174", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1188", "type": "BasicTicker"}}, "id": "1187", "type": "LinearAxis"}, {"attributes": {"plot": null, "text": ""}, "id": "1209", "type": "Title"}, {"attributes": {}, "id": "1188", "type": "BasicTicker"}, {"attributes": {}, "id": "1212", "type": "BasicTickFormatter"}, {"attributes": {"dimension": 1, "plot": {"id": "1174", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1188", "type": "BasicTicker"}, "visible": false}, "id": "1191", "type": "Grid"}, {"attributes": {}, "id": "1216", "type": "Selection"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1200", "type": "VBar"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1193", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1192", "type": "PanTool"}, {"id": "1193", "type": "WheelZoomTool"}, {"id": "1194", "type": "HoverTool"}]}, "id": "1195", "type": "Toolbar"}, {"attributes": {}, "id": "1192", "type": "PanTool"}, {"attributes": {}, "id": "1214", "type": "CategoricalTickFormatter"}, {"attributes": {}, "id": "1193", "type": "WheelZoomTool"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1183", "type": "CategoricalAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "left": [{"id": "1187", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1183", "type": "CategoricalAxis"}, {"id": "1186", "type": "Grid"}, {"id": "1187", "type": "LinearAxis"}, {"id": "1191", "type": "Grid"}, {"id": "1202", "type": "GlyphRenderer"}, {"id": "1207", "type": "GlyphRenderer"}], "title": {"id": "1209", "type": "Title"}, "toolbar": {"id": "1195", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1175", "type": "FactorRange"}, "x_scale": {"id": "1179", "type": "CategoricalScale"}, "y_range": {"id": "1177", "type": "DataRange1d"}, "y_scale": {"id": "1181", "type": "LinearScale"}}, "id": "1174", "subtype": "Figure", "type": "Plot"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#876388", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563"], "DF1": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "DF2": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], "DIFF": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], "VAR": ["2", "90", "89", "85", "61", "56", "95", "53", "51", "49", "38", "55", "22", "20", "28", "12", "68", "33", "34", "24", "48", "5", "65", "57", "82", "7", "88", "80", "92", "84", "79", "30", "77", "73", "70", "63", "13", "15", "16", "19", "40", "78", "100", "83"], "index": [0, 40, 39, 37, 24, 22, 42, 20, 19, 18, 15, 21, 9, 8, 11, 3, 27, 13, 14, 10, 17, 1, 26, 23, 34, 2, 38, 33, 41, 36, 32, 12, 30, 29, 28, 25, 4, 5, 6, 7, 16, 31, 43, 35]}, "selected": {"id": "1216", "type": "Selection"}, "selection_policy": {"id": "1215", "type": "UnionRenderers"}}, "id": "1173", "type": "ColumnDataSource"}, {"attributes": {"callback": null, "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Difference", "@DIFF"]]}, "id": "1194", "type": "HoverTool"}, {"attributes": {}, "id": "1215", "type": "UnionRenderers"}, {"attributes": {}, "id": "1181", "type": "LinearScale"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1201", "type": "VBar"}, {"attributes": {"callback": null, "factors": ["2", "90", "89", "85", "61", "56", "95", "53", "51", "49", "38", "55", "22", "20", "28", "12", "68", "33", "34", "24", "48", "5", "65", "57", "82", "7", "88", "80", "92", "84", "79", "30", "77", "73", "70", "63", "13", "15", "16", "19", "40", "78", "100", "83"]}, "id": "1175", "type": "FactorRange"}, {"attributes": {"data_source": {"id": "1173", "type": "ColumnDataSource"}, "glyph": {"id": "1200", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1201", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1203", "type": "CDSView"}}, "id": "1202", "type": "GlyphRenderer"}, {"attributes": {"source": {"id": "1173", "type": "ColumnDataSource"}}, "id": "1203", "type": "CDSView"}, {"attributes": {}, "id": "1179", "type": "CategoricalScale"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1218", "type": "Selection"}, "selection_policy": {"id": "1217", "type": "UnionRenderers"}}, "id": "1204", "type": "ColumnDataSource"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 44}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1205", "type": "Ray"}, {"attributes": {"callback": null}, "id": "1177", "type": "DataRange1d"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 44}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1206", "type": "Ray"}, {"attributes": {}, "id": "1218", "type": "Selection"}, {"attributes": {"data_source": {"id": "1204", "type": "ColumnDataSource"}, "glyph": {"id": "1205", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1206", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1208", "type": "CDSView"}}, "id": "1207", "type": "GlyphRenderer"}, {"attributes": {"formatter": {"id": "1214", "type": "CategoricalTickFormatter"}, "plot": {"id": "1174", "subtype": "Figure", "type": "Plot"}, "ticker": {"id": "1184", "type": "CategoricalTicker"}, "visible": false}, "id": "1183", "type": "CategoricalAxis"}, {"attributes": {}, "id": "1217", "type": "UnionRenderers"}, {"attributes": {"source": {"id": "1204", "type": "ColumnDataSource"}}, "id": "1208", "type": "CDSView"}, {"attributes": {}, "id": "1184", "type": "CategoricalTicker"}], "root_ids": ["1174"]}, "title": "", "version": "1.0.4"}}');
+    Bokeh.embed.embed_item(item, 'cat_age');
+
+
+
+</script>
 
 </body>
 </html>

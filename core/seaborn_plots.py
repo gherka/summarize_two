@@ -1,7 +1,15 @@
 import pandas as pd
+import numpy as np
+import json
+
 import seaborn as sns
 from PIL import Image
 import matplotlib.pyplot as plt
+
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource
+from bokeh.embed import json_item
+
 import io
 import os.path
 
@@ -70,8 +78,8 @@ def generate_plots(df1, df2, var_name):
     new_bar_chart = pixel_by_pixel(fig_1, fig_2)
     new_bar_chart.save(r'static/images/image_2.png')
 
-
 def generate_kde(df1, df2, var_name, shade):
+
 
     #clear current (if any) figure and axes
     plt.clf()
@@ -110,3 +118,55 @@ def generate_kde(df1, df2, var_name, shade):
     sns.kdeplot(df2[var_name].dropna().values, shade=True, label="DF2", ax=ax)
 
     fig.savefig(f'static//images//kde_{var_name}.png', bbox_inches="tight")
+
+def generate_diff_plot(df1, df2, var_name, shade):
+    """
+    Create a json representation of a Bokeh plot to be embedded in the template
+    """
+
+    #banded row colors: 
+    if shade == 'even':
+        band_color = '#e6e5e3'
+    else:
+        band_color = 'gainsboro'
+
+    freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
+
+    bokeh_df = pd.DataFrame({'VAR':[str(x) for x in freq_1[0]],
+                        'DF1':freq_1[1],
+                        'DF2':freq_2[1],
+                        'DIFF': freq_2[1] - freq_1[1],
+                        'COLOR': np.where(freq_2[1] - freq_1[1] > 0, '#527563', '#876388')}
+                      )
+
+    source = ColumnDataSource(bokeh_df.sort_values(by='DIFF'))
+
+    TOOLTIPS = [
+        ("Name", "@VAR"),
+        ("DF1 Value", "@DF1"),
+        ("DF2 Value", "@DF2"),
+        ("Difference", "@DIFF")
+    ]
+
+    p = figure(x_range=source.data['VAR'],
+           plot_height=170,
+           plot_width=165,
+           tools="pan,wheel_zoom,hover",
+           active_scroll="wheel_zoom",
+           toolbar_location = None,
+           tooltips=TOOLTIPS)
+
+    p.vbar(x='VAR', top='DIFF', width=0.9, alpha=0.8, line_color='white', color='COLOR', source=source)
+    p.ray(x=[0], y=[0], length=len(source.data['VAR']), angle=0, line_width=0.5, color='black')
+
+    p.xaxis.visible = False
+    p.yaxis.minor_tick_line_alpha = 0
+    p.grid.visible = False
+    p.background_fill_color = band_color
+    p.outline_line_color = band_color
+    p.border_fill_color = band_color
+    p.yaxis.axis_line_width = 0.5
+
+    item_text = json.dumps(json_item(p))
+
+    return item_text

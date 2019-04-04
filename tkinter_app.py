@@ -1,7 +1,3 @@
-'''
-Use subprocess call to add support for running external scripts
-'''
-
 from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, Toplevel, Message, Radiobutton
 from tkinter import W, E, LEFT
 from tkinter import ttk
