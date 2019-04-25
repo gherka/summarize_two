@@ -7,6 +7,7 @@ import pandas as pd
 from core.jinja_app import generate_report
 from core.summary_stats import generate_common_vars, generate_summary
 from core.helper_funcs import read_data, dtype_mapping
+from core.mp_distributions import controller, worker
 
 class GroupedRadioButton(Radiobutton):
     """
@@ -178,6 +179,10 @@ class BasicGUI:
         self.close_button = Button(self.mainContainer, text="CLOSE APP", command=self.mainContainer.quit)
         self.close_button.grid(row=7, column=0, sticky=W)
 
+        #Test Multiprocessing Button
+        self.test_button = Button(self.mainContainer, text="TEST", command=self.test_mp)
+        self.test_button.grid(row=8, column=0, sticky=W)
+
     #CLASS FUNCTIONS:
     def open_file_1(self):
         self.filename_1 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
@@ -207,18 +212,20 @@ class BasicGUI:
         self.clean_up()
         generate_report(self.df1, self.df2, self.dtypes, self.var_to_plot)
 
+    def test_mp(self):
+        print(controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays'))
 
+if __name__ == "__main__":
 
+    root = Tk()
+    root.geometry("320x400")
+    my_gui = BasicGUI(root)
 
-root = Tk()
-root.geometry("320x400")
-my_gui = BasicGUI(root)
+    #Position the mainContainer in the middle of the root window's 3x3 grid
+    root.grid_rowconfigure(1, weight=1)
+    root.grid_rowconfigure(2, weight=1)
+    root.grid_columnconfigure(0, weight=1)
+    root.grid_columnconfigure(2, weight=1)
 
-#Position the mainContainer in the middle of the root window's 3x3 grid
-root.grid_rowconfigure(1, weight=1)
-root.grid_rowconfigure(2, weight=1)
-root.grid_columnconfigure(0, weight=1)
-root.grid_columnconfigure(2, weight=1)
-
-#RUN TKINTER LOOP
-root.mainloop()
+    #RUN TKINTER LOOP
+    root.mainloop()
