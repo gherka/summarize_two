@@ -108,39 +108,11 @@ class DataTypePopup:
         self.mainGui.dtypes = {key:value.get() for key, value in self.dtype_radio_dict.items()}
         self.toplevel.destroy()
 
-class VisRow:
-    def __init__(self, master):
-        #save the master reference (my_gui) for internal use
-        self.mainMaster = master
-
-        self.visContainer = Frame(master.mainContainer)
-
-        self.dropdownText = "Choose a common variable to plot"
-        self.dropdownLabel=Label(self.visContainer, text=self.dropdownText, wraplength=110, anchor=W, justify=LEFT)
-        self.dropdownLabel.grid(row=0, column=0, pady=(5,20), sticky=W)
-
-        self.choices = ['None']
-
-        self.popupMenu = ttk.Combobox(self.visContainer, values=self.choices, postcommand=self.populateDropdown)
-        self.popupMenu.grid(row=0, column=1, padx=10, pady=(5,20), sticky=W)
-        self.popupMenu.current(0)
-
-        #on change dropdown value
-        self.popupMenu.bind("<<ComboboxSelected>>", self.callbackFunc)
-
-    #CLASS FUNCTIONS:
-    def populateDropdown(self):
-        #import the common values from BasicGui
-        self.popupMenu['values']=self.mainMaster.common_values
-
-    def callbackFunc(self, event):
-        #export the callback value to the master (my_gui)
-        self.mainMaster.var_to_plot = self.popupMenu.get()
-
 class BasicGUI:
     def __init__(self, master):
 
         self.master = master
+        self.ridge = False #Temporary workaround
         master.title("Dataset comparison tool")
 
         self.mainContainer = Frame(master)
@@ -167,9 +139,9 @@ class BasicGUI:
         self.dt_button = Button(self.mainContainer, text="Confirm datatypes", command=self.confirm_dt)
         self.dt_button.grid(row=4, column=0, sticky=W)
         
-        #Create the first vis row:
-        self.visrow_1 = VisRow(self)
-        self.visrow_1.visContainer.grid(row=5, column=0, columnspan=2)
+        #Ridge Plot with Multiprocessing
+        self.test_button = Button(self.mainContainer, text="Ridge Plot", command=self.ridge_plot)
+        self.test_button.grid(row=5, column=0, sticky=W)
 
         #Magic Button
         self.jinja_button = Button(self.mainContainer, text="MAGIC!", command=self.run_jinja)
@@ -179,9 +151,6 @@ class BasicGUI:
         self.close_button = Button(self.mainContainer, text="CLOSE APP", command=self.mainContainer.quit)
         self.close_button.grid(row=7, column=0, sticky=W)
 
-        #Test Multiprocessing Button
-        self.test_button = Button(self.mainContainer, text="TEST", command=self.test_mp)
-        self.test_button.grid(row=8, column=0, sticky=W)
 
     #CLASS FUNCTIONS:
     def open_file_1(self):
@@ -208,12 +177,21 @@ class BasicGUI:
             if item.endswith(".png"):
                 os.remove(os.path.join(img_path, item))
 
+    def ridge_plot(self):
+        self.ridge = True
+        self.ridge_spec = {}
+        self.ridge_spec['cols'] = ['loc_name', 'sex_age']
+        self.ridge_spec['num_col'] = 'stays'
+        self.ridge_spec['indices'] = controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays')
+
     def run_jinja(self):
         self.clean_up()
-        generate_report(self.df1, self.df2, self.dtypes, self.var_to_plot)
 
-    def test_mp(self):
-        print(controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays'))
+        if self.ridge:
+            generate_report(self.df1, self.df2, self.dtypes, self.ridge_spec)
+        else:
+            generate_report(self.df1, self.df2, self.dtypes)
+
 
 if __name__ == "__main__":
 

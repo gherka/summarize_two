@@ -91,10 +91,13 @@ def worker(path1, path2, cols, num_col, input_queue, output_queue):
 		fig_B.canvas.draw()
 		img_2 = np.frombuffer(fig_B.canvas.tostring_rgb(), dtype=np.uint8).reshape(-1, 3)
 		
-		#1020 is reference area (red + red); 1530 is difference (red + white or white + red)
-		result = (np.sum(np.stack((np.sum(img_1, axis=1), np.sum(img_2, axis=1)), axis=-1).sum(axis=1) == 1020) / 
-				np.sum(np.stack((np.sum(img_1, axis=1), np.sum(img_2, axis=1)), axis=-1).sum(axis=1) != 1530))
 
+		ref_pixels = np.stack((np.sum(img_1, axis=1), np.sum(img_2, axis=1)), axis=-1).sum(axis=1)
+		diff_pixels = np.stack((np.sum(img_1, axis=1), np.sum(img_2, axis=1)), axis=-1).sum(axis=1)
+
+		#1020 is difference (red + white or white + red); reference area is any non "double white" combination
+		result = (np.sum(diff_pixels == 1020) / np.sum(ref_pixels != 1530))
+				
 		return round(result * 100, 2)
 
 	#CREATE A HEAP QUEUE FOR PERFORMANCE BOOST! Keep top 5 permutations
@@ -175,7 +178,9 @@ def controller(path1, path2, cols, num_col):
 	for x in itertools.chain(*result):
 		heapq.heappushpop(result_heapq, x)
 		
-	return(result_heapq)
+	print(sorted(result_heapq, key=lambda x: x[0]))
+	#return sorted list with highest difference combination at top
+	return sorted(result_heapq, key=lambda x: x[0])
 		
 if __name__=="mp_distributions":
 	controller(path1, path2, cols, num_col)

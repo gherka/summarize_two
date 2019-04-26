@@ -55,3 +55,8 @@ th, td {
   height: 40px !important;
 
 }
+
+#ridge_plot_id {
+
+  border: 1px dotted grey !important;
+}
