@@ -247,6 +247,8 @@ class BasicGUI:
         self.ridge_spec['num_col'] = 'stays'
         self.ridge_spec['indices'] = controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays')
 
+        self.ridge_button.config(bg="pale green3")
+
     def run_jinja(self):
         self.clean_up()
 

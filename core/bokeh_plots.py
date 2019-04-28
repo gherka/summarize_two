@@ -12,9 +12,11 @@ from bokeh.embed import json_item
 from core.helper_funcs import transform_frequencies
 
 def generate_diff_plot(df1, df2, var_name, shade):
-    """
-    Create a json representation of a Bokeh plot to be embedded in the template
-    """
+    '''
+	Plot the difference in frequency for each unique value of a given column (var_name).
+    
+	Returns a json representation of a Bokeh plot to be embedded in the template.
+    '''
 
     #banded row colors: 
     if shade == 'even':
@@ -65,6 +67,9 @@ def generate_diff_plot(df1, df2, var_name, shade):
     return item_text
 
 def generate_ridge_plot(df1, df2, cols, num_col, indices):
+	'''
+	Need to investigate why plot is incorrect for arrays dominated by zeroes!
+	'''
 
 	def ridge(category, data, scale=5):
 		return list(zip([category]*len(data), scale*data))

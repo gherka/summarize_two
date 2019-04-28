@@ -100,7 +100,7 @@ def worker(path1, path2, cols, num_col, input_queue, output_queue):
 				
 		return round(result * 100, 2)
 
-	#CREATE A HEAP QUEUE FOR PERFORMANCE BOOST! Keep top 5 permutations
+	#Keep top 5 permutations in HEAPQ
 	h = [(0, '_')] * 5
 
 	while True:
@@ -109,13 +109,13 @@ def worker(path1, path2, cols, num_col, input_queue, output_queue):
 		if permut is None:
 			break
 
-		#itertools.product PRODUCES ALL POSSIBLE COMBINATIONS EVEN WHEN THEY ARE NOT VALID
 		try:
 			if (d1[permut].shape[0] >= 10) & (d2[permut].shape[0] >= 10) & (d1[permut].sum() != 0) & (d2[permut].sum() !=0):
 
 				heapq.heappushpop(h, (image_diff(*figure_prep(d1[permut], d2[permut])), permut))
 
-		except KeyError:
+		#Either HEAPQ already has an equal value of image_diff or permutation doesn't exist in DF2
+		except (TypeError, KeyError):
 			pass
 
 	output_queue.put(h)
@@ -142,17 +142,16 @@ def controller(path1, path2, cols, num_col):
 	mpl = mp.log_to_stderr()
 	mpl.setLevel(logging.WARNING)
 
-	df1 = pd.read_csv(path1)
-	df2 = pd.read_csv(path2)
-
-	all_permuts = itertools.product(*[np.intersect1d(df1[x].unique(), df2[x].unique()) for x in cols])
+	all_permuts = set(pd.read_csv(path1).set_index(cols).index)
 
 	output_queue = mp.Queue()
 	input_queue = mp.Queue()
 
 	#Load permutations into the input queue
 	for permut in all_permuts:
-		input_queue.put(permut)
+		
+		if np.nan not in permut:
+			input_queue.put(permut)
 
 	#Add end signals
 	for i in range(cpu_num):
@@ -178,7 +177,7 @@ def controller(path1, path2, cols, num_col):
 	for x in itertools.chain(*result):
 		heapq.heappushpop(result_heapq, x)
 		
-	print(sorted(result_heapq, key=lambda x: x[0]))
+	# print(sorted(result_heapq, key=lambda x: x[0]))
 	#return sorted list with highest difference combination at top
 	return sorted(result_heapq, key=lambda x: x[0])
 		
