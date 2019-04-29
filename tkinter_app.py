@@ -1,5 +1,6 @@
-from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, Toplevel, Message, Radiobutton
-from tkinter import W, E, CENTER, LEFT
+from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, Toplevel, Message, Radiobutton, Listbox
+from tkinter import W, E, CENTER, LEFT, EXTENDED, N
+from tkinter import ttk
 import os
 import pandas as pd
 
@@ -140,17 +141,61 @@ class RidgePopUp(PopUp):
         Please be aware that computing comparisons for a large number of combinations can be CPU-intensive'''
 
         self.explainer = Label(self.popup, text=self.explainer_text, font=self.button_font, wraplength=300)
-        self.explainer.grid(row=0, column=0, sticky=W+E)
+        self.explainer.grid(row=0, column=0, columnspan=2, sticky=W+E)
 
+        #Add a listbox with multiple select
+        self.list_label = Label(self.popup, text="Select columns to combine for distribution analysis",
+                                font=self.button_font, wraplength=100)
+        self.list_label.grid(row=1, column=0, pady=(10,0))
+
+        self.listbox = Listbox(self.popup, selectmode=EXTENDED)
+        self.listbox.grid(row=2, column=0)
+
+
+        self.cat_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == 'Categorical']
+
+        for i, var in enumerate(self.cat_cols):
+            self.listbox.insert(i, var)
+
+        #Add a dropdown to select numerical column for distribution analysis
+        self.dropdown_label = Label(self.popup, text="Select numerical value", font=self.button_font)
+        self.dropdown_label.grid(row=1, column=1, pady=10)
+
+        self.choices = ['None']
+        self.dropdown = ttk.Combobox(self.popup, values=self.choices, postcommand=self.populateDropdown)
+        self.dropdown.grid(row=2, column=1, sticky=N)
+        self.dropdown.current(0)
+        #on change dropdown value
+        self.dropdown.bind("<<ComboboxSelected>>", self.callbackFunc)
+   
+        #Confirm and Exit
         self.confirm_btn = Button(self.popup, text="Confirm", font=self.button_font, command=self.confirm_ridge)
-        self.confirm_btn.grid(row=1, column=0)
+        self.confirm_btn.grid(row=3, column=0)
+
+        #Just exit
 
     
     ###########################
     # BASIC GUI CLASS METHODS #
     ###########################
 
+    def populateDropdown(self):
+        #import the common values from BasicGui
+        
+        num_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == 'Continuous']
+
+        self.dropdown['values']=num_cols
+
+    def callbackFunc(self, event):
+        #export the callback value to the master (my_gui)
+        self.mainGui.ridge_spec['num_col'] = self.dropdown.get()
+
     def confirm_ridge(self):
+        self.mainGui.ridge=True
+        self.mainGui.ridge_spec['cols'] = [self.cat_cols[i] for i in self.listbox.curselection()]
+        self.mainGui.ridge_spec['indices'] = controller(self.mainGui.filename_1, self.mainGui.filename_2,
+                                                self.mainGui.ridge_spec['cols'], self.mainGui.ridge_spec['num_col'])
+
         self.toplevel.destroy()
 
 class BasicGUI:
@@ -164,6 +209,8 @@ class BasicGUI:
 
         self.master = master
         self.ridge = False #Temporary workaround
+        self.ridge_spec = {}
+
         master.title("Dataset comparison tool")
 
         self.mainContainer = Frame(master)
@@ -224,7 +271,7 @@ class BasicGUI:
         self.advanced_options = Label(self.mainContainer, text="Optional Report Features", font="Helvetica 11 italic")
         self.advanced_options.grid(row=5, column=1, columnspan=2, pady=5, padx=5)
         
-        self.ridge_button = Button(self.mainContainer, text="Ridge Plot", font=self.button_font, state="normal", command=self.ridge_plot)
+        self.ridge_button = Button(self.mainContainer, text="Ridge Plot", font=self.button_font, state="disabled", command=self.ridge_plot)
         self.ridge_button.grid(row=6, column=1, sticky=W)
 
         #<<<< LAST ROW OF GUI >>>>#
@@ -282,10 +329,10 @@ class BasicGUI:
         # self.ridge_spec['cols'] = ['loc_name', 'sex_age']
         # self.ridge_spec['num_col'] = 'stays'
         # self.ridge_spec['indices'] = controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays')
-
         # self.ridge_button.config(bg="pale green3")
 
         RidgePopUp(self, self.master)
+        
 
     def run_jinja(self):
         self.clean_up()
@@ -297,6 +344,14 @@ class BasicGUI:
 
         self.jinja_button.config(bg="pale green3")
         os.startfile(os.path.join(os.getcwd(), 'hello.html'))
+        #reset tool to null state
+        self.ridge=False
+        self.file_label_1.config(text="")
+        self.file_label_2.config(text="")
+        self.dt_confirm.config(text="")
+        self.dt_button.config(state="disabled")
+        self.ridge_button.config(state="disabled")
+        self.jinja_button.config(state="disabled")
 
 if __name__ == "__main__":
 
