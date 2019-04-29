@@ -8,27 +8,15 @@ from core.summary_stats import generate_common_vars, generate_summary
 from core.helper_funcs import read_data, dtype_mapping
 from core.mp_distributions import controller, worker
 
-class GroupedRadioButton(Radiobutton):
-    """
-    Extend RadioButton class to add a setter and getter methods for group name
-    """
-    def set_group_name(self, name):
-        self.group = name
-
-    def get_group_name(self):
-        return self.group
-
-class DataTypePopup:
+class PopUp:
     '''
-    Pop up window to allow users to amend default data types
+    Base class for creating a popup window
     '''
-
     def __init__(self, gui, master):
         #save the master reference for internal use
         self.mainMaster = master
         self.mainGui = gui
         self.toplevel = Toplevel(master)
-        self.toplevel.title("Data types")
 
         #to take full advantage of the grid system, create a Frame to position it within TopLevel
         self.popup = Frame(self.toplevel)
@@ -43,6 +31,27 @@ class DataTypePopup:
         self.toplevel.grid_rowconfigure(2, weight=1)
         self.toplevel.grid_columnconfigure(0, weight=1)
         self.toplevel.grid_columnconfigure(2, weight=1)
+
+        self.button_font = "Helvetica 9"
+
+class GroupedRadioButton(Radiobutton):
+    """
+    Extend RadioButton class to add a setter and getter methods for group name
+    """
+    def set_group_name(self, name):
+        self.group = name
+
+    def get_group_name(self):
+        return self.group
+
+class DataTypePopUp(PopUp):
+    '''
+    Pop up window to allow users to amend default data types
+    '''
+    def __init__(self, gui, master):
+        super().__init__(gui, master)
+
+        self.toplevel.title("Data types")
 
         self.popup_headline = "Please confirm data types for each common variable:"
         Label(self.popup, text=self.popup_headline, font=("Helvetica", 12), pady=8, padx=10).grid(row=0, columnspan=5, sticky=W+E)
@@ -117,6 +126,33 @@ class DataTypePopup:
         self.mainGui.ridge_button.config(state='normal')
         self.toplevel.destroy()
 
+class RidgePopUp(PopUp):
+    '''
+    Pop up window to with Ridge Plot options
+    '''
+
+    def __init__(self, gui, master):
+        super().__init__(gui, master)
+
+        self.toplevel.title('Ridge Plot options')
+
+        self.explainer_text = '''Ridge plot shows a comparison of distributions across selected columns.\n
+        Please be aware that computing comparisons for a large number of combinations can be CPU-intensive'''
+
+        self.explainer = Label(self.popup, text=self.explainer_text, font=self.button_font, wraplength=300)
+        self.explainer.grid(row=0, column=0, sticky=W+E)
+
+        self.confirm_btn = Button(self.popup, text="Confirm", font=self.button_font, command=self.confirm_ridge)
+        self.confirm_btn.grid(row=1, column=0)
+
+    
+    ###########################
+    # BASIC GUI CLASS METHODS #
+    ###########################
+
+    def confirm_ridge(self):
+        self.toplevel.destroy()
+
 class BasicGUI:
     '''
     Main user interface of the tool
@@ -188,7 +224,7 @@ class BasicGUI:
         self.advanced_options = Label(self.mainContainer, text="Optional Report Features", font="Helvetica 11 italic")
         self.advanced_options.grid(row=5, column=1, columnspan=2, pady=5, padx=5)
         
-        self.ridge_button = Button(self.mainContainer, text="Ridge Plot", font=self.button_font, state="disabled", command=self.ridge_plot)
+        self.ridge_button = Button(self.mainContainer, text="Ridge Plot", font=self.button_font, state="normal", command=self.ridge_plot)
         self.ridge_button.grid(row=6, column=1, sticky=W)
 
         #<<<< LAST ROW OF GUI >>>>#
@@ -230,7 +266,7 @@ class BasicGUI:
 
     def confirm_dt(self):
         #self is the my_gui object (instacne of the BasicGUI class), self.master is root widget 
-        DataTypePopup(self, self.master)
+        DataTypePopUp(self, self.master)
 
     def clean_up(self):
 
@@ -241,13 +277,15 @@ class BasicGUI:
                 os.remove(os.path.join(img_path, item))
 
     def ridge_plot(self):
-        self.ridge = True
-        self.ridge_spec = {}
-        self.ridge_spec['cols'] = ['loc_name', 'sex_age']
-        self.ridge_spec['num_col'] = 'stays'
-        self.ridge_spec['indices'] = controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays')
+        # self.ridge = True
+        # self.ridge_spec = {}
+        # self.ridge_spec['cols'] = ['loc_name', 'sex_age']
+        # self.ridge_spec['num_col'] = 'stays'
+        # self.ridge_spec['indices'] = controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays')
 
-        self.ridge_button.config(bg="pale green3")
+        # self.ridge_button.config(bg="pale green3")
+
+        RidgePopUp(self, self.master)
 
     def run_jinja(self):
         self.clean_up()
