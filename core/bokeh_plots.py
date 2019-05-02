@@ -6,6 +6,7 @@ import json
 
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
+from bokeh.layouts import column
 from bokeh.models.callbacks import CustomJS
 from bokeh.embed import json_item
 
@@ -71,97 +72,110 @@ def generate_ridge_plot(df1, df2, cols, num_col, indices):
 	Need to investigate why plot is incorrect for arrays dominated by zeroes!
 	'''
 
-	def ridge(category, data, scale=5):
-		return list(zip([category]*len(data), scale*data))
+	DF1_COLOR = '#DD8452'
+	DF2_COLOR = '#4C72B0'
 
-	#PREP THE DATA
-	temp_cats = [x[1] for x in indices]
-
+	temp_cats = [x[1] for x in indices if x[1] != '_']
 	temp_df1 = df1.set_index(cols)[num_col]
 	temp_df2 = df2.set_index(cols)[num_col]
 
-	bokeh_df1 = pd.concat([pd.DataFrame(data={' | '.join(x):temp_df1.xs(x, level=cols).values}) for x in temp_cats], axis=1)
-	bokeh_df2 = pd.concat([pd.DataFrame(data={' | '.join(x):temp_df2.xs(x, level=cols).values}) for x in temp_cats], axis=1)
+	def make_plot(s1, s2, index, shade):
 
-	#CREATE Y-AXIS
-	cats = [' | '.join(x[1]).replace("'","") for x in indices]
+		#banded row colors: 
+		if shade == 0:
+			band_color = '#e6e5e3'
+		else:
+			band_color = 'gainsboro'
 
-	#CALCULATE X-AXIS LIMITS
-	x_low = min(bokeh_df1.dropna().values.min(), bokeh_df2.dropna().values.min())
-	x_high = max(bokeh_df1.dropna().values.max(), bokeh_df2.dropna().values.max())
-	pc10 = (x_high - x_low) * 0.1
 
-	#generate evenly spaced x values between min and max of the data
-	x = linspace(x_low - pc10, x_high + pc10, 500)
+		bins = sorted(s1.append(s2).unique())
 
-	source1 = ColumnDataSource(data=dict(x=x))
-	source2 = ColumnDataSource(data=dict(x=x))
+		hist1, edges1 = np.histogram(s1, density=False, bins=bins)
+		hist2, edges2 = np.histogram(s2, density=False, bins=bins)
 
-	p = figure(y_range=cats, plot_width=965, x_range=(x_low - pc10, x_high + pc10),
-				active_scroll="wheel_zoom",
-				tools="pan,wheel_zoom,reset")
+		plot_min = min(s1.values.min(), s2.values.min())
+		plot_max = max(s1.values.max(), s2.values.max())
 
-	p.toolbar.autohide = True
+		x = linspace(plot_min, plot_max, 500)
 
-	glyph_list = []
+		pdf1 = gaussian_kde(s1, bw_method=0.1)
+		pdf2 = gaussian_kde(s2, bw_method=0.1)
 
-	for i, cat in enumerate(cats):
+		scale_factor = max(hist1.max(), hist2.max()) / max(pdf1(x).max(), pdf2(x).max())
 
-		#what is the probability of a value to be in the x range?
-		pdf1 = gaussian_kde(bokeh_df1[cat].dropna())
-		pdf2 = gaussian_kde(bokeh_df2[cat].dropna())
+		y1 = pdf1(x) * scale_factor
+		y2 = pdf2(x) * scale_factor
 
-		#Ridge function just scales the PDF(y)
-		y1 = ridge(cat, pdf1(x))
-		y2 = ridge(cat, pdf2(x))
+		p = figure(plot_width=965, x_range=(plot_min, plot_max),
+            active_scroll="wheel_zoom",
+            tools="pan,wheel_zoom,reset")
 
-		source1.add(y1, cat)
-		source2.add(y2, cat)
+		p.yaxis.axis_label = index
+		p.yaxis.axis_label_standoff = 30
 
-		glyph_list.append((i, p.patch('x', cat, color='#DD8452', alpha=0.25, line_alpha=0.8, line_color='#DD8452', line_width=1, source=source2)))
-		glyph_list.append((i, p.patch('x', cat, color='#4C72B0', alpha=0.25, line_alpha=0.8, line_color='#4C72B0', line_width=1, source=source1)))
+		p.line(x=x, y=y1, color=DF1_COLOR, alpha=1, line_width=1, muted_color=DF1_COLOR, muted_alpha=0.2, legend='PDF1')
+		p.line(x=x, y=y2, color=DF2_COLOR, alpha=1, line_width=1, muted_color=DF2_COLOR, muted_alpha=0.2, legend='PDF2')
 
-	#STYLING
-	p.outline_line_color = "gainsboro"
-	p.background_fill_color = "gainsboro"
+		hist1 = p.vbar(x=edges1[:-1], width=2, top=hist1, bottom=0,
+      				   fill_color=DF1_COLOR, line_color=DF1_COLOR, alpha=0.75, line_alpha=0.4,
+      				   muted_color=DF1_COLOR, muted_alpha=0.1, legend='HIST1')
 
-	p.border_fill_color = "gainsboro"
+		hist2 = p.vbar(x=edges2[:-1], width=2, top=hist2, bottom=0,
+     				   fill_color=DF2_COLOR, line_color=DF2_COLOR, alpha=0.75, line_alpha=0.4,
+      				   muted_color=DF2_COLOR, muted_alpha=0.1, legend='HIST2')
 
-	p.ygrid.grid_line_color = None
-	p.xgrid.grid_line_color = "#dddddd"
-	p.xgrid.ticker = p.xaxis[0].ticker
+		hist1.muted = True
+		hist2.muted = True
 
-	p.axis.minor_tick_line_color = None
-	p.axis.major_tick_line_color = None
-	p.axis.axis_line_color = None
+		#LEGEND
+		p.legend.location = "top_right"
+		p.legend.click_policy="mute"
 
-	p.yaxis.major_label_text_color = "black"
-	p.yaxis.major_label_text_font_size = "12px"
-	p.xaxis.major_label_text_font_size = "11px"
-	p.xaxis.major_label_text_font_style = "bold"
+		p.legend.background_fill_color = band_color
+		p.legend.inactive_fill_color = band_color
+		p.legend.border_line_color = band_color
 
-	#JS CALLBACK
-	callback_glyphs = {'glyphs':glyph_list}
+		#STYLING
+		p.outline_line_color = band_color
+		p.background_fill_color = band_color
 
-	code = """
+		p.border_fill_color = band_color
 
-	var y = Math.floor(cb_obj.y);
+		p.ygrid.grid_line_color = None
+		p.xgrid.grid_line_color = None
+		p.xgrid.ticker = p.xaxis[0].ticker
 
-	for (let [index, glyph] of glyphs) 
-		if (+index === +y) { 
+		p.axis.minor_tick_line_color = None
+		p.axis.major_tick_line_color = None
+		p.axis.axis_line_color = None
+
+		p.yaxis.major_label_text_color = "black"
+		p.yaxis.major_label_text_font_size = "12px"
+		p.xaxis.major_label_text_font_size = "11px"
+		p.xaxis.major_label_text_font_style = "bold"
+
+		return p
+
+	plots = []
+
+	for i, cat in enumerate(temp_cats):
 		
-			if ( glyph.visible ) { glyph.visible = false ;}
-			else { glyph.visible = true }
-		
-		} ;
+		if len(cols) == 1:
 
-	"""
-	#Have to strip control characters like new lines and tabs to keep JSON.parse() happy
-	minified_code = code.replace("\n","").replace("\t","")
-	
-	callback = CustomJS(args=callback_glyphs, code=minified_code)
+			temp_s1 = temp_df1.xs(cat, level=None).dropna()
+			temp_s2 = temp_df2.xs(cat, level=None).dropna()
 
-	p.js_on_event('tap', callback)
+			plots.append(make_plot(temp_s1, temp_s2, cat, i%2))
+
+		else:
+
+			temp_s1 = temp_df1.xs(cat, level=cols).dropna()
+			temp_s2 = temp_df2.xs(cat, level=cols).dropna()
+
+			plots.append(make_plot(temp_s1, temp_s2, ' | '.join(cat), i%2))
+
+
+	p = column(plots)
 
 	ridge_json = json.dumps(json_item(p))
 

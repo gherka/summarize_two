@@ -67,7 +67,7 @@ def date_frequency_guess(timeseries):
         
         if time_diff_counts.index[0].days in range(28,32):
             return "month"
-        elif time_diff_counts.index[0].days in range(90,92):
+        elif time_diff_counts.index[0].days in range(90,93):
             return "quarter"
         elif time_diff_counts.index[0].days in range(365, 367):
             return "year"
@@ -76,7 +76,7 @@ def date_frequency_guess(timeseries):
         
         if time_diff_counts.index[0].days in range(28,32):
             return "month"
-        elif time_diff_counts.index[0].days in range(90,92):
+        elif time_diff_counts.index[0].days in range(90,93):
             return "quarter"
         elif time_diff_counts.index[0].days in range(365, 367):
             return "year"

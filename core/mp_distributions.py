@@ -150,7 +150,7 @@ def controller(path1, path2, cols, num_col):
 	#Load permutations into the input queue
 	for permut in all_permuts:
 		
-		if np.nan not in permut:
+		if np.nan not in [permut]:
 			input_queue.put(permut)
 
 	#Add end signals

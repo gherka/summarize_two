@@ -143,38 +143,35 @@ class RidgePopUp(PopUp):
         self.explainer = Label(self.popup, text=self.explainer_text, font=self.button_font, wraplength=300)
         self.explainer.grid(row=0, column=0, columnspan=2, sticky=W+E)
 
+        #Add a dropdown to select numerical column for distribution analysis
+        self.dropdown_label = Label(self.popup, text="Select numerical value", font=self.button_font)
+        self.dropdown_label.grid(row=1, column=0, pady=10)
+
+        self.choices = ['None']
+        self.dropdown = ttk.Combobox(self.popup, values=self.choices, postcommand=self.populateDropdown)
+        self.dropdown.grid(row=2, column=0, sticky=N)
+        self.dropdown.current(0)
+        #on change dropdown value
+        self.dropdown.bind("<<ComboboxSelected>>", self.callbackFunc)
+
         #Add a listbox with multiple select
         self.list_label = Label(self.popup, text="Select columns to combine for distribution analysis",
-                                font=self.button_font, wraplength=100)
-        self.list_label.grid(row=1, column=0, pady=(10,0))
+                                font=self.button_font, wraplength=150)
+        self.list_label.grid(row=1, column=1, pady=(10,0))
 
         self.listbox = Listbox(self.popup, selectmode=EXTENDED)
-        self.listbox.grid(row=2, column=0)
-
+        self.listbox.grid(row=2, column=1)
 
         self.cat_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == 'Categorical']
 
         for i, var in enumerate(self.cat_cols):
             self.listbox.insert(i, var)
-
-        #Add a dropdown to select numerical column for distribution analysis
-        self.dropdown_label = Label(self.popup, text="Select numerical value", font=self.button_font)
-        self.dropdown_label.grid(row=1, column=1, pady=10)
-
-        self.choices = ['None']
-        self.dropdown = ttk.Combobox(self.popup, values=self.choices, postcommand=self.populateDropdown)
-        self.dropdown.grid(row=2, column=1, sticky=N)
-        self.dropdown.current(0)
-        #on change dropdown value
-        self.dropdown.bind("<<ComboboxSelected>>", self.callbackFunc)
    
         #Confirm and Exit
         self.confirm_btn = Button(self.popup, text="Confirm", font=self.button_font, command=self.confirm_ridge)
         self.confirm_btn.grid(row=3, column=0)
 
-        #Just exit
 
-    
     ###########################
     # BASIC GUI CLASS METHODS #
     ###########################
@@ -196,6 +193,7 @@ class RidgePopUp(PopUp):
         self.mainGui.ridge_spec['indices'] = controller(self.mainGui.filename_1, self.mainGui.filename_2,
                                                 self.mainGui.ridge_spec['cols'], self.mainGui.ridge_spec['num_col'])
 
+        self.mainGui.ridge_button.config(bg="pale green3")
         self.toplevel.destroy()
 
 class BasicGUI:
@@ -206,9 +204,10 @@ class BasicGUI:
     def __init__(self, master):
 
         self.button_font = "Helvetica 9"
-
+        
         self.master = master
         self.ridge = False #Temporary workaround
+        self.reset = False
         self.ridge_spec = {}
 
         master.title("Dataset comparison tool")
@@ -287,7 +286,23 @@ class BasicGUI:
     # BASIC GUI CLASS METHODS #
     ###########################
 
+    def reset_tool(self):
+        self.ridge=False
+        self.file_label_1.config(text="")
+        self.file_label_2.config(text="")
+        self.dt_confirm.config(text="")
+        self.dt_button.config(state="disabled")
+        self.ridge_button.config(state="disabled")
+        self.ridge_button.config(bg="#f0f0ed")
+        self.jinja_button.config(state="disabled")
+        self.jinja_button.config(bg="#f0f0ed")
+
     def open_file_1(self):
+        
+        if self.reset:
+            self.reset_tool()
+            self.reset = False
+
         self.filename_1 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
         self.file_label_1.config(text = "Done!", font="Helvetica 9 italic")
     
@@ -301,6 +316,11 @@ class BasicGUI:
 
         Note, dataframes are created once for the life-time of the GUI and passed by reference to other modules
         '''
+
+        if self.reset:
+            self.reset_tool()
+            self.reset = False
+
         #TASK 1
         self.filename_2 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
         #TASK 2
@@ -310,6 +330,7 @@ class BasicGUI:
         #TASK 3
         self.file_label_2.config(text= "Done!", font="Helvetica 9 italic")
         self.dt_button.config(state='normal')
+
 
     def confirm_dt(self):
         #self is the my_gui object (instacne of the BasicGUI class), self.master is root widget 
@@ -324,11 +345,6 @@ class BasicGUI:
                 os.remove(os.path.join(img_path, item))
 
     def ridge_plot(self):
-        # self.ridge = True
-        # self.ridge_spec = {}
-        # self.ridge_spec['cols'] = ['loc_name', 'sex_age']
-        # self.ridge_spec['num_col'] = 'stays'
-        # self.ridge_spec['indices'] = controller(self.filename_1, self.filename_2, ['loc_name', 'sex_age'], 'stays')
         # self.ridge_button.config(bg="pale green3")
 
         RidgePopUp(self, self.master)
@@ -345,13 +361,7 @@ class BasicGUI:
         self.jinja_button.config(bg="pale green3")
         os.startfile(os.path.join(os.getcwd(), 'hello.html'))
         #reset tool to null state
-        self.ridge=False
-        self.file_label_1.config(text="")
-        self.file_label_2.config(text="")
-        self.dt_confirm.config(text="")
-        self.dt_button.config(state="disabled")
-        self.ridge_button.config(state="disabled")
-        self.jinja_button.config(state="disabled")
+        self.reset = True
 
 if __name__ == "__main__":
 
