@@ -5,13 +5,15 @@ import os
 import pandas as pd
 
 from core.jinja_app import generate_report
-from core.summary_stats import generate_common_vars, generate_summary
+from core.summary_stats import generate_common_columns, generate_summary
 from core.helper_funcs import read_data, dtype_mapping
 from core.mp_distributions import controller, worker
 
 class PopUp:
     '''
-    Base class for creating a popup window
+    Base class for creating a popup window and positioning its contents correctly.
+    Keeps the naming convention of inherited objects consistent between different
+    popups as they refer to the same things.
     '''
     def __init__(self, gui, master):
         #save the master reference for internal use
@@ -33,65 +35,71 @@ class PopUp:
         self.toplevel.grid_columnconfigure(0, weight=1)
         self.toplevel.grid_columnconfigure(2, weight=1)
 
+        #set font defaults
         self.button_font = "Helvetica 9"
-
-class GroupedRadioButton(Radiobutton):
-    """
-    Extend RadioButton class to add a setter and getter methods for group name
-    """
-    def set_group_name(self, name):
-        self.group = name
-
-    def get_group_name(self):
-        return self.group
 
 class DataTypePopUp(PopUp):
     '''
-    Pop up window to allow users to amend default data types
+    Popup window to allow users to amend default data types.
     '''
     def __init__(self, gui, master):
         super().__init__(gui, master)
+        '''
+        This function uses a number of dictionaries, internal and external:
+
+        INTERNAL:
+            self.dtype_radio_dict:
+            has the form of {'column_name':'column_dtype'}
+
+            self.radio_groups:
+            has the form of {'column_name':[Button1 (Categorical), Button2, Button3], }
+
+        EXTERNAL:
+            mainGui.dtypes:
+            is the exported copy of self.dtype_radio_dict
+    
+        '''
 
         self.toplevel.title("Data types")
+        self.dtype_radio_dict = {}
+        self.radio_groups = {}
+        self.dtype_choices = ["Categorical", "Continuous", "Timeseries"]
 
         self.popup_headline = "Please confirm data types for each common variable:"
         Label(self.popup, text=self.popup_headline, font=("Helvetica", 12), pady=8, padx=10).grid(row=0, columnspan=5, sticky=W+E)
 
-        self.dtype_radio_dict = {}
-        self.dtype_choices = ['Categorical', 'Continuous', 'Timeseries']
-
         #Create the header row
-        for i, val in enumerate(self.dtype_choices):
-            #keep the first column empty for row headers
-            Label(self.popup, text=f"{val}", pady=10, font=("Helvetica", 10)).grid(row=1, column=i+1)
+        for i, dtype in enumerate(self.dtype_choices):
+            #keep the first column empty for row headers (columns=i+1, i.e starting from 1, not 0)
+            Label(self.popup, text=f"{dtype}", pady=10, font=("Helvetica", 10)).grid(row=1, column=i+1)           
 
-        #Create radio button "rows" and put grouped radio buttons into a dictionary for group lookup
-        self.radio_groups = {}
-
-        for i, var in enumerate(gui.common_values):
-
-            self.radio_groups[var] = []
-
-            self.dtype_radio_dict[var] = StringVar()
-            self.dtype_radio_dict[var].set(dtype_mapping(gui.dtypes[var]))
-
-            #first row is headline, second row is headers
-            Label(self.popup, text=f"{var}", font=("Helvetica", 10), padx=3).grid(row=i+2, column=0, sticky=W)
-
-            for j, val in enumerate(self.dtype_choices):
+        #Create radio button "rows" and group radio buttons together based on their common column
+        #For each common column the nested loop runs three times (once for each dtype)
+        for i, col in enumerate(gui.common_columns):
             
-                btn = GroupedRadioButton(
+            self.radio_groups[col] = []
+
+            #set initial column_dtypes and use tk's StringVar() to keep track of any user changes
+            self.dtype_radio_dict[col] = StringVar()
+            self.dtype_radio_dict[col].set(dtype_mapping(gui.dtypes[col]))
+
+            #first row is headline, second row is headers (row=i+2)
+            Label(self.popup, text=f"{col}", font=("Helvetica", 10), padx=3).grid(row=i+2, column=0, sticky=W)
+
+            for j, dtype in enumerate(self.dtype_choices):
+            
+                btn = Radiobutton(
                                 self.popup,
                                 text="",
-                                variable=self.dtype_radio_dict[var],
-                                value=val,
-                                background='bisque' if val == self.dtype_radio_dict[var].get() else self.toplevel['bg'],
+                                variable=self.dtype_radio_dict[col],
+                                value=dtype,
+                                background="bisque" if dtype == self.dtype_radio_dict[col].get() else self.toplevel["bg"],
                                 padx=5,
                                 pady=5
                                 )
-                #set the group name and append to the dict
-                btn.set_group_name(var)
-                self.radio_groups[var].append(btn)
+                #set the group name as instance attribute and append each radio button (3x) to the dict
+                btn.group_col = col
+                self.radio_groups[col].append(btn)
 
                 #bind the button click to a function
                 btn.bind("<Button-1>", lambda e, w=btn: self.RadioButtonClick(w))
@@ -107,24 +115,30 @@ class DataTypePopUp(PopUp):
     ###########################
 
     def RadioButtonClick(self, widget):
-        """
+        '''
         Change background colour of the selected radio button
-        """
-        for w in self.radio_groups[widget.get_group_name()]:
+        by looping through all three radio buttons that share
+        the same group_col name and checking which one matches
+        the widget (radio button) that triggered the function call.
+        '''
+        for w in self.radio_groups[widget.group_col]:
             
             if w is widget:
-                w.configure(background='bisque')
+                w.configure(background="bisque")
             else:
-                w.configure(background=self.toplevel['bg'])
+                w.configure(background=self.toplevel["bg"])
 
     def ConfimDataTypes(self):
-        """
+        '''
         Overwrite dtypes dictionary from main GUI, enable report buttons and exit popup
-        """
+
+        Due to how tkinter stores user selections (StringVar()) for radio-buttons,
+        we need to .get() them first and then create a dictionary for export.
+        '''
         self.mainGui.dtypes = {key:value.get() for key, value in self.dtype_radio_dict.items()}
         self.mainGui.dt_confirm.config(text="Done!", font="Helvetica 9 italic")
-        self.mainGui.jinja_button.config(state='normal')
-        self.mainGui.ridge_button.config(state='normal')
+        self.mainGui.jinja_button.config(state="normal")
+        self.mainGui.ridge_button.config(state="normal")
         self.toplevel.destroy()
 
 class RidgePopUp(PopUp):
@@ -135,7 +149,7 @@ class RidgePopUp(PopUp):
     def __init__(self, gui, master):
         super().__init__(gui, master)
 
-        self.toplevel.title('Ridge Plot options')
+        self.toplevel.title("Ridge Plot options")
 
         self.explainer_text = '''Ridge plot shows a comparison of distributions across selected columns.\n
         Please be aware that computing comparisons for a large number of combinations can be CPU-intensive'''
@@ -147,7 +161,7 @@ class RidgePopUp(PopUp):
         self.dropdown_label = Label(self.popup, text="Select numerical value", font=self.button_font)
         self.dropdown_label.grid(row=1, column=0, pady=10)
 
-        self.choices = ['None']
+        self.choices = ["None"]
         self.dropdown = ttk.Combobox(self.popup, values=self.choices, postcommand=self.populateDropdown)
         self.dropdown.grid(row=2, column=0, sticky=N)
         self.dropdown.current(0)
@@ -162,7 +176,7 @@ class RidgePopUp(PopUp):
         self.listbox = Listbox(self.popup, selectmode=EXTENDED)
         self.listbox.grid(row=2, column=1)
 
-        self.cat_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == 'Categorical']
+        self.cat_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == "Categorical"]
 
         for i, var in enumerate(self.cat_cols):
             self.listbox.insert(i, var)
@@ -171,28 +185,36 @@ class RidgePopUp(PopUp):
         self.confirm_btn = Button(self.popup, text="Confirm", font=self.button_font, command=self.confirm_ridge)
         self.confirm_btn.grid(row=3, column=0)
 
-
-    ###########################
-    # BASIC GUI CLASS METHODS #
-    ###########################
+    #############################
+    # RIDGE POPUP CLASS METHODS #
+    #############################
 
     def populateDropdown(self):
-        #import the common values from BasicGui
-        
-        num_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == 'Continuous']
+        '''
+        Import Continuous common column names from BasicGui.
+        Remember that the form of mainGui.dtypes is {'column_name':'column_dtype'}
+        '''
+        num_cols = [key for key in self.mainGui.dtypes.keys() if self.mainGui.dtypes[key] == "Continuous"]
 
-        self.dropdown['values']=num_cols
+        self.dropdown["values"]=num_cols
 
     def callbackFunc(self, event):
-        #export the callback value to the master (my_gui)
-        self.mainGui.ridge_spec['num_col'] = self.dropdown.get()
+        '''
+        Export the user selected numerical column name to the master (mainGui)
+        '''
+        self.mainGui.ridge_spec["num_col"] = self.dropdown.get()
 
     def confirm_ridge(self):
+        '''
+        Update the ridge_spec dictionary in the mainGui with user selections
+        and indicate to the report generator that a Ridge Plot needs to be built.
+        '''
         self.mainGui.ridge=True
-        self.mainGui.ridge_spec['cols'] = [self.cat_cols[i] for i in self.listbox.curselection()]
-        self.mainGui.ridge_spec['indices'] = controller(self.mainGui.filename_1, self.mainGui.filename_2,
-                                                self.mainGui.ridge_spec['cols'], self.mainGui.ridge_spec['num_col'])
-
+        self.mainGui.ridge_spec["cols"] = [self.cat_cols[i] for i in self.listbox.curselection()]
+        #launch the multiprocessing script
+        self.mainGui.ridge_spec["indices"] = controller(self.mainGui.filename_1, self.mainGui.filename_2,
+                                                self.mainGui.ridge_spec["cols"], self.mainGui.ridge_spec["num_col"])
+        #indicate the success by turning the ridge button green
         self.mainGui.ridge_button.config(bg="pale green3")
         self.toplevel.destroy()
 
@@ -206,7 +228,7 @@ class BasicGUI:
         self.button_font = "Helvetica 9"
         
         self.master = master
-        self.ridge = False #Temporary workaround
+        self.ridge = False
         self.reset = False
         self.ridge_spec = {}
 
@@ -216,10 +238,9 @@ class BasicGUI:
         self.mainContainer.grid(row=0, column=1)
 
         #<<<< FIRST ROW OF GUI >>>>#
-        #Welcome text
 
-        welcome_text = """This tool generates an HTML report with various metrics to compare two datasets.
-        \nFollow the steps below:"""
+        welcome_text = '''This tool generates an HTML report with various metrics to compare two datasets.
+        \nFollow the steps below:'''
 
         self.label = Label(self.mainContainer, text=welcome_text,
                           font="Helvetica 12 italic",
@@ -261,7 +282,7 @@ class BasicGUI:
         self.dt_confirm.grid(row=4, column=1, columnspan=1, pady=5, padx=5)
 
         #<<<< FOURTH ROW OF GUI >>>>#
-        #Optional elements of the report, like ridge plot or data table
+        #Optional elements of the report, like ridge plot or data table (TO DO)
 
         self.step_3 = Label(self.mainContainer, text="Step 3",
                             font="Helvetica 12 bold", fg="green")
@@ -287,6 +308,12 @@ class BasicGUI:
     ###########################
 
     def reset_tool(self):
+        '''
+        After user re-selects a file, the tool resets to default view
+        to avoid buggy situations and to make interaction flow
+        more logical by disabling downstream buttons until pre-requisite
+        selections had been made.
+        '''
         self.ridge=False
         self.file_label_1.config(text="")
         self.file_label_2.config(text="")
@@ -325,19 +352,25 @@ class BasicGUI:
         self.filename_2 = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select file")
         #TASK 2
         self.df1, self.df2 = read_data(self.filename_1, self.filename_2)
-        self.common_values = generate_common_vars(self.df1, self.df2)
-        self.dtypes = self.df1[self.common_values].dtypes.to_dict()
+        self.common_columns = generate_common_columns(self.df1, self.df2)
+        self.dtypes = self.df1[self.common_columns].dtypes.to_dict()
         #TASK 3
         self.file_label_2.config(text= "Done!", font="Helvetica 9 italic")
         self.dt_button.config(state='normal')
 
 
     def confirm_dt(self):
-        #self is the my_gui object (instacne of the BasicGUI class), self.master is root widget 
+        '''
+        Launches the datatypes popup
+        self is the my_gui object (instacne of the BasicGUI class),
+        self.master is root widget 
+        '''
         DataTypePopUp(self, self.master)
 
     def clean_up(self):
-
+        '''
+        Simply deletes old static images before a new report is run
+        '''
         img_path = os.path.join(os.getcwd(),'Static', 'Images')
 
         for item in os.listdir(img_path):
@@ -345,12 +378,17 @@ class BasicGUI:
                 os.remove(os.path.join(img_path, item))
 
     def ridge_plot(self):
-        # self.ridge_button.config(bg="pale green3")
-
+        '''
+        Launches the ridge plot config popup
+        '''
         RidgePopUp(self, self.master)
         
 
     def run_jinja(self):
+        '''
+        Main report generating function that ties everything together
+        '''
+
         self.clean_up()
 
         if self.ridge:
@@ -358,9 +396,11 @@ class BasicGUI:
         else:
             generate_report(self.df1, self.df2, self.dtypes)
 
+        #indicate success by turning the button green
         self.jinja_button.config(bg="pale green3")
-        os.startfile(os.path.join(os.getcwd(), 'hello.html'))
-        #reset tool to null state
+        #launch the report HTML in the default browser - only on Windows
+        os.startfile(os.path.join(os.getcwd(), "hello.html"))
+        #reset tool to its initial state
         self.reset = True
 
 if __name__ == "__main__":

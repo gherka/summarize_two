@@ -15,7 +15,7 @@ def generate_var_dict(var_type):
     #Only Timeseries left
     return {'DFs':{'DF1':{'Uniques':0, 'NAs':0}, 'DF2':{'Uniques':0, 'NAs':0}}}
 
-def generate_common_vars(df1, df2):
+def generate_common_columns(df1, df2):
     """
     Required early in the code to generate popup with user-selected data types
     which is why it's separated from the main generate_summary function
@@ -110,7 +110,7 @@ def generate_summary(df1, df2, user_dtypes):
         'Timeseries':{}
     }
 
-    common_var_names = generate_common_vars(df1, df2)
+    common_var_names = generate_common_columns(df1, df2)
 
     #Find out different variable names between the two datasets:
     diff_vars = ([(a, 'DF1') for a in df1.columns.values if a not in df2.columns.values] + 
