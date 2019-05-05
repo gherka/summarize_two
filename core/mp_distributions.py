@@ -1,4 +1,4 @@
-def worker(path1, path2, cols, num_col, input_queue, output_queue):
+def launch_worker(path1, path2, cols, num_col, input_queue, output_queue):
 	'''
 	Worker function spawned as a standalone Python process by the controller function.
 	Requires the following parameters:
@@ -46,12 +46,12 @@ def worker(path1, path2, cols, num_col, input_queue, output_queue):
 		if s1.sum() == 0:
 			func_1 = lambda x: np.array([0.00001] * len(x))
 		else:
-			func_1 = gaussian_kde(s1)
+			func_1 = gaussian_kde(s1, bw_method=0.1)
 
 		if s1.sum() == 0:
 			func_2 = lambda x: np.array([0.00001] * len(x))	
 		else:
-			func_2 = gaussian_kde(s2)
+			func_2 = gaussian_kde(s2, bw_method=0.1)
 
 		
 		x = np.linspace(min(s1.min(), s2.min()),
@@ -120,7 +120,7 @@ def worker(path1, path2, cols, num_col, input_queue, output_queue):
 
 	output_queue.put(h)
 
-def controller(path1, path2, cols, num_col):
+def launch_controller(path1, path2, cols, num_col):
 	'''
 	Main function / process in charge of Multiprocessing. 
 	Spawns worker processes to parallelize the generation and
@@ -160,7 +160,7 @@ def controller(path1, path2, cols, num_col):
 	args = (path1, path2, cols, num_col, input_queue, output_queue)
 	
 	#Define worker processes (1 per CPU core)
-	processes = [mp.Process(target=worker, args=args) for i in range(cpu_num)]
+	processes = [mp.Process(target=launch_worker, args=args) for i in range(cpu_num)]
 
 	for p in processes:
 		p.start()
@@ -176,10 +176,10 @@ def controller(path1, path2, cols, num_col):
 
 	for x in itertools.chain(*result):
 		heapq.heappushpop(result_heapq, x)
-		
-	# print(sorted(result_heapq, key=lambda x: x[0]))
-	#return sorted list with highest difference combination at top
-	return sorted(result_heapq, key=lambda x: x[0])
+	
+	#Sorted this way, Bokeh will draw the results
+	#with the most different distribution first.
+	return sorted(result_heapq, key=lambda x: x[0], reverse=True)
 		
 if __name__=="mp_distributions":
 	controller(path1, path2, cols, num_col)

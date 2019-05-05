@@ -6,8 +6,8 @@ import pandas as pd
 
 from core.jinja_app import generate_report
 from core.summary_stats import generate_common_columns, generate_summary
-from core.helper_funcs import read_data, dtype_mapping
-from core.mp_distributions import controller, worker
+from core.helper_funcs import read_data, map_dtype
+from core.mp_distributions import launch_controller
 
 class PopUp:
     '''
@@ -81,7 +81,7 @@ class DataTypePopUp(PopUp):
 
             #set initial column_dtypes and use tk's StringVar() to keep track of any user changes
             self.dtype_radio_dict[col] = StringVar()
-            self.dtype_radio_dict[col].set(dtype_mapping(gui.dtypes[col]))
+            self.dtype_radio_dict[col].set(map_dtype(gui.dtypes[col]))
 
             #first row is headline, second row is headers (row=i+2)
             Label(self.popup, text=f"{col}", font=("Helvetica", 10), padx=3).grid(row=i+2, column=0, sticky=W)
@@ -212,7 +212,7 @@ class RidgePopUp(PopUp):
         self.mainGui.ridge=True
         self.mainGui.ridge_spec["cols"] = [self.cat_cols[i] for i in self.listbox.curselection()]
         #launch the multiprocessing script
-        self.mainGui.ridge_spec["indices"] = controller(self.mainGui.filename_1, self.mainGui.filename_2,
+        self.mainGui.ridge_spec["indices"] = launch_controller(self.mainGui.filename_1, self.mainGui.filename_2,
                                                 self.mainGui.ridge_spec["cols"], self.mainGui.ridge_spec["num_col"])
         #indicate the success by turning the ridge button green
         self.mainGui.ridge_button.config(bg="pale green3")
@@ -399,7 +399,7 @@ class BasicGUI:
         #indicate success by turning the button green
         self.jinja_button.config(bg="pale green3")
         #launch the report HTML in the default browser - only on Windows
-        os.startfile(os.path.join(os.getcwd(), "hello.html"))
+        os.startfile(os.path.join(os.getcwd(), "report.html"))
         #reset tool to its initial state
         self.reset = True
 

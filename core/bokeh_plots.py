@@ -67,13 +67,18 @@ def generate_diff_plot(df1, df2, var_name, shade):
 
     return item_text
 
-def generate_ridge_plot(df1, df2, cols, num_col, indices):
+def generate_ridge_plot(df1, df2, spec):
 	'''
-	Need to investigate why plot is incorrect for arrays dominated by zeroes!
+	Given a ridge spec, generate a series of Bokeh plots showing
+	histogram overlaid with KDE lines.
 	'''
 
 	DF1_COLOR = '#DD8452'
 	DF2_COLOR = '#4C72B0'
+
+	cols = spec['cols']
+	num_col = spec['num_col']
+	indices = spec['indices']
 
 	temp_cats = [x[1] for x in indices if x[1] != '_']
 	temp_df1 = df1.set_index(cols)[num_col]

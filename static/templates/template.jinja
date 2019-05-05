@@ -79,9 +79,9 @@
 
     <!-- Mismatching columns -->
     <div>
-        <h5 class="py-4 col-md-9" style="text-align: left"><u>Mismatching</u> variable names:</h5>
+        <h4 class="py-4" style="text-align: left"><u>Mismatching</u> variable names:</h5>
         <ul>
-            {% for item in summary['Metadata']['diff_vars'] %}
+            {% for item in summary['Metadata']['different_columns'] %}
 
                 <li style="font-size: 18px">
 
@@ -99,10 +99,10 @@
 
     <!-- Detailed tables generator -->
     <div>
-    <!-- Create a table for each var_type: Categorical, Continuous, Timeseries -->
-    {% for var_type in summary['Metadata']['common_vars'].keys() %}
+    <!-- Create a table for each column dtype: Categorical, Continuous, Timeseries -->
+    {% for col_dtype in summary['Metadata']['common_columns'].keys() %}
 
-    <h5 class="py-2 col-md-12" style="text-align: center">{{var_type}} variables</h5>
+    <h5 class="py-2 col-md-12" style="text-align: center">{{col_dtype}} variables</h5>
 
     <div class="row">
             <div class="col-md-12">
@@ -111,16 +111,16 @@
                     <TR>
                         <TD class="table_top" style="text-align: left">Variable Name</TD>
                         <TD class="table_top" style="text-align: left"></TD>
-                        <!-- Since columns might differ depending on var_type, they are generated in their own loop -->
-                        {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                        <!-- Since columns might differ depending on column dtype, they are generated in their own loop -->
+                        {% for col_name in summary['Metadata']['table_columns'][col_dtype] %}
                         <TD class="table_top" style=>{{ col_name }}</TD>
                         {% endfor %}
 
-                        {% if var_type =='Categorical' %}
+                        {% if col_dtype =='Categorical' %}
 
                             <TD class="table_top" style="text-align: center">Frequencies Plot</TD>
 
-                        {% elif var_type == 'Continuous' %}
+                        {% elif col_dtype == 'Continuous' %}
 
                             <TD class="table_top" style="text-align: center">KDE Distribution Plot</TD>
 
@@ -130,29 +130,29 @@
                 </thead>
                 <tbody>
                     <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
-                    {% for var_name in summary['Metadata']['common_vars'][var_type].keys() %}
+                    {% for col_name in summary['Metadata']['common_columns'][col_dtype].keys() %}
                         <!-- Save the long dict path to an internal Jinja variable for clarity -->
-                        {% set root_dict = summary['Metadata']['common_vars'][var_type][var_name]['DFs'] %}
+                        {% set root_dict = summary['Metadata']['common_columns'][col_dtype][col_name]['DFs'] %}
 
                             <TR  class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
-                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">{{ var_name }}</TD>
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">{{ col_name }}</TD>
                                 <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
-                                <!-- Since we don't know how many columns each var_type has, we need another loop -->
-                                {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                {% for col_name in summary['Metadata']['table_columns'][col_dtype] %}
                                     <TD class= "align-middle">
                                         {{ root_dict['DF1'][col_name] }}
                                     </TD>
                                 {% endfor %}
 
-                                {% if var_type == 'Continuous' %}
+                                {% if col_dtype == 'Continuous' %}
 
                                     <TD class="align-middle" style="width:20%;" rowspan="4">
-                                        <img src="static/images/kde_{{var_name}}.png" class="img-fluid"/>
+                                        <img src="static/images/kde_{{col_name}}.png" class="img-fluid"/>
                                     </TD>
 
-                                {%  elif var_type == 'Categorical' %}
+                                {%  elif col_dtype == 'Categorical' %}
 
-                                    <TD class="align-middle" id="cat_{{var_name}}" style="width:20%;" rowspan="4">
+                                    <TD class="align-middle" id="cat_{{col_name}}" style="width:20%;" rowspan="4">
                                     </TD>
                                                             
                                 {% endif %}
@@ -160,7 +160,7 @@
                             </TR>
 
                             <TR class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
-                                {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                                {% for col_name in summary['Metadata']['table_columns'][col_dtype] %}
 
                                     {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], col_name) %}
                                         
@@ -194,7 +194,7 @@
                             </TR>
 
                             <TR class="{{ loop.cycle('fixed_height_row odd', 'fixed_height_row even') }}">
-                                {% for col_name in summary['Metadata']['table_columns'][var_type] %}
+                                {% for col_name in summary['Metadata']['table_columns'][col_dtype] %}
                                     <TD class= "align-middle">
                                             {{ root_dict['DF2'][col_name] }}
                                     </TD>
@@ -230,8 +230,8 @@
 
 <script src="static/scripts/bokeh-1.1.0.min.js"></script>
 <script> 
-// Use BokehJS to rended plots from their JSON representation
-{% for v in summary['Metadata']['common_vars']['Categorical'].keys() %}
+// Use BokehJS to rended frequency difference plots from their JSON representation
+{% for v in summary['Metadata']['common_columns']['Categorical'].keys() %}
 
     var item = JSON.parse('{{cat_plots[v]}}');
     Bokeh.embed.embed_item(item, 'cat_{{v}}');
