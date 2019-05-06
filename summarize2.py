@@ -367,16 +367,6 @@ class BasicGUI:
         '''
         DataTypePopUp(self, self.master)
 
-    def clean_up(self):
-        '''
-        Simply deletes old static images before a new report is run
-        '''
-        img_path = os.path.join(os.getcwd(),'Static', 'Images')
-
-        for item in os.listdir(img_path):
-            if item.endswith(".png"):
-                os.remove(os.path.join(img_path, item))
-
     def ridge_plot(self):
         '''
         Launches the ridge plot config popup
@@ -388,8 +378,6 @@ class BasicGUI:
         '''
         Main report generating function that ties everything together
         '''
-
-        self.clean_up()
 
         if self.ridge:
             generate_report(self.df1, self.df2, self.dtypes, self.ridge_spec)
