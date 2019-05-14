@@ -1,5 +1,5 @@
-from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, Toplevel, Message, Radiobutton, Listbox
-from tkinter import W, E, CENTER, LEFT, EXTENDED, N
+from tkinter import Tk, Label, Button, filedialog, StringVar, OptionMenu, Frame, Toplevel, Message, Radiobutton, Listbox, Scrollbar, Canvas
+from tkinter import S, N, W, E, CENTER, LEFT, EXTENDED, FLAT
 from tkinter import ttk
 import os
 import pandas as pd
@@ -27,7 +27,7 @@ class PopUp:
 
         #set size of blank "padding" columns for text to run across
         self.popup.grid_columnconfigure(0, minsize=50)
-        self.popup.grid_columnconfigure(3, minsize=50)
+        self.popup.grid_columnconfigure(2, minsize=50)
 
         #resizing the window pushes the extra space into egde columns
         self.toplevel.grid_rowconfigure(1, weight=1)
@@ -58,8 +58,7 @@ class DataTypePopUp(PopUp):
             mainGui.dtypes:
             is the exported copy of self.dtype_radio_dict
     
-        '''
-
+        '''    
         self.toplevel.title("Data types")
         self.dtype_radio_dict = {}
         self.radio_groups = {}
@@ -68,10 +67,32 @@ class DataTypePopUp(PopUp):
         self.popup_headline = "Please confirm data types for each common variable:"
         Label(self.popup, text=self.popup_headline, font=("Helvetica", 12), pady=8, padx=10).grid(row=0, columnspan=5, sticky=W+E)
 
+        #SCROLLBAR CHECK
+        if len(gui.common_columns) > 10:
+            #canvas_frame is the parent of the canvas object which is the parent of canvas_popup frame; 
+            canvas_frame = Frame(self.popup, bd=2, relief=FLAT)
+            canvas_frame.grid(row=1, column=1,sticky=N)
+
+            yscrollbar = Scrollbar(canvas_frame)
+            yscrollbar.grid(row=0, column=1, sticky=N+S, padx=10)
+
+            canvas = Canvas(canvas_frame, bd=0, scrollregion=(0, 0, 400, 1000),
+                            yscrollcommand=yscrollbar.set, width=600, height=400)
+            canvas.grid(row=0, column=0, sticky=N+S+E+W)
+
+            yscrollbar.config(command=canvas.yview)
+
+            canvas_popup = Frame(canvas)
+
+            self.btn_frame = canvas_popup
+            canvas_popup_id = canvas.create_window(0, 0, window=self.btn_frame, anchor=N+W)
+        else:
+            self.btn_frame = self.popup
+
         #Create the header row
         for i, dtype in enumerate(self.dtype_choices):
             #keep the first column empty for row headers (columns=i+1, i.e starting from 1, not 0)
-            Label(self.popup, text=f"{dtype}", pady=10, font=("Helvetica", 10)).grid(row=1, column=i+1)           
+            Label(self.btn_frame, text=f"{dtype}", pady=10, font=("Helvetica", 10)).grid(row=1, column=i+1)           
 
         #Create radio button "rows" and group radio buttons together based on their common column
         #For each common column the nested loop runs three times (once for each dtype)
@@ -84,12 +105,12 @@ class DataTypePopUp(PopUp):
             self.dtype_radio_dict[col].set(map_dtype(gui.dtypes[col]))
 
             #first row is headline, second row is headers (row=i+2)
-            Label(self.popup, text=f"{col}", font=("Helvetica", 10), padx=3).grid(row=i+2, column=0, sticky=W)
+            Label(self.btn_frame, text=f"{col}", font=("Helvetica", 10), padx=3).grid(row=i+2, column=0, sticky=W)
 
             for j, dtype in enumerate(self.dtype_choices):
             
                 btn = Radiobutton(
-                                self.popup,
+                                self.btn_frame,
                                 text="",
                                 variable=self.dtype_radio_dict[col],
                                 value=dtype,
@@ -108,7 +129,13 @@ class DataTypePopUp(PopUp):
                 btn.grid(row=i+2, column=j+1)
 
         #Create Confirm and Exit button
-        Button(self.popup, text="Done", command=self.ConfimDataTypes, padx=5, pady=5).grid(row=i+3, column=4)
+        Button(self.btn_frame, text="Done", command=self.ConfimDataTypes, padx=5, pady=5).grid(row=i+3, column=3)
+
+        #Resize the canvas scrollable area and width after the buttons are drawn
+        if len(gui.common_columns) > 10:
+            Tk.update(self.btn_frame)
+            canvas.config(scrollregion=(0,0, 400, self.btn_frame.winfo_height() + 100 ))
+            canvas.config(width=self.btn_frame.winfo_width())
 
     ###########################
     # DATA TYPE CLASS METHODS #
