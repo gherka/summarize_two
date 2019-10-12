@@ -3,6 +3,8 @@ from tkinter import S, N, W, E, CENTER, LEFT, EXTENDED, FLAT
 from tkinter import ttk
 import os
 import pandas as pd
+import sys
+import subprocess
 
 from core.jinja_app import generate_report
 from core.summary_stats import generate_common_columns, generate_summary
@@ -85,7 +87,7 @@ class DataTypePopUp(PopUp):
             canvas_popup = Frame(canvas)
 
             self.btn_frame = canvas_popup
-            canvas_popup_id = canvas.create_window(0, 0, window=self.btn_frame, anchor=N+W)
+            #canvas_popup_id = canvas.create_window(0, 0, window=self.btn_frame, anchor=N+W)
         else:
             self.btn_frame = self.popup
 
@@ -412,9 +414,13 @@ class BasicGUI:
             generate_report(self.df1, self.df2, self.dtypes)
 
         #indicate success by turning the button green
-        self.jinja_button.config(bg="pale green3")
-        #launch the report HTML in the default browser - only on Windows
-        os.startfile(os.path.join(os.getcwd(), "report.html"))
+        self.jinja_button.config(bg="pale green")
+        #launch the report HTML in the default browser
+        file_path = os.path.join(os.getcwd(), "report.html")
+        if sys.platform == "win32":
+            os.startfile(file_path) # pylint: disable=no-member
+        else:
+            subprocess.call(["xdg-open", file_path])
         #reset tool to its initial state
         self.reset = True
 
