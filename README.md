@@ -1,5 +1,7 @@
 ## Summarize2: visualisation tool for comparing datasets
 
+Changed branch to be new master (command-line based + tests)
+
 #### Main features:
 Summarize2 generates an interactive HTML report highlighting key differences between two datasets. It has:
 - An intuitive GUI
