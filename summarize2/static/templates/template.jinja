@@ -29,9 +29,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/main.css">
-    <link rel="stylesheet" href="static/css/bokeh-1.1.0.min.css">
+    <link rel="stylesheet" href="{{ root }}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ root }}/css/main.css">
+    <link rel="stylesheet" href="{{ root }}/css/bokeh-1.1.0.min.css">
 
     <title>Dataset comparison report</title>
 </head>
@@ -228,7 +228,7 @@
 
 </div>
 
-<script src="static/scripts/bokeh-1.1.0.min.js"></script>
+<script src="{{ root }}/scripts/bokeh-1.1.0.min.js"></script>
 <script> 
 // Use BokehJS to rended frequency difference plots from their JSON representation
 {% for v in summary['Metadata']['common_columns']['Categorical'].keys() %}

@@ -1,8 +1,9 @@
 from jinja2 import Template, Environment, FileSystemLoader
 import os
 
-from core.bokeh_plots import generate_diff_plot, generate_kde_plot, generate_ridge_plot
-from core.summary_stats import generate_summary
+from ..core.bokeh_plots import generate_diff_plot, generate_kde_plot, generate_ridge_plot
+from ..core.summary_stats import generate_summary
+from ..core.helper_funcs import package_dir
 
 def generate_report(df1, df2, user_dtypes, ridge_spec=None):
     '''
@@ -31,8 +32,16 @@ def generate_report(df1, df2, user_dtypes, ridge_spec=None):
         ridge_plot = None
 
     #Template loading machinery
-    env = Environment(loader=FileSystemLoader(os.getcwd()))
-        
-    template = env.get_template(r"static/templates/template.jinja")
 
-    template.stream(summary=summary, cat_plots=cat_diff_plots, kde_plots=kde_plots, ridge_plot=ridge_plot).dump("report.html")
+    root_path = package_dir("static")
+
+    env = Environment(loader=FileSystemLoader(root_path))
+        
+    template = env.get_template("templates/template.jinja")
+
+    template.stream(
+        root=root_path,
+        summary=summary,
+        cat_plots=cat_diff_plots,
+        kde_plots=kde_plots,
+        ridge_plot=ridge_plot).dump("report.html")

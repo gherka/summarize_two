@@ -10,7 +10,7 @@ from bokeh.layouts import column
 from bokeh.models.callbacks import CustomJS
 from bokeh.embed import json_item
 
-from core.helper_funcs import transform_frequencies
+from ..core.helper_funcs import transform_frequencies
 
 def generate_diff_plot(df1, df2, var_name, shade):
 	'''

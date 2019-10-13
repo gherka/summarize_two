@@ -1,6 +1,22 @@
 import numpy as np
 import pandas as pd
 import os.path
+from os.path import abspath, dirname, join
+
+def package_dir(*args):
+    '''
+    Returns absolute path to package / package modules / files
+    given names relative to the package root directory
+
+    __file__ attribute  is the pathname of the file from
+    which the module was loaded; each module using this
+    function will take its own file path from the global
+    namespace. Dot dot just moves it up one level which
+    imposes certain constrains of the file structure of
+    the project.
+    '''
+    return abspath(join(dirname(__file__), "..", *args))
+
 
 def transform_frequencies(df1, df2, col_name):
     '''

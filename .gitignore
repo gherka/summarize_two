@@ -1,4 +1,5 @@
 core/__pycache__/
+*.egg-info
 __pycache__/
 .vscode
 report.html
