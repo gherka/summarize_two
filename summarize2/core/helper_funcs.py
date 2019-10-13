@@ -1,7 +1,75 @@
+'''
+Doc string
+'''
+
+# Standard library imports
+import os.path
+from pathlib import Path
+from os.path import abspath, dirname, join, exists
+import sys
+import subprocess
+import tempfile
+from subprocess import Popen
+import time
+
+# External library imports
 import numpy as np
 import pandas as pd
-import os.path
-from os.path import abspath, dirname, join
+import yaml
+
+def user_dtypes_from_file(dtypes):
+    '''
+    Return a dict with user dtypes
+    Add commments to the file explaining
+    that only three dtype options can be used:
+    Categorical, Continuous and Timeseries
+    ''' 
+    with tempfile.TemporaryDirectory() as td:
+        f_name = join(td, 'summarize.yml')
+        with open(f_name, 'w') as f:
+            
+            f.write(yaml.safe_dump(dtypes))
+
+        if sys.platform == "win32":
+            proc = subprocess.Popen(["notepad.exe", f_name])
+        else:
+            proc = subprocess.Popen(["gedit", "-s", f_name])
+
+        modified = time.ctime(os.path.getmtime(f_name))
+        created = time.ctime(os.path.getctime(f_name))
+
+        while modified == created:
+            time.sleep(0.5)    
+            modified = time.ctime(os.path.getmtime(f_name))
+            
+        proc.kill()
+
+        with open(f_name, 'r') as f:
+
+            output = yaml.safe_load(f)
+            return output
+
+
+def open_report_in_default_browser(file_path):
+    '''
+    Doc string
+    '''
+    if sys.platform == "win32":
+        os.startfile(file_path) # pylint: disable=no-member
+    else:
+        subprocess.call(["xdg-open", file_path])
+
+
+def path_checker(string):
+    '''
+    Improves error message for user if wrong path entered.
+    Returns Path object.
+    '''
+    if not exists(string):
+        msg = "Can't find specified file"
+        raise FileNotFoundError(msg)
+    return Path(string)
+
 
 def package_dir(*args):
     '''
