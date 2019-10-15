@@ -5,7 +5,7 @@ import pandas as pd
 import json
 
 from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, BasicTicker
+from bokeh.models import ColumnDataSource, BasicTicker, HoverTool
 from bokeh.layouts import column
 from bokeh.models.callbacks import CustomJS
 from bokeh.embed import json_item
@@ -46,13 +46,18 @@ def generate_diff_plot(df1, df2, var_name, shade):
 
 	]
 
+	MyHover = HoverTool(
+    	tooltips=TOOLTIPS,
+    	point_policy="follow_mouse"
+	)
+
+
 	p = figure(x_range=source.data['VAR'],
 		plot_height=170,
 		plot_width=165,
-		tools="pan,wheel_zoom,hover",
+		tools=["pan, wheel_zoom", MyHover],
 		active_scroll="wheel_zoom",
-		toolbar_location = None,
-		tooltips=TOOLTIPS)
+		toolbar_location = None)
 
 	p.vbar(x='VAR', top='DIFF_PCT', width=0.9, alpha=0.8, line_color='white', color='COLOR', source=source)
 	p.ray(x=[0], y=[0], length=len(source.data['VAR']), angle=0, line_width=0.5, color='black')

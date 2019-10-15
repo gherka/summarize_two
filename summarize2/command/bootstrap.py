@@ -13,7 +13,7 @@ from ..core.jinja_app import generate_report
 from ..core.summary_stats import generate_common_columns, generate_summary
 from ..core.helper_funcs import (
     read_data, map_dtype, path_checker, open_report_in_default_browser,
-    user_dtypes_from_file)
+    user_dtypes_from_file, convert_dtypes)
 from ..core.mp_distributions import launch_controller
 
 def main():
@@ -29,7 +29,7 @@ def main():
         Summarize2: Comparing two datasets with a visual twist  \n
         Create an HTML report with metrics to show how similar
         or different two datasets are between each other.
-        ------------------------------------------
+        ------------------------------------------------------
         ''')
 
     parser = argparse.ArgumentParser(
@@ -75,7 +75,8 @@ def main():
     df1, df2 = read_data(args.first_dataset, args.second_dataset)
     common_columns = generate_common_columns(df1, df2)
     #Change to user-defined (via editable temp text file)
-    dtypes = df1[common_columns].dtypes.astype('str').to_dict()
+
+    dtypes = df1[common_columns].dtypes.apply(convert_dtypes).to_dict()
 
     user_dtypes = user_dtypes_from_file(dtypes)
 

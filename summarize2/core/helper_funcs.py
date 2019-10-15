@@ -11,11 +11,23 @@ import subprocess
 import tempfile
 from subprocess import Popen
 import time
+import textwrap
 
 # External library imports
 import numpy as np
 import pandas as pd
+from pandas.api.types import is_numeric_dtype, is_datetime64_dtype
 import yaml
+
+def convert_dtypes(dtype):
+    '''
+    Doc string
+    '''
+    if is_numeric_dtype(dtype):
+        return "Continuous"
+    elif is_datetime64_dtype(dtype):
+        return "Timeseries"
+    return "Categorical"
 
 def user_dtypes_from_file(dtypes):
     '''
@@ -24,10 +36,20 @@ def user_dtypes_from_file(dtypes):
     that only three dtype options can be used:
     Categorical, Continuous and Timeseries
     ''' 
+
     with tempfile.TemporaryDirectory() as td:
         f_name = join(td, 'summarize.yml')
         with open(f_name, 'w') as f:
+
+            comments = textwrap.dedent('''\
+                #----------------------------------------------------------------
+                #Pick the correct data type (Categorical, Continuous, Timeseries)
+                #Saving the file automatically closes it and continues the script
+                #----------------------------------------------------------------              
+            '''
+            )
             
+            f.write(comments)
             f.write(yaml.safe_dump(dtypes))
 
         if sys.platform == "win32":
