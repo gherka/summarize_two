@@ -4,3 +4,4 @@ numpy
 matplotlib
 jinja2
 bokeh
+scipy

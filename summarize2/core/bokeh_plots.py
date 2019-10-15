@@ -30,17 +30,20 @@ def generate_diff_plot(df1, df2, var_name, shade):
 	bokeh_df = pd.DataFrame({'VAR':[str(x).replace("'","") for x in freq_1[0]],
 						'DF1':freq_1[1],
 						'DF2':freq_2[1],
-						'DIFF': freq_2[1] - freq_1[1],
+						'DIFF_ABS': freq_2[1] - freq_1[1],
+						'DIFF_PCT': (freq_2[1] - freq_1[1]) / ((freq_2[1] + freq_1[1]) / 2),
 						'COLOR': np.where(freq_2[1] - freq_1[1] > 0, '#527563', '#876388')}
 					)
 
-	source = ColumnDataSource(bokeh_df.sort_values(by='DIFF'))
+	source = ColumnDataSource(bokeh_df.sort_values(by='DIFF_PCT'))
 
 	TOOLTIPS = [
 		("Name", "@VAR"),
 		("DF1 Value", "@DF1"),
 		("DF2 Value", "@DF2"),
-		("Difference", "@DIFF")
+		("Absolute difference", "@DIFF_ABS"),
+		("Percent difference", "@DIFF_PCT"),
+
 	]
 
 	p = figure(x_range=source.data['VAR'],
@@ -51,7 +54,7 @@ def generate_diff_plot(df1, df2, var_name, shade):
 		toolbar_location = None,
 		tooltips=TOOLTIPS)
 
-	p.vbar(x='VAR', top='DIFF', width=0.9, alpha=0.8, line_color='white', color='COLOR', source=source)
+	p.vbar(x='VAR', top='DIFF_PCT', width=0.9, alpha=0.8, line_color='white', color='COLOR', source=source)
 	p.ray(x=[0], y=[0], length=len(source.data['VAR']), angle=0, line_width=0.5, color='black')
 
 	p.xaxis.visible = False
