@@ -19,6 +19,9 @@ def generate_xtab_plot(df1, df2, spec):
 	Crosstab with PIEs!
 	'''
 
+	DF1_COLOR = "#DD8452"
+	DF2_COLOR = "#4C72B0"
+
 	x_axis = spec['x_axis']
 	x_axis = [x_axis] if isinstance(x_axis, str) else x_axis
 
@@ -38,28 +41,45 @@ def generate_xtab_plot(df1, df2, spec):
 
 	df_xtab = pd.merge(df1_xtab, df2_xtab, how='left')
 
-	df_xtab['angle_o'] = (df_xtab['o']/(df_xtab['o'] + df_xtab['s']) * 360) + 90
+	df_xtab['angle_s'] = (df_xtab['s']/(df_xtab['o'] + df_xtab['s']) * 360) + 90
 
 	df_xtab[x_col] = df_xtab[x_col].astype('str')
 	df_xtab[y_col] = df_xtab[y_col].astype('str')
 
+	TOOLTIPS = [
+		("DF1 Value", "@o"),
+		("DF2 Value", "@s")
+	]
 
-	p = figure(plot_width=965, toolbar_location=None, 
-           x_range=df_xtab[x_col].unique(), y_range=df_xtab[y_col].unique(),
+	MyHover = HoverTool(
+    	tooltips=TOOLTIPS
+	)
+
+
+	p = figure(plot_width=965, toolbar_location=None,
+		   tools=["pan, wheel_zoom", MyHover],
+		   active_scroll="wheel_zoom",
+           x_range=df_xtab[x_col].unique(),
+		   y_range=df_xtab[y_col].unique(),
            x_axis_location='above')
 
 	p.wedge(x=x_col, y=y_col, radius=0.1,
-			start_angle=90, end_angle='angle_o', start_angle_units="deg",
-			end_angle_units="deg", direction="clock", alpha=0.3,
-			line_color="black", color='grey', source=df_xtab)
+			start_angle=90, end_angle='angle_s', start_angle_units="deg",
+			end_angle_units="deg", direction="clock", alpha=0.1,
+			line_color="black", color=DF1_COLOR, source=df_xtab)
+
+	p.ray(x=x_col, y=y_col, length=0.1,
+			angle='angle_s', angle_units="deg",
+			line_width=1.5,
+			line_color="black", source=df_xtab)
 
 	p.wedge(x=x_col, y=y_col, radius=0.1,
-			start_angle='angle_o', end_angle=90, start_angle_units="deg",
-			end_angle_units="deg", direction="clock", alpha=0.3,
-			line_color="black", color='blue', source=df_xtab)
+			start_angle='angle_s', end_angle=90, start_angle_units="deg",
+			end_angle_units="deg", direction="clock", alpha=0.1,
+			line_color="black", color=DF2_COLOR, source=df_xtab)
 
 	p.ygrid.grid_line_color = None
-	p.xgrid.grid_line_color = "#333333"
+	p.xgrid.grid_line_color = "rgba(0, 0, 0, 0.3)"
 	p.xaxis.axis_line_color = None
 	p.yaxis.axis_line_color = None
 	p.xaxis.major_tick_line_color = None
