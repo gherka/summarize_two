@@ -5,7 +5,8 @@ import pandas as pd
 import json
 
 from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, BasicTicker, HoverTool
+from bokeh.models import (
+	ColumnDataSource, BasicTicker, HoverTool, NumeralTickFormatter)
 from bokeh.layouts import column
 from bokeh.models.callbacks import CustomJS
 from bokeh.embed import json_item
@@ -17,8 +18,20 @@ def generate_xtab_plot(df1, df2, spec):
 	'''
 	Crosstab with PIEs!
 	'''
-	x_col = spec['x_axis'][0]
-	y_col = spec['y_axis'][0]
+
+	x_axis = spec['x_axis']
+	x_axis = [x_axis] if isinstance(x_axis, str) else x_axis
+
+	y_axis = spec['y_axis']
+	y_axis = [y_axis] if isinstance(y_axis, str) else y_axis
+
+	if len(x_axis) == 1:
+		x_col = x_axis[0]
+
+	if len(y_axis) == 1:
+		y_col = y_axis[0]
+
+	#write logic for creating a combined column
 
 	df1_xtab = pd.crosstab(index=df1[y_col], columns=df1[x_col]).reset_index().melt(id_vars=y_col, value_name='o')
 	df2_xtab = pd.crosstab(index=df2[y_col], columns=df2[x_col]).reset_index().melt(id_vars=y_col, value_name='s')
@@ -31,7 +44,7 @@ def generate_xtab_plot(df1, df2, spec):
 	df_xtab[y_col] = df_xtab[y_col].astype('str')
 
 
-	p = figure(plot_height=350, toolbar_location=None, 
+	p = figure(plot_width=965, toolbar_location=None, 
            x_range=df_xtab[x_col].unique(), y_range=df_xtab[y_col].unique(),
            x_axis_location='above')
 
@@ -46,11 +59,15 @@ def generate_xtab_plot(df1, df2, spec):
 			line_color="black", color='blue', source=df_xtab)
 
 	p.ygrid.grid_line_color = None
+	p.xgrid.grid_line_color = "#333333"
 	p.xaxis.axis_line_color = None
 	p.yaxis.axis_line_color = None
-	p.outline_line_color = None
 	p.xaxis.major_tick_line_color = None
 	p.yaxis.major_tick_line_color = None
+
+	p.background_fill_color = '#e6e5e3'
+	p.outline_line_color = '#e6e5e3'
+	p.border_fill_color = '#e6e5e3'
 
 	item_text = json.dumps(json_item(p))
 
@@ -90,7 +107,7 @@ def generate_diff_plot(df1, df2, var_name, shade):
 		("DF1 Value", "@DF1"),
 		("DF2 Value", "@DF2"),
 		("Absolute difference", "@DIFF_ABS"),
-		("Percent difference", "@DIFF_PCT"),
+		("Percent difference", "@DIFF_PCT{0.0%}"),
 
 	]
 
@@ -110,6 +127,7 @@ def generate_diff_plot(df1, df2, var_name, shade):
 	p.vbar(x='VAR', top='DIFF_PCT', width=0.9, alpha=0.8, line_color='white', color='COLOR', source=source)
 	p.ray(x=[0], y=[0], length=len(source.data['VAR']), angle=0, line_width=0.5, color='black')
 
+	p.yaxis[0].formatter = NumeralTickFormatter(format="0.0%")
 	p.xaxis.visible = False
 	p.yaxis.minor_tick_line_alpha = 0
 	p.grid.visible = False

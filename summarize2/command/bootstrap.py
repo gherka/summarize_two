@@ -86,16 +86,20 @@ def main():
     dtypes = df1[common_columns].dtypes.apply(convert_dtypes).to_dict()
     user_dtypes = launch_temp_file(type="dtypes", dtypes=dtypes)
 
+    #Select only non-numeric columns
+    common_cat_cols = [k for k, v in user_dtypes.items() if v != 'Continuous']
+
+    #Run through optional features of the report:
     ridge_spec = None
     xtab_spec = None
 
     if args.xtab:
 
-        xtab_spec = launch_temp_file(type="xtab", common_cols=common_columns)
+        xtab_spec = launch_temp_file(type="xtab", common_cols=common_cat_cols)
 
     #Generate report
     generate_report(df1, df2, user_dtypes, xtab=xtab_spec, ridge=ridge_spec)
 
-    #launch the report HTML in the default browser
+    #Launch the report HTML in the default browser
     file_path = os.path.join(os.getcwd(), "report.html")
     open_report_in_default_browser(file_path)

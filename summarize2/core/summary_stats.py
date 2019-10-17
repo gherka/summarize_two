@@ -121,10 +121,9 @@ def generate_summary(df1, df2, user_dtypes):
 
     #Build an (empty) nested dictionary of common column metadata
     common_cols = {
-        "Categorical":{},
-        "Continuous":{},
-        "Timeseries":{}
-    }
+        cat:{} for cat in sorted(
+            {v for key, v in user_dtypes.items()})
+            }
 
     common_col_names = generate_common_columns(df1, df2)
 
