@@ -1,11 +1,13 @@
 from jinja2 import Template, Environment, FileSystemLoader
 import os
 
-from ..core.bokeh_plots import generate_diff_plot, generate_kde_plot, generate_ridge_plot
+from ..core.bokeh_plots import (
+    generate_diff_plot, generate_kde_plot,
+    generate_ridge_plot, generate_xtab_plot)
 from ..core.summary_stats import generate_summary
 from ..core.helper_funcs import package_dir
 
-def generate_report(df1, df2, user_dtypes, ridge_spec=None):
+def generate_report(df1, df2, user_dtypes, **kwargs):
     '''
     Main function producing final report.
     '''
@@ -26,13 +28,19 @@ def generate_report(df1, df2, user_dtypes, ridge_spec=None):
         cat_diff_plots[var] = generate_diff_plot(df1, df2, var, j % 2)
 
     #Generate Bokeh Ridge plot:
-    if ridge_spec != None:
-        ridge_plot = generate_ridge_plot(df1, df2, ridge_spec)
+    if kwargs['ridge']:
+        ridge_plot = generate_ridge_plot(df1, df2, kwargs['ridge'])
     else:
         ridge_plot = None
 
-    #Template loading machinery
+    #Generate Bokeh Crosstab plot:
+    if kwargs['xtab']:
+        xtab_plot = generate_xtab_plot(df1, df2, kwargs['xtab'])
+    else:
+        xtab_plot = None
 
+
+    #Template loading machinery
     root_path = package_dir("static")
 
     env = Environment(loader=FileSystemLoader(root_path))
@@ -44,4 +52,5 @@ def generate_report(df1, df2, user_dtypes, ridge_spec=None):
         summary=summary,
         cat_plots=cat_diff_plots,
         kde_plots=kde_plots,
+        xtab_plot=xtab_plot,
         ridge_plot=ridge_plot).dump("report.html")

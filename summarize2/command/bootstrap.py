@@ -13,7 +13,7 @@ from ..core.jinja_app import generate_report
 from ..core.summary_stats import generate_common_columns, generate_summary
 from ..core.helper_funcs import (
     read_data, map_dtype, path_checker, open_report_in_default_browser,
-    user_dtypes_from_file, convert_dtypes)
+    launch_temp_file, convert_dtypes)
 from ..core.mp_distributions import launch_controller
 
 def main():
@@ -50,7 +50,14 @@ def main():
     parser.add_argument(
             '--ridge', '-r',
             default=False,
-            action='store_true'
+            action='store_true',
+            help='not implemented yet',
+            )
+
+    parser.add_argument(
+            '--xtab', '-xtab',
+            action='store_true',
+            help='add a crosstab section to the report',
             )
 
     parser.add_argument(
@@ -62,7 +69,7 @@ def main():
     
     parser.add_argument(
             '--output', '-o',
-            help='output the generated report to a given file name',
+            help='not implemented yet',
             )
  
     args = parser.parse_args(sys.argv[1:])
@@ -74,19 +81,20 @@ def main():
     #Read in files as dataframes
     df1, df2 = read_data(args.first_dataset, args.second_dataset)
     common_columns = generate_common_columns(df1, df2)
+
     #Change to user-defined (via editable temp text file)
-
     dtypes = df1[common_columns].dtypes.apply(convert_dtypes).to_dict()
-
-    user_dtypes = user_dtypes_from_file(dtypes)
+    user_dtypes = launch_temp_file(type="dtypes", dtypes=dtypes)
 
     ridge_spec = None
+    xtab_spec = None
+
+    if args.xtab:
+
+        xtab_spec = launch_temp_file(type="xtab", common_cols=common_columns)
 
     #Generate report
-    if args.ridge:
-        generate_report(df1, df2, user_dtypes, ridge_spec)
-    else:
-        generate_report(df1, df2, user_dtypes)
+    generate_report(df1, df2, user_dtypes, xtab=xtab_spec, ridge=ridge_spec)
 
     #launch the report HTML in the default browser
     file_path = os.path.join(os.getcwd(), "report.html")

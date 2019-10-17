@@ -212,7 +212,22 @@
 
     </div>
 
-    <!-- Ridge Plot section-->
+    
+    <!-- Optional Crosstab section-->
+
+    {% if xtab_plot is not none  %}
+
+    {{
+    '<div style="text-align: center">'
+        '<h5>Crosstab</h5>'
+        '<i>Look how awesome it is!</i>'
+    '</div>'
+    '<div id="xtab_plot_id"></div>'
+    }}
+
+    {% endif %}
+
+    <!-- Optional Ridge Plot section-->
 
     {% if ridge_plot is not none  %}
 
@@ -250,6 +265,12 @@
 
 {% endfor %}
 
+</script>
+
+<script> 
+// Use BokehJS to rended xtab plot from their JSON representation
+var item = JSON.parse('{{ xtab_plot }}');
+Bokeh.embed.embed_item(item, 'xtab_plot_id');
 </script>
 
 <script> 

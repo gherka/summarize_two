@@ -21,7 +21,7 @@ import yaml
 
 def convert_dtypes(dtype):
     '''
-    Doc string
+    Rename pandas default dtypes for readability
     '''
     if is_numeric_dtype(dtype):
         return "Continuous"
@@ -29,17 +29,24 @@ def convert_dtypes(dtype):
         return "Timeseries"
     return "Categorical"
 
-def user_dtypes_from_file(dtypes):
-    '''
-    Return a dict with user dtypes
-    Add commments to the file explaining
-    that only three dtype options can be used:
-    Categorical, Continuous and Timeseries
-    ''' 
 
-    with tempfile.TemporaryDirectory() as td:
-        f_name = join(td, 'summarize.yml')
-        with open(f_name, 'w') as f:
+def launch_temp_file(type, **kwargs):
+    '''
+    Open a temporary .yml file in OS-appropriate text editor
+    and return a dictionary when user finishes editing it
+
+    Accepted types are "dtypes", "xtab" and "ridge"
+
+    Allowed kwargs for each type:
+
+    type == dtypes: 
+        "dtypes" : converted dtypes
+
+    type == xtab:
+        "common_cols" = columns shared between two DFs
+    '''
+
+    if type == 'dtypes':
 
             comments = textwrap.dedent('''\
                 #----------------------------------------------------------------
@@ -49,8 +56,32 @@ def user_dtypes_from_file(dtypes):
             '''
             )
             
+            yaml_str = yaml.safe_dump(kwargs['dtypes'])
+            temp_name = "dtypes.yml"
+
+
+    if type == "xtab":
+
+            comments = textwrap.dedent('''\
+                #-----------------------------------------------------------------
+                #Please choose the fields for the x and y axis of the crosstab.
+                #Valid column names are:
+                #%s
+                #The crosstab aggregation counts the rows for each x-y combination.
+                #------------------------------------------------------------------        
+            ''' % (', '.join(map(str, kwargs['common_cols'])))
+            )
+            
+            yaml_str = yaml.safe_dump({"y_axis":[], "x_axis":[]})
+            temp_name = "xtab.yml"
+
+
+    with tempfile.TemporaryDirectory() as td:
+        f_name = join(td, temp_name)
+        with open(f_name, 'w') as f:
+
             f.write(comments)
-            f.write(yaml.safe_dump(dtypes))
+            f.write(yaml_str)
 
         if sys.platform == "win32":
             proc = subprocess.Popen(["notepad.exe", f_name])

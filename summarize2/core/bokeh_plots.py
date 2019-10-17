@@ -12,6 +12,50 @@ from bokeh.embed import json_item
 
 from ..core.helper_funcs import transform_frequencies
 
+
+def generate_xtab_plot(df1, df2, spec):
+	'''
+	Crosstab with PIEs!
+	'''
+	x_col = spec['x_axis'][0]
+	y_col = spec['y_axis'][0]
+
+	df1_xtab = pd.crosstab(index=df1[y_col], columns=df1[x_col]).reset_index().melt(id_vars=y_col, value_name='o')
+	df2_xtab = pd.crosstab(index=df2[y_col], columns=df2[x_col]).reset_index().melt(id_vars=y_col, value_name='s')
+
+	df_xtab = pd.merge(df1_xtab, df2_xtab, how='left')
+
+	df_xtab['angle_o'] = (df_xtab['o']/(df_xtab['o'] + df_xtab['s']) * 360) + 90
+
+	df_xtab[x_col] = df_xtab[x_col].astype('str')
+	df_xtab[y_col] = df_xtab[y_col].astype('str')
+
+
+	p = figure(plot_height=350, toolbar_location=None, 
+           x_range=df_xtab[x_col].unique(), y_range=df_xtab[y_col].unique(),
+           x_axis_location='above')
+
+	p.wedge(x=x_col, y=y_col, radius=0.1,
+			start_angle=90, end_angle='angle_o', start_angle_units="deg",
+			end_angle_units="deg", direction="clock", alpha=0.3,
+			line_color="black", color='grey', source=df_xtab)
+
+	p.wedge(x=x_col, y=y_col, radius=0.1,
+			start_angle='angle_o', end_angle=90, start_angle_units="deg",
+			end_angle_units="deg", direction="clock", alpha=0.3,
+			line_color="black", color='blue', source=df_xtab)
+
+	p.ygrid.grid_line_color = None
+	p.xaxis.axis_line_color = None
+	p.yaxis.axis_line_color = None
+	p.outline_line_color = None
+	p.xaxis.major_tick_line_color = None
+	p.yaxis.major_tick_line_color = None
+
+	item_text = json.dumps(json_item(p))
+
+	return item_text
+
 def generate_diff_plot(df1, df2, var_name, shade):
 	'''
 	Plot the difference in frequency for each unique value of a given column (var_name).
@@ -26,12 +70,16 @@ def generate_diff_plot(df1, df2, var_name, shade):
 
 	freq_1, freq_2 = transform_frequencies(df1, df2, var_name)
 
+	#horrible, horrible stuff to get round zero division error!
+	a = (freq_2[1] - freq_1[1])
+	b = ((freq_2[1] + freq_1[1]) / 2)
+
 	#make sure to sanitise names with an ' as JSON.parse will freak out.
 	bokeh_df = pd.DataFrame({'VAR':[str(x).replace("'","") for x in freq_1[0]],
 						'DF1':freq_1[1],
 						'DF2':freq_2[1],
 						'DIFF_ABS': freq_2[1] - freq_1[1],
-						'DIFF_PCT': (freq_2[1] - freq_1[1]) / ((freq_2[1] + freq_1[1]) / 2),
+						'DIFF_PCT': np.divide(a, b, out=np.zeros_like(a), where=b!=0),
 						'COLOR': np.where(freq_2[1] - freq_1[1] > 0, '#527563', '#876388')}
 					)
 
