@@ -1,20 +1,18 @@
-
+'''
+Doc string
+'''
 # Standard library imports
 import argparse
 import textwrap
 import sys
-import subprocess
 import os
 
-# External library imports
-import pandas as pd
-
+# Summarize2 imports
 from ..core.jinja_app import generate_report
-from ..core.summary_stats import generate_common_columns, generate_summary
+from ..core.summary_stats import generate_common_columns
 from ..core.helper_funcs import (
-    read_data, map_dtype, path_checker, open_report_in_default_browser,
+    read_data, path_checker, open_report_in_default_browser,
     launch_temp_file, convert_dtypes)
-from ..core.mp_distributions import launch_controller
 
 def main():
     '''
@@ -33,44 +31,44 @@ def main():
         ''')
 
     parser = argparse.ArgumentParser(
-            description=desc,
-            formatter_class=argparse.RawTextHelpFormatter
-            )
+        description=desc,
+        formatter_class=argparse.RawTextHelpFormatter
+        )
 
     parser.add_argument(
-            'first_dataset',
-            type=path_checker
-            )
+        "first_dataset",
+        type=path_checker
+        )
 
     parser.add_argument(
-            'second_dataset',
-            type=path_checker
-            )
+        "second_dataset",
+        type=path_checker
+        )
 
     parser.add_argument(
-            '--ridge', '-r',
-            default=False,
-            action='store_true',
-            help='not implemented yet',
-            )
+        "--ridge", "-r",
+        default=False,
+        action="store_true",
+        help="not implemented yet",
+        )
 
     parser.add_argument(
-            '--xtab', '-xtab',
-            action='store_true',
-            help='add a crosstab section to the report',
-            )
+        "--xtab", "-xtab",
+        action="store_true",
+        help="add a crosstab section to the report",
+        )
 
     parser.add_argument(
-            '--verbose', '-v',
-            default=False,
-            action='store_true',
-            help='control traceback length for debugging errors',
-            )
+        "--verbose", "-v",
+        default=False,
+        action="store_true",
+        help="control traceback length for debugging errors",
+        )
     
     parser.add_argument(
-            '--output', '-o',
-            help='not implemented yet',
-            )
+        "--output", "-o",
+        help="not implemented yet",
+        )
  
     args = parser.parse_args(sys.argv[1:])
 
@@ -82,12 +80,12 @@ def main():
     df1, df2 = read_data(args.first_dataset, args.second_dataset)
     common_columns = generate_common_columns(df1, df2)
 
-    #Change to user-defined (via editable temp text file)
+    #Ask user to confirm data types for each column (via editable temp text file)
     dtypes = df1[common_columns].dtypes.apply(convert_dtypes).to_dict()
     user_dtypes = launch_temp_file(type="dtypes", dtypes=dtypes)
 
     #Select only non-numeric columns
-    common_cat_cols = [k for k, v in user_dtypes.items() if v != 'Continuous']
+    common_cat_cols = [k for k, v in user_dtypes.items() if v != "Continuous"]
 
     #Run through optional features of the report:
     ridge_spec = None
