@@ -14,9 +14,9 @@ from ..core.helper_funcs import (
     read_data, path_checker, open_report_in_default_browser,
     launch_temp_file, convert_dtypes)
 
-def main():
+def main(**kwargs):
     '''
-    Doc string
+    Kwargs added for ease of testing.
     '''
 
     #Set default verbosity
@@ -82,7 +82,14 @@ def main():
 
     #Ask user to confirm data types for each column (via editable temp text file)
     dtypes = df1[common_columns].dtypes.apply(convert_dtypes).to_dict()
-    user_dtypes = launch_temp_file(type="dtypes", dtypes=dtypes)
+
+    
+    #ugly, but works - look into why launch always triggers if put instead of ''
+    user_dtypes = kwargs.pop(
+        'user_dtypes', '')
+    
+    if user_dtypes == '':
+        user_dtypes = launch_temp_file(type="dtypes", dtypes=dtypes)
 
     #Select only non-numeric columns
     common_cat_cols = [k for k, v in user_dtypes.items() if v != "Continuous"]
@@ -96,8 +103,13 @@ def main():
         xtab_spec = launch_temp_file(type="xtab", common_cols=common_cat_cols)
 
     #Generate report
-    generate_report(df1, df2, user_dtypes, xtab=xtab_spec, ridge=ridge_spec)
+    report = generate_report(df1, df2, user_dtypes, xtab=xtab_spec, ridge=ridge_spec)
 
-    #Launch the report HTML in the default browser
-    file_path = os.path.join(os.getcwd(), "report.html")
-    open_report_in_default_browser(file_path)
+    #Write to file or IO
+    if args.output:
+        args.output.write(report)
+    else:
+        file_path = os.path.join(os.getcwd(), "report.html")
+        with open(file_path, 'a+') as f:
+            f.write(report)
+        open_report_in_default_browser(file_path)

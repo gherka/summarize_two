@@ -1,6 +1,14 @@
-from jinja2 import Template, Environment, FileSystemLoader
-import os
+'''
+Doc string
+'''
 
+# Standard library imports
+from io import StringIO
+
+# External library imports
+from jinja2 import Environment, FileSystemLoader
+
+# Summarize2 imports
 from ..core.bokeh_plots import (
     generate_diff_plot, generate_kde_plot,
     generate_ridge_plot, generate_xtab_plot)
@@ -47,10 +55,14 @@ def generate_report(df1, df2, user_dtypes, **kwargs):
         
     template = env.get_template("templates/template.jinja")
 
+    output = StringIO()
+
     template.stream(
         root=root_path,
         summary=summary,
         cat_plots=cat_diff_plots,
         kde_plots=kde_plots,
         xtab_plot=xtab_plot,
-        ridge_plot=ridge_plot).dump("report.html")
+        ridge_plot=ridge_plot).dump(output)
+
+    return output.getvalue()
