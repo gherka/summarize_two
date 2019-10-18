@@ -22,6 +22,7 @@ def generate_xtab_plot(df1, df2, spec):
 	DF1_COLOR = "#DD8452"
 	DF2_COLOR = "#4C72B0"
 
+	#If only one column name, make it into a list anyway
 	x_axis = spec['x_axis']
 	x_axis = [x_axis] if isinstance(x_axis, str) else x_axis
 
@@ -31,10 +32,19 @@ def generate_xtab_plot(df1, df2, spec):
 	if len(x_axis) == 1:
 		x_col = x_axis[0]
 
+	else: 
+		x_col = '-'.join(x_axis)
+		df1[x_col] = df1[x_axis[0]].str.cat(df1[x_axis[1:]], sep=" - ")
+		df2[x_col] = df2[x_axis[0]].str.cat(df2[x_axis[1:]], sep=" - ")
+
 	if len(y_axis) == 1:
 		y_col = y_axis[0]
 
-	#write logic for creating a combined column
+	else: 
+		y_col = '-'.join(y_axis)
+		df1[y_col] = df1[y_axis[0]].str.cat(df1[y_axis[1:]], sep=" - ")
+		df2[y_col] = df2[y_axis[0]].str.cat(df2[y_axis[1:]], sep=" - ")
+
 
 	df1_xtab = pd.crosstab(index=df1[y_col], columns=df1[x_col]).reset_index().melt(id_vars=y_col, value_name='o')
 	df2_xtab = pd.crosstab(index=df2[y_col], columns=df2[x_col]).reset_index().melt(id_vars=y_col, value_name='s')
