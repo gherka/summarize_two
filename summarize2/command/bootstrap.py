@@ -1,11 +1,13 @@
 '''
-Doc string
+Launch module of the tool.
+Defines command line parameters, runs through logic.
 '''
 # Standard library imports
 import argparse
 import textwrap
 import sys
 import os
+import io
 
 # Summarize2 imports
 from ..core.jinja_app import generate_report
@@ -67,7 +69,7 @@ def main(**kwargs):
     
     parser.add_argument(
         "--output", "-o",
-        help="not implemented yet",
+        help="file path where to save the report, including .html",
         )
  
     args = parser.parse_args(sys.argv[1:])
@@ -83,13 +85,11 @@ def main(**kwargs):
     #Ask user to confirm data types for each column (via editable temp text file)
     dtypes = df1[common_columns].dtypes.apply(convert_dtypes).to_dict()
 
+    #Pop user_dtypes if passed, otherwise launch text editor for user imput
+    user_dtypes = kwargs.pop('user_dtypes', None)
     
-    #ugly, but works - look into why launch always triggers if put instead of ''
-    user_dtypes = kwargs.pop(
-        'user_dtypes', '')
-    
-    if user_dtypes == '':
-        user_dtypes = launch_temp_file(type="dtypes", dtypes=dtypes)
+    if not user_dtypes:
+        user_dtypes = launch_temp_file(file_type="dtypes", dtypes=dtypes)
 
     #Select only non-numeric columns
     common_cat_cols = [k for k, v in user_dtypes.items() if v != "Continuous"]
@@ -100,16 +100,25 @@ def main(**kwargs):
 
     if args.xtab:
 
-        xtab_spec = launch_temp_file(type="xtab", common_cols=common_cat_cols)
+        xtab_spec = launch_temp_file(file_type="xtab", common_cols=common_cat_cols)
 
     #Generate report
     report = generate_report(df1, df2, user_dtypes, xtab=xtab_spec, ridge=ridge_spec)
 
     #Write to file or IO
     if args.output:
-        args.output.write(report)
+        #if output is StringIO() then write, don't close, don't open browser
+        if isinstance(args.output, io.TextIOBase):
+            args.output.write(report)
+        else:
+            #handle the string as if it's a path string
+            file_path = args.output
+            with open(file_path, 'w+') as f:
+                f.write(report)
+            open_report_in_default_browser(file_path)
+
     else:
         file_path = os.path.join(os.getcwd(), "report.html")
-        with open(file_path, 'a+') as f:
+        with open(file_path, 'w+') as f:
             f.write(report)
         open_report_in_default_browser(file_path)

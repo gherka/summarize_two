@@ -1,5 +1,14 @@
-import pandas as pd
+'''
+Module containing functions for summarising various aspects of
+the two datasets.
+'''
+
+# Standard library imports
 import datetime
+
+# External library imports
+import pandas as pd
+
 
 def generate_default_dict(col_dtype):
     '''
@@ -19,7 +28,7 @@ def generate_common_columns(df1, df2):
     Required early in the code to generate popup with user-selected data types
     which is why it's separated from the main generate_summary function
 
-    Return a list
+    Returns a list
     '''
 
     common_col_names = [a for a in df1.columns.values if a in df2.columns.values]
@@ -139,43 +148,44 @@ def generate_summary(df1, df2, user_dtypes):
 
         #dictionary has to be defined inside the loop to generate a new object every time
         common_cols[user_dtypes[col]][col] = generate_default_dict(user_dtypes[col])
+        cc = common_cols[user_dtypes[col]][col]
 
         if user_dtypes[col] == "Categorical":
 
-        
             #collect information from the first dataframe
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Uniques"] = df1[col].nunique()
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Duplicates"] = df1[col].duplicated().any()
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
+            cc["DFs"]["DF1"]["Uniques"] = df1[col].nunique()
+            cc["DFs"]["DF1"]["Duplicates"] = df1[col].duplicated().any()
+            cc["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
         
             #collect information from the second dataframe
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Uniques"] = df2[col].nunique()
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Duplicates"] = df2[col].duplicated().any()
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
+            cc["DFs"]["DF2"]["Uniques"] = df2[col].nunique()
+            cc["DFs"]["DF2"]["Duplicates"] = df2[col].duplicated().any()
+            cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
 
         
         elif user_dtypes[col] == "Continuous":
 
             #collect information from the first dataframe
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Min"] = round(df1[col].min(),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Max"] = round(df1[col].max(),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Mean"] = round(df1[col].mean(),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["25%"] = round(df1[col].quantile(q=0.25),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["75%"] = round(df1[col].quantile(q=0.75),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
+            cc["DFs"]["DF1"]["Min"] = round(df1[col].min(),2)
+            cc["DFs"]["DF1"]["Max"] = round(df1[col].max(),2)
+            cc["DFs"]["DF1"]["Mean"] = round(df1[col].mean(),2)
+            cc["DFs"]["DF1"]["25%"] = round(df1[col].quantile(q=0.25),2)
+            cc["DFs"]["DF1"]["75%"] = round(df1[col].quantile(q=0.75),2)
+            cc["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
         
             #collect information from the second dataframe
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Min"] = round(df2[col].min(),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Max"] = round(df2[col].max(),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Mean"] = round(df2[col].mean(),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["25%"] = round(df2[col].quantile(q=0.25),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["75%"] = round(df2[col].quantile(q=0.75),2)
-            common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
+            cc["DFs"]["DF2"]["Min"] = round(df2[col].min(),2)
+            cc["DFs"]["DF2"]["Max"] = round(df2[col].max(),2)
+            cc["DFs"]["DF2"]["Mean"] = round(df2[col].mean(),2)
+            cc["DFs"]["DF2"]["25%"] = round(df2[col].quantile(q=0.25),2)
+            cc["DFs"]["DF2"]["75%"] = round(df2[col].quantile(q=0.75),2)
+            cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
 
         else:
 
-            #If a format could be inferred from the user-selected timeseries column in both datasets, 
-            #process the column as timeseries, otherwise fall back to categorical columns
+            #If a format could be inferred from the user-selected timeseries
+            #in both datasets process the column as timeseries, otherwise
+            #fall back to categorical columns
             if guess_dateseries_format(df1[col]) and guess_dateseries_format(df2[col]):
 
                 #save format strings:
@@ -188,36 +198,40 @@ def generate_summary(df1, df2, user_dtypes):
                 df2[col] = pd.to_datetime(df2[col], format=format_2)
 
                 #collect information from the first dataframe
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Format"] = format_1
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Date From"] = f"{df1[col].min():{format_iso}}"
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Date To"] = f"{df1[col].max():{format_iso}}"
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Frequency"] = guess_date_frequency(df1[col])
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Breaks?"] = guess_date_continuity(df1[col])
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
+                cc["DFs"]["DF1"]["Format"] = format_1
+                cc["DFs"]["DF1"]["Date From"] = f"{df1[col].min():{format_iso}}"
+                cc["DFs"]["DF1"]["Date To"] = f"{df1[col].max():{format_iso}}"
+                cc["DFs"]["DF1"]["Frequency"] = guess_date_frequency(df1[col])
+                cc["DFs"]["DF1"]["Breaks?"] = guess_date_continuity(df1[col])
+                cc["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
 
                 #collect information from the second dataframe
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Format"] = format_2
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Date From"] = f"{df2[col].min():{format_iso}}"
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Date To"] = f"{df2[col].max():{format_iso}}"
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Frequency"] = guess_date_frequency(df2[col])
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Breaks?"] = guess_date_continuity(df2[col])
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
+                cc["DFs"]["DF2"]["Format"] = format_2
+                cc["DFs"]["DF2"]["Date From"] = f"{df2[col].min():{format_iso}}"
+                cc["DFs"]["DF2"]["Date To"] = f"{df2[col].max():{format_iso}}"
+                cc["DFs"]["DF2"]["Frequency"] = guess_date_frequency(df2[col])
+                cc["DFs"]["DF2"]["Breaks?"] = guess_date_continuity(df2[col])
+                cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
             
 
             else:
 
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["Uniques"] = df1[col].nunique()
-                common_cols[user_dtypes[col]][col]["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["Uniques"] = df2[col].nunique()
-                common_cols[user_dtypes[col]][col]["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
+                cc["DFs"]["DF1"]["Uniques"] = df1[col].nunique()
+                cc["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
+                cc["DFs"]["DF2"]["Uniques"] = df2[col].nunique()
+                cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
 
 
     if len(diff_cols) == 0 :
         diff_cols = ["None"]
 
-    table_columns = {"Categorical":["Uniques", "Duplicates", "NAs"],
-                     "Continuous":["Min", "Max", "Mean", "25%", "75%", "NAs"],
-                     "Timeseries":["Format", "Date From", "Date To", "Frequency", "Breaks?", "NAs"]
+    table_columns = {
+        "Categorical":[
+            "Uniques", "Duplicates", "NAs"],
+        "Continuous":[
+            "Min", "Max", "Mean", "25%", "75%", "NAs"],
+        "Timeseries":[
+            "Format", "Date From", "Date To", "Frequency", "Breaks?", "NAs"]
                      }
 
     output = {

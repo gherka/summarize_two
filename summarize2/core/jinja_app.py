@@ -1,5 +1,5 @@
 '''
-Doc string
+Module handling the genration of all HTML components
 '''
 
 # Standard library imports
@@ -17,21 +17,21 @@ from ..core.helper_funcs import package_dir
 
 def generate_report(df1, df2, user_dtypes, **kwargs):
     '''
-    Main function producing final report.
+    Main function producing the report.
     '''
 
-    #Generate basic summary statistics information about the datasets
+    #Generate basic summary statistics about the datasets
     summary = generate_summary(df1, df2, user_dtypes)
 
     #Generate KDE plots for continuous variables to be used in Jinja template
     kde_plots = {}
-    for i, var in enumerate(summary["Metadata"]["common_columns"]["Continuous"].keys()):
+    for i, var in enumerate(summary["Metadata"]["common_columns"]["Continuous"]):
 
         kde_plots[var] = generate_kde_plot(df1, df2, var, i % 2)
 
     #Generate Bokeh categorical frequency difference plots
     cat_diff_plots = {}
-    for j, var in enumerate(summary["Metadata"]["common_columns"]["Categorical"].keys()):
+    for j, var in enumerate(summary["Metadata"]["common_columns"]["Categorical"]):
 
         cat_diff_plots[var] = generate_diff_plot(df1, df2, var, j % 2)
 

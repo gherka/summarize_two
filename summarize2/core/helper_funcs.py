@@ -1,5 +1,5 @@
 '''
-Doc string
+Module with various functions to keep the rest of the code clean
 '''
 
 # Standard library imports
@@ -9,7 +9,6 @@ from os.path import abspath, dirname, join, exists
 import sys
 import subprocess
 import tempfile
-from subprocess import Popen
 import time
 import textwrap
 
@@ -30,7 +29,7 @@ def convert_dtypes(dtype):
     return "Categorical"
 
 
-def launch_temp_file(type, **kwargs):
+def launch_temp_file(file_type, **kwargs):
     '''
     Open a temporary .yml file in OS-appropriate text editor
     and return a dictionary when user finishes editing it
@@ -46,34 +45,32 @@ def launch_temp_file(type, **kwargs):
         "common_cols" = columns shared between two DFs
     '''
 
-    if type == 'dtypes':
+    if file_type == 'dtypes':
 
-            comments = textwrap.dedent('''\
-                #----------------------------------------------------------------
-                #Pick the correct data type (Categorical, Continuous, Timeseries)
-                #Saving the file automatically closes it and continues the script
-                #----------------------------------------------------------------              
-            '''
-            )
-            
-            yaml_str = yaml.safe_dump(kwargs['dtypes'])
-            temp_name = "dtypes.yml"
+        comments = textwrap.dedent('''\
+            #----------------------------------------------------------------
+            #Pick the correct data type (Categorical, Continuous, Timeseries)
+            #Saving the file automatically closes it and continues the script
+            #----------------------------------------------------------------              
+        ''')
+        
+        yaml_str = yaml.safe_dump(kwargs['dtypes'])
+        temp_name = "dtypes.yml"
 
 
-    if type == "xtab":
+    if file_type == "xtab":
 
-            comments = textwrap.dedent('''\
-                #-----------------------------------------------------------------
-                #Please choose the fields for the x and y axis of the crosstab.
-                #Valid column names are:
-                #%s
-                #The crosstab aggregation counts the rows for each x-y combination.
-                #------------------------------------------------------------------        
-            ''' % (', '.join(map(str, kwargs['common_cols'])))
-            )
-            
-            yaml_str = yaml.safe_dump({"y_axis":[], "x_axis":[]})
-            temp_name = "xtab.yml"
+        comments = textwrap.dedent('''\
+            #-----------------------------------------------------------------
+            #Please choose the fields for the x and y axis of the crosstab.
+            #Valid column names are:
+            #%s
+            #The crosstab aggregation counts the rows for each x-y combination.
+            #------------------------------------------------------------------        
+        ''' % (', '.join(map(str, kwargs['common_cols']))))
+        
+        yaml_str = yaml.safe_dump({"y_axis":[], "x_axis":[]})
+        temp_name = "xtab.yml"
 
 
     with tempfile.TemporaryDirectory() as td:
@@ -147,7 +144,9 @@ def transform_frequencies(df1, df2, col_name):
     freq_1 = df1[col_name].value_counts()
     freq_2 = df2[col_name].value_counts()
 
-    all_cols = set([col for col in list(df1[col_name].unique()) + list(df2[col_name].unique())])
+    all_cols = set(
+        [col for col in list(df1[col_name].unique()) + list(df2[col_name].unique())]
+        )
 
     new_freq_1 = []
     new_freq_2 = []
@@ -208,13 +207,21 @@ def map_dtype(input_key, reverse=False):
 
     '''
     
-    dtype_map = {"object":"Categorical", "int":"Continuous", "float":"Continuous", "datetime":"Timeseries"}
-    dtype_map_reverse = {"Categorical":"object", "Continuous":"float64", "Timeseries":"parse_dates"}
+    dtype_map = {
+        "object":"Categorical",
+        "int":"Continuous",
+        "float":"Continuous",
+        "datetime":"Timeseries"}
+
+    dtype_map_reverse = {
+        "Categorical":"object",
+        "Continuous":"float64",
+        "Timeseries":"parse_dates"}
     
     if reverse:
         return dtype_map_reverse[input_key]
             
-    for mapping_key in dtype_map.keys():
+    for mapping_key in dtype_map:
         if mapping_key in str(input_key):
             return dtype_map[mapping_key]
         

@@ -40,7 +40,6 @@ class referenceTests(unittest.TestCase):
             output=test_output
         )
 
-
         test_dtypes = {
             "age": "Categorical",
             "episodes": "Continuous",
@@ -50,7 +49,6 @@ class referenceTests(unittest.TestCase):
             "reporting_date": "Timeseries"
         }
 
-        
         tm.main(user_dtypes=test_dtypes)
 
         #Bokeh adds a 4 digit ID to various elements that are unique to each generation
@@ -61,5 +59,7 @@ class referenceTests(unittest.TestCase):
 
         a = ''.join(sorted(a_clean))
         b = ''.join(sorted(b_clean))
+        
+        test_output.close()
 
         assert a == b
