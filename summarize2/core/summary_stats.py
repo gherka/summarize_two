@@ -16,12 +16,46 @@ def generate_default_dict(col_dtype):
     '''
 
     if col_dtype == "Categorical":
-        return {"DFs":{"DF1":{"Uniques":0, "NAs":0}, "DF2":{"Uniques":0, "NAs":0}}}
+
+        return {
+            "DFs":
+                {
+                    "DF1":
+                        {
+                            "Uniques":0,
+                            "NAs":0},
+                    "DF2":
+                        {
+                            "Uniques":0,
+                            "NAs":0}}}
     
     elif col_dtype == "Continuous":
-        return {"DFs":{"DF1":{"Min":0, "Max":0, "NAs":0}, "DF2":{"Min":0, "Max":0, "NAs":0}}}
+
+        return {
+            "DFs":
+                {
+                    "DF1":
+                        {
+                            "Min":0,
+                            "Max":0,
+                            "NAs":0},
+                    "DF2":
+                        {
+                            "Min":0,
+                            "Max":0,
+                            "NAs":0}}}
     
-    return {"DFs":{"DF1":{"Uniques":0, "NAs":0}, "DF2":{"Uniques":0, "NAs":0}}}
+    return {
+        "DFs":
+                {
+                    "DF1":
+                        {
+                            "Uniques":0,
+                            "NAs":0},
+                    "DF2":
+                        {
+                            "Uniques":0,
+                            "NAs":0}}}
 
 def generate_common_columns(df1, df2):
     '''
@@ -49,11 +83,12 @@ def guess_date_format(date):
                      "%Y-%m-%d", "%d-%m-%Y",
                      "%Y.%m.%d", "%d.%m.%Y"]
 
-    for pattern in date_patterns:      
+    for pattern in date_patterns:
+              
         try:
-            assert (datetime.datetime.strptime(date, pattern))
+            assert datetime.datetime.strptime(date, pattern)
             return pattern
-        except:
+        except ValueError:
             pass
     return "No match"
 
@@ -88,18 +123,18 @@ def guess_date_frequency(timeseries):
     
     if len(time_diff_counts.index) == 1:
         
-        if time_diff_counts.index[0].days in range(28,32):
+        if time_diff_counts.index[0].days in range(28, 32):
             return "month"
-        elif time_diff_counts.index[0].days in range(90,93):
+        elif time_diff_counts.index[0].days in range(90, 93):
             return "quarter"
         elif time_diff_counts.index[0].days in range(365, 367):
             return "year"
     
-    elif time_diff_counts.index[0].days - time_diff_counts.index[1].days in range(0,3):
+    elif time_diff_counts.index[0].days - time_diff_counts.index[1].days in range(0, 3):
         
-        if time_diff_counts.index[0].days in range(28,32):
+        if time_diff_counts.index[0].days in range(28, 32):
             return "month"
-        elif time_diff_counts.index[0].days in range(90,93):
+        elif time_diff_counts.index[0].days in range(90, 93):
             return "quarter"
         elif time_diff_counts.index[0].days in range(365, 367):
             return "year"
@@ -117,7 +152,7 @@ def guess_date_continuity(timeseries):
     if len(time_diffs.value_counts().index) == 1:
         return "continuous"
     
-    elif time_diffs.max().days - time_diffs.min().days in range(0,3):
+    elif time_diffs.max().days - time_diffs.min().days in range(0, 3):
         return "continuous"
     
     return "interruped"     
@@ -132,13 +167,14 @@ def generate_summary(df1, df2, user_dtypes):
     common_cols = {
         cat:{} for cat in sorted(
             {v for key, v in user_dtypes.items()})
-            }
+        }
 
     common_col_names = generate_common_columns(df1, df2)
 
     #Find out different column names between the two datasets:
-    diff_cols = ([(a, "DF1") for a in df1.columns.values if a not in df2.columns.values] + 
-                 [(b, "DF2") for b in df2.columns.values if b not in df1.columns.values])
+    diff_cols = (
+        [(a, "DF1") for a in df1.columns.values if a not in df2.columns.values] + 
+        [(b, "DF2") for b in df2.columns.values if b not in df1.columns.values])
 
     #Find out shapes of the two datasets:
     shape_1 = df1.shape
@@ -146,7 +182,7 @@ def generate_summary(df1, df2, user_dtypes):
     
     for col in common_col_names:
 
-        #dictionary has to be defined inside the loop to generate a new object every time
+        #dictionary has to be defined inside the loop to create a new object every time
         common_cols[user_dtypes[col]][col] = generate_default_dict(user_dtypes[col])
         cc = common_cols[user_dtypes[col]][col]
 
@@ -166,19 +202,19 @@ def generate_summary(df1, df2, user_dtypes):
         elif user_dtypes[col] == "Continuous":
 
             #collect information from the first dataframe
-            cc["DFs"]["DF1"]["Min"] = round(df1[col].min(),2)
-            cc["DFs"]["DF1"]["Max"] = round(df1[col].max(),2)
-            cc["DFs"]["DF1"]["Mean"] = round(df1[col].mean(),2)
-            cc["DFs"]["DF1"]["25%"] = round(df1[col].quantile(q=0.25),2)
-            cc["DFs"]["DF1"]["75%"] = round(df1[col].quantile(q=0.75),2)
+            cc["DFs"]["DF1"]["Min"] = round(df1[col].min(), 2)
+            cc["DFs"]["DF1"]["Max"] = round(df1[col].max(), 2)
+            cc["DFs"]["DF1"]["Mean"] = round(df1[col].mean(), 2)
+            cc["DFs"]["DF1"]["25%"] = round(df1[col].quantile(q=0.25), 2)
+            cc["DFs"]["DF1"]["75%"] = round(df1[col].quantile(q=0.75), 2)
             cc["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
         
             #collect information from the second dataframe
-            cc["DFs"]["DF2"]["Min"] = round(df2[col].min(),2)
-            cc["DFs"]["DF2"]["Max"] = round(df2[col].max(),2)
-            cc["DFs"]["DF2"]["Mean"] = round(df2[col].mean(),2)
-            cc["DFs"]["DF2"]["25%"] = round(df2[col].quantile(q=0.25),2)
-            cc["DFs"]["DF2"]["75%"] = round(df2[col].quantile(q=0.75),2)
+            cc["DFs"]["DF2"]["Min"] = round(df2[col].min(), 2)
+            cc["DFs"]["DF2"]["Max"] = round(df2[col].max(), 2)
+            cc["DFs"]["DF2"]["Mean"] = round(df2[col].mean(), 2)
+            cc["DFs"]["DF2"]["25%"] = round(df2[col].quantile(q=0.25), 2)
+            cc["DFs"]["DF2"]["75%"] = round(df2[col].quantile(q=0.75), 2)
             cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
 
         else:
@@ -222,7 +258,7 @@ def generate_summary(df1, df2, user_dtypes):
                 cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
 
 
-    if len(diff_cols) == 0 :
+    if not diff_cols:
         diff_cols = ["None"]
 
     table_columns = {
@@ -232,7 +268,7 @@ def generate_summary(df1, df2, user_dtypes):
             "Min", "Max", "Mean", "25%", "75%", "NAs"],
         "Timeseries":[
             "Format", "Date From", "Date To", "Frequency", "Breaks?", "NAs"]
-                     }
+        }
 
     output = {
         "Metadata" : {

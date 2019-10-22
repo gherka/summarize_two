@@ -3,8 +3,8 @@ Module with various functions to keep the rest of the code clean
 '''
 
 # Standard library imports
-import os.path
 from pathlib import Path
+import os.path
 from os.path import abspath, dirname, join, exists
 import sys
 import subprocess
