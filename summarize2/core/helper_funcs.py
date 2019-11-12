@@ -144,9 +144,7 @@ def transform_frequencies(df1, df2, col_name):
     freq_1 = df1[col_name].value_counts()
     freq_2 = df2[col_name].value_counts()
 
-    all_cols = set(
-        [col for col in list(df1[col_name].unique()) + list(df2[col_name].unique())]
-        )
+    all_cols = set(list(df1[col_name].unique()) + list(df2[col_name].unique()))
 
     new_freq_1 = []
     new_freq_2 = []
@@ -171,6 +169,7 @@ def read_data(data_path_1, data_path_2):
     '''
     Currently, only .csv and Excel files are supported.
     Possible to bring more, as long as they integrate into Pandas
+
     Filename is written into _metadata attribute of each dataframe.
     Watch out for version updates as work is underway to change
     how metadata is stored and propagated in dataframes
@@ -199,30 +198,3 @@ def read_data(data_path_1, data_path_2):
         df2._metadata = {"file_name":os.path.basename(data_path_2)}
 
     return df1, df2
-
-def map_dtype(input_key, reverse=False):
-    '''
-    Performs conversion between Pandas inferred data types and user-generated ones
-    Returns mapped value given an input key; parse_dates is a magic value
-
-    '''
-    
-    dtype_map = {
-        "object":"Categorical",
-        "int":"Continuous",
-        "float":"Continuous",
-        "datetime":"Timeseries"}
-
-    dtype_map_reverse = {
-        "Categorical":"object",
-        "Continuous":"float64",
-        "Timeseries":"parse_dates"}
-    
-    if reverse:
-        return dtype_map_reverse[input_key]
-            
-    for mapping_key in dtype_map:
-        if mapping_key in str(input_key):
-            return dtype_map[mapping_key]
-        
-    return 'unknown'

@@ -63,3 +63,54 @@ class referenceTests(unittest.TestCase):
         test_output.close()
 
         assert a == b
+
+    @patch('argparse.ArgumentParser.parse_args')
+    def test_synthpop_dataset_comparison(self, mock_args):
+        '''
+        Run summarize2 with Synthpop-generated data against its
+        original from sample data and compare it with the reference
+        report
+        '''
+
+        test_output = StringIO()
+        ref_path = Path(package_dir('ref', 'ref_synthpop.html'))
+        with open(ref_path, 'r') as f:
+            ref_output = f.read()
+
+        mock_args.return_value = argparse.Namespace(
+            first_dataset=Path(package_dir('sample data', 'Original.csv')),
+            second_dataset=Path(package_dir('sample data', 'Synth.csv')),
+            verbose=True,
+            xtab=None,
+            output=test_output
+        )
+
+        test_dtypes = {
+
+            "agegr": "Categorical",
+            "depress": "Continuous",
+            "edu": "Categorical",
+            "income": "Continuous",
+            "marital": "Categorical",
+            "sex": "Categorical",
+            "socprof": "Categorical",
+            "trust": "Categorical",
+            "trustfam": "Categorical",
+            "trustneigh": "Categorical",
+            "weight": "Continuous",
+        }
+
+        tm.main(user_dtypes=test_dtypes)
+
+        #Bokeh adds a 4 digit ID to various elements that are unique to each generation
+        #also, the paths in the files can be upper or lower case
+        #by casting everything into upper some information (__ndarray__) is lost!
+        a_clean = re.sub(r'"\d{4}"', '', ref_output).upper()
+        b_clean = re.sub(r'"\d{4}"', '', test_output.getvalue()).upper()
+
+        a = ''.join(sorted(a_clean))
+        b = ''.join(sorted(b_clean))
+        
+        test_output.close()
+
+        assert a == b
