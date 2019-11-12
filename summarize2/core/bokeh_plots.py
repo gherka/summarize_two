@@ -1,5 +1,5 @@
 '''
-Bokeh plots for interactive visualisations (v 1.3.4)
+Bokeh plots for interactive visualisations (v 1.4.0)
 '''
 
 # Standard library imports
