@@ -64,4 +64,7 @@ th, td {
 #xtab_plot_id {
 
   border: 1px dotted grey !important;
+  overflow: hidden !important;
+  height:602px !important;
+  width:967px !important;
 }

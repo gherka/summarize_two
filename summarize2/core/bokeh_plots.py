@@ -4,6 +4,7 @@ Bokeh plots for interactive visualisations (v 1.4.0)
 
 # Standard library imports
 import json
+import math
 
 # External library imports
 import numpy as np
@@ -30,10 +31,10 @@ def generate_xtab_plot(df1, df2, spec):
     DF2_COLOR = "#4C72B0"
 
     #If only one column name, make it into a list anyway
-    x_axis = spec['x_axis']
+    x_axis = spec['columns']['x_axis']
     x_axis = [x_axis] if isinstance(x_axis, str) else x_axis
 
-    y_axis = spec['y_axis']
+    y_axis = spec['columns']['y_axis']
     y_axis = [y_axis] if isinstance(y_axis, str) else y_axis
 
     if len(x_axis) == 1:
@@ -75,41 +76,60 @@ def generate_xtab_plot(df1, df2, spec):
 
     df_xtab[x_col] = df_xtab[x_col].astype('str')
     df_xtab[y_col] = df_xtab[y_col].astype('str')
-
+        
     TOOLTIPS = [
         ("DF1 Value", "@o"),
-        ("DF2 Value", "@s")
+        ("DF2 Value", "@s"),
+        ("X-LABEL", "@{"+f"{x_col}"+"}"),
+        ("Y-LABEL", "@{"+f"{y_col}"+"}"),
     ]
 
     MyHover = HoverTool(
         tooltips=TOOLTIPS
     )
+    
+    #data units in this case operate in "synthetic coordinate" system
+    #which means that 1 is the space between two column factors;
+    #it's complicated-ish. can play around (but not too much) 
+    #with magic numbers: 10, 25, 80 and 25.
+    
+    num_rows = df_xtab[y_col].nunique()
+    num_cols = df_xtab[x_col].nunique()
+    aspect = min(10, num_cols) / min(25, num_rows)
+    plot_width = max(965, 80 * num_cols)
+    plot_height = max(600, 25 * num_rows)
+    wedge_radius = 0.25 * aspect
+    ray_length = wedge_radius * 2.1
 
-
-    p = figure(plot_width=965, toolbar_location=None,
+    p = figure(plot_width=plot_width, plot_height=plot_height,
+               toolbar_location=None,
                tools=["pan, wheel_zoom", MyHover],
                active_scroll="wheel_zoom",
                x_range=df_xtab[x_col].unique(),
                y_range=df_xtab[y_col].unique(),
                x_axis_location='above')
 
-    p.wedge(x=x_col, y=y_col, radius=0.1,
+    p.wedge(x=x_col, y=y_col, radius=wedge_radius,
             start_angle=90, end_angle='angle_s', start_angle_units="deg",
-            end_angle_units="deg", direction="clock", alpha=0.1,
+            end_angle_units="deg", direction="clock", alpha=0.05,
             line_color="black", color=DF1_COLOR, source=df_xtab)
 
-    p.ray(x=x_col, y=y_col, length=0.1,
+    p.ray(x=x_col, y=y_col, length=ray_length,
           angle='angle_s', angle_units="deg",
-          line_width=1.5,
+          line_width=1,
           line_color="black", source=df_xtab)
 
-    p.wedge(x=x_col, y=y_col, radius=0.1,
+    p.wedge(x=x_col, y=y_col, radius=wedge_radius,
             start_angle='angle_s', end_angle=90, start_angle_units="deg",
-            end_angle_units="deg", direction="clock", alpha=0.1,
+            end_angle_units="deg", direction="clock", alpha=0.05,
             line_color="black", color=DF2_COLOR, source=df_xtab)
-
+    
+    p.xaxis.visible = spec['options']['x_labels_visible']
+    p.yaxis.visible = spec['options']['y_labels_visible']
+    
+    p.xaxis.major_label_orientation = math.pi/-4
     p.ygrid.grid_line_color = None
-    p.xgrid.grid_line_color = "rgba(0, 0, 0, 0.3)"
+    p.xgrid.grid_line_color = "rgba(0, 0, 0, 0.1)"
     p.xaxis.axis_line_color = None
     p.yaxis.axis_line_color = None
     p.xaxis.major_tick_line_color = None

@@ -69,7 +69,20 @@ def launch_temp_file(file_type, **kwargs):
             #------------------------------------------------------------------        
         ''' % (', '.join(map(str, kwargs['common_cols']))))
         
-        yaml_str = yaml.safe_dump({"y_axis":[], "x_axis":[]})
+        yaml_str = yaml.safe_dump(
+            {
+                "columns":
+                    {
+                        "y_axis":[],
+                        "x_axis":[]
+                    },
+                "options":
+                    {
+                        "y_labels_visible":True,
+                        "x_labels_visible":True
+                    }
+            }
+        )
         temp_name = "xtab.yml"
 
 
