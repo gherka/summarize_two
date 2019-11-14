@@ -14,12 +14,34 @@ import pandas as pd
 
 from bokeh.plotting import figure
 from bokeh.models import (
-    ColumnDataSource, BasicTicker, HoverTool, NumeralTickFormatter)
+    ColumnDataSource, BasicTicker, HoverTool, NumeralTickFormatter, FactorRange)
 from bokeh.layouts import column
 from bokeh.embed import json_item
 
 # Summarize2 imports
 from ..core.helper_funcs import transform_frequencies
+
+def colour_mapper(angles, preset):
+    '''
+    Map angle values to colours
+    presets are either default or ml
+    '''        
+    
+    if preset == "default":
+        return "black"
+    
+    elif preset == "ml":
+    
+        cond = (
+
+            #values from only one dataset are present
+            (angles == 450) | (angles == 90)
+            |
+            #values are split precisely 50/50
+            (angles == 270)
+        )
+
+        return np.where(cond, "#d01c8b", "#4dac26")
 
 
 def generate_xtab_plot(df1, df2, spec):
@@ -101,31 +123,87 @@ def generate_xtab_plot(df1, df2, spec):
     wedge_radius = 0.25 * aspect
     ray_length = wedge_radius * 2.1
 
-    p = figure(plot_width=plot_width, plot_height=plot_height,
+
+    if spec['options']['column_sort']:
+
+        p = figure(plot_width=plot_width, plot_height=plot_height,
                toolbar_location=None,
                tools=["pan, wheel_zoom", MyHover],
                active_scroll="wheel_zoom",
                x_range=df_xtab[x_col].unique(),
-               y_range=df_xtab[y_col].unique(),
+               y_range=FactorRange(
+                   factors=[str(x) for x in range(df_xtab[y_col].nunique())]),
                x_axis_location='above')
-
-    p.wedge(x=x_col, y=y_col, radius=wedge_radius,
-            start_angle=90, end_angle='angle_s', start_angle_units="deg",
-            end_angle_units="deg", direction="clock", alpha=0.05,
-            line_color="black", color=DF1_COLOR, source=df_xtab)
-
-    p.ray(x=x_col, y=y_col, length=ray_length,
-          angle='angle_s', angle_units="deg",
-          line_width=1,
-          line_color="black", source=df_xtab)
-
-    p.wedge(x=x_col, y=y_col, radius=wedge_radius,
-            start_angle='angle_s', end_angle=90, start_angle_units="deg",
-            end_angle_units="deg", direction="clock", alpha=0.05,
-            line_color="black", color=DF2_COLOR, source=df_xtab)
     
-    p.xaxis.visible = spec['options']['x_labels_visible']
-    p.yaxis.visible = spec['options']['y_labels_visible']
+        p.extra_y_ranges = {}
+
+        for x_col_val in df_xtab[x_col].unique():
+
+            #create a df for selected x heading and sort it
+            x_df = (
+                df_xtab[df_xtab[x_col] == x_col_val]
+                .sort_values('angle_s')
+                .reset_index(drop=True)
+                .dropna()
+            )
+        
+            x_df['sorted_index'] = [str(x) for x in x_df.index]
+            p.extra_y_ranges[x_col_val] = FactorRange(factors=x_df['sorted_index'])
+            x_df['line_colour'] = colour_mapper(
+                x_df['angle_s'], preset=spec['options']['colour_preset'])
+
+            p.wedge(x=x_col, y='sorted_index', radius=wedge_radius,
+                    y_range_name=x_col_val,
+                    start_angle=90, end_angle='angle_s', start_angle_units="deg",
+                    end_angle_units="deg", direction="clock", alpha=0.05,
+                    line_color="black", color=DF1_COLOR, source=x_df)
+
+            p.ray(x=x_col, y='sorted_index', length=ray_length,
+                angle='angle_s', angle_units="deg",
+                line_width=1.5, y_range_name=x_col_val,
+                line_color="line_colour", source=x_df)
+
+            p.wedge(x=x_col, y='sorted_index', radius=wedge_radius,
+                    y_range_name=x_col_val, start_angle='angle_s',
+                    end_angle=90, start_angle_units="deg",
+                    end_angle_units="deg", direction="clock", alpha=0.05,
+                    line_color="black", color=DF2_COLOR, source=x_df)
+            
+            p.xaxis.visible = True
+            p.yaxis.visible = False
+
+    else:
+
+        df_xtab['line_colour'] = colour_mapper(
+                df_xtab['angle_s'], preset=spec['options']['colour_preset'])
+
+        df_xtab.dropna(inplace=True)
+
+        p = figure(plot_width=plot_width, plot_height=plot_height,
+                toolbar_location=None,
+                tools=["pan, wheel_zoom", MyHover],
+                active_scroll="wheel_zoom",
+                x_range=df_xtab[x_col].unique(),
+                y_range=df_xtab[y_col].unique(),
+                x_axis_location='above')
+
+        p.wedge(x=x_col, y=y_col, radius=wedge_radius,
+                start_angle=90, end_angle='angle_s', start_angle_units="deg",
+                end_angle_units="deg", direction="clock", alpha=0.05,
+                line_color="black", color=DF1_COLOR, source=df_xtab)
+
+        p.ray(x=x_col, y=y_col, length=ray_length,
+            angle='angle_s', angle_units="deg",
+            line_width=1.5,
+            line_color="line_colour", source=df_xtab)
+
+        p.wedge(x=x_col, y=y_col, radius=wedge_radius,
+                start_angle='angle_s', end_angle=90, start_angle_units="deg",
+                end_angle_units="deg", direction="clock", alpha=0.05,
+                line_color="black", color=DF2_COLOR, source=df_xtab)
+
+        p.xaxis.visible = spec['options']['x_labels_visible']
+        p.yaxis.visible = spec['options']['y_labels_visible']
     
     p.xaxis.major_label_orientation = math.pi/-4
     p.ygrid.grid_line_color = None

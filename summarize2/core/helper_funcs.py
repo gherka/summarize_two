@@ -78,8 +78,10 @@ def launch_temp_file(file_type, **kwargs):
                     },
                 "options":
                     {
-                        "y_labels_visible":True,
-                        "x_labels_visible":True
+                        "y_labels_visible": True,
+                        "x_labels_visible": True,
+                        "column_sort": False,
+                        "colour_preset": "default"
                     }
             }
         )
