@@ -54,8 +54,17 @@ class referenceTests(unittest.TestCase):
         #Bokeh adds a 4 digit ID to various elements that are unique to each generation
         #also, the paths in the files can be upper or lower case
         #by casting everything into upper some information (__ndarray__) is lost!
-        a_clean = re.sub(r'"\d{4}"', '', ref_output).upper()
-        b_clean = re.sub(r'"\d{4}"', '', test_output.getvalue()).upper()
+        a_clean = re.sub(
+            r'"\d{4}"|.*bootstrap.min.css">\n|.*main.css">\n|.*bokeh-1.4.0.min.js">\n',
+            '',
+            ref_output
+            ).upper()
+
+        b_clean = re.sub(
+            r'"\d{4}"|.*bootstrap.min.css">\n|.*main.css">\n|.*bokeh-1.4.0.min.js">\n',
+            '',
+            test_output.getvalue()
+            ).upper()
 
         a = ''.join(sorted(a_clean))
         b = ''.join(sorted(b_clean))
