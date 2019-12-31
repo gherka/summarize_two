@@ -28,7 +28,7 @@ class referenceTests(unittest.TestCase):
         '''
 
         test_output = StringIO()
-        ref_path = Path(package_dir('ref', 'ref_basic.html'))
+        ref_path = Path(package_dir('command', 'tests', 'ref', 'ref_basic.html'))
         with open(ref_path, 'r') as f:
             ref_output = f.read()
 
@@ -73,7 +73,7 @@ class referenceTests(unittest.TestCase):
         '''
 
         test_output = StringIO()
-        ref_path = Path(package_dir('ref', 'ref_synthpop.html'))
+        ref_path = Path(package_dir('command', 'tests', 'ref', 'ref_synthpop.html'))
         with open(ref_path, 'r') as f:
             ref_output = f.read()
 

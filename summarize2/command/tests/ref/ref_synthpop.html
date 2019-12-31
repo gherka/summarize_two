@@ -1,0 +1,1432 @@
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- Three mandatory meta tags when using Bootstrap -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" href="c:\users\germap01\python\git projects\summarize_two\summarize2\static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="c:\users\germap01\python\git projects\summarize_two\summarize2\static/css/main.css">
+
+    <title>Dataset comparison report</title>
+</head>
+
+<body>
+
+<div class="container" style="max-width: 1000px;">
+
+    <!-- Title across the entire container -->
+    <div style="text-align: center;">
+        <h1>Visual report comparing two datasets</h1>
+        <p><i>Built using Bokeh, Bootstrap and Jinja2 templates</i></p>
+    </div>
+
+    <!-- Summary text -->
+    <div>
+        <h4>Summary information and dataset shapes:</h4>
+    </div>
+
+    <!-- Summary tables with number of rows and columns in each dataset -->
+    <div class="d-flex">
+        <div class="row">
+            
+            <div class="col-md-6">
+            <table>
+                <TR>
+                    <TD class="table_top" colspan="2">DF1</TD>
+                </TR>
+                <TR>
+                    <TD class="table_top file_name" colspan="2">Original.csv</TD>
+                </TR>
+                <TR>
+                    <TD>Number of rows</TD>
+                    <TD>Number of columns</TD>
+                </TR>
+                <TR>
+                    <TD>5000</TD>
+                    <TD>11</TD>
+                </TR>
+            </table>
+            </div>
+            
+            <div class="col-md-6">
+            <table>
+                <TR>
+                    <TD class="table_top" colspan="2">DF2</TD>
+                </TR>
+                <TR>
+                    <TD class="table_top file_name" colspan="2">Synth.csv</TD>
+                </TR>
+                <TR>
+                    <TD>Number of rows</TD>
+                    <TD>Number of columns</TD>
+                </TR>
+                <TR>
+                    <TD>5000</TD>
+                    <TD>11</TD>
+                </TR>
+            </table>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Mismatching columns -->
+    <div>
+        <h4 class="py-4" style="text-align: left"><u>Mismatching</u> variable names:</h5>
+        <ul>
+            
+
+                <li style="font-size: 18px">
+
+                
+                    None
+                
+                
+                </li>
+
+            
+        </ul>
+    </div>
+
+    <!-- Detailed tables generator -->
+    <div>
+    <!-- Create a table for each column dtype: Categorical, Continuous, Timeseries -->
+    
+
+    <h5 class="py-2 col-md-12" style="text-align: center">Categorical variables</h5>
+
+    <div class="row">
+            <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <TR>
+                        <TD class="table_top" style="text-align: left">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left"></TD>
+                        <!-- Since columns might differ depending on column dtype, they are generated in their own loop -->
+                        
+                        <TD class="table_top" style=>Uniques</TD>
+                        
+                        <TD class="table_top" style=>Duplicates</TD>
+                        
+                        <TD class="table_top" style=>NAs</TD>
+                        
+
+                        
+
+                            <TD class="table_top" style="text-align: center">Frequencies Plot</TD>
+
+                        
+
+                    </TR>
+                </thead>
+                <tbody>
+                    <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">sex</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        2
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        0
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_sex" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                    <TD class= "align-middle">
+                                            2
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            0
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">agegr</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        6
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        4
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_agegr" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>
+
+
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                    <TD class= "align-middle">
+                                            6
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            6
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">edu</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        4
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        7
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_edu" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                    <TD class= "align-middle">
+                                            4
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            4
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">socprof</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        9
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        33
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_socprof" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                    <TD class= "align-middle">
+                                            9
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            33
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">marital</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        6
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        9
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_marital" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                    <TD class= "align-middle">
+                                            6
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            9
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">trust</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        37
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_trust" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                    <TD class= "align-middle">
+                                            3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            36
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">trustfam</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        11
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_trustfam" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                    <TD class= "align-middle">
+                                            3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            9
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">trustneigh</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        11
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="cat_trustneigh" style="width:20%;" rowspan="4">
+                                    </TD>
+                                                            
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                    <TD class= "align-middle">
+                                            3
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            True
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            8
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+    <h5 class="py-2 col-md-12" style="text-align: center">Continuous variables</h5>
+
+    <div class="row">
+            <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <TR>
+                        <TD class="table_top" style="text-align: left">Variable Name</TD>
+                        <TD class="table_top" style="text-align: left"></TD>
+                        <!-- Since columns might differ depending on column dtype, they are generated in their own loop -->
+                        
+                        <TD class="table_top" style=>Min</TD>
+                        
+                        <TD class="table_top" style=>Max</TD>
+                        
+                        <TD class="table_top" style=>Mean</TD>
+                        
+                        <TD class="table_top" style=>25%</TD>
+                        
+                        <TD class="table_top" style=>75%</TD>
+                        
+                        <TD class="table_top" style=>NAs</TD>
+                        
+
+                        
+
+                            <TD class="table_top" style="text-align: center">KDE Distribution Plot</TD>
+
+                        
+
+                    </TR>
+                </thead>
+                <tbody>
+                    <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">depress</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        0.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        21.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        4.49
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        1.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        7.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        89
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="kde_depress" style="width:20%;" rowspan="4">
+                                    </TD>
+
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                    <TD class= "align-middle">
+                                            0.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            21.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            4.46
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            1.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            7.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            70
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row even">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">income</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        -8.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        16000.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        1411.09
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        700.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        1800.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        683
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="kde_income" style="width:20%;" rowspan="4">
+                                    </TD>
+
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>
+
+
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>
+
+
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row even">
+                                
+                                    <TD class= "align-middle">
+                                            -8.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            16000.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            1459.55
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            736.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            2000.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            725
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                        <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                        
+
+                            <TR  class="fixed_height_row odd">
+                                <TD class="align-middle" style="text-align: left; width:15%;" rowspan="4">weight</TD>
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF1</TD>
+                                <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                                
+                                    <TD class= "align-middle">
+                                        37.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        150.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        73.91
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        62.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        84.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                        53
+                                    </TD>
+                                
+
+                                
+
+                                    <TD class="align-middle" id="kde_weight" style="width:20%;" rowspan="4">
+                                    </TD>
+
+                                
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+                                        
+                                        <TD class="align-middle" rowspan="2">Same</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_greater" rowspan="2">Greater</TD>
+
+                                        
+  
+                                
+
+                                    
+                                        
+                                        
+
+                                        <TD class="align-middle diff_highlight_less" rowspan="2">Less</TD>
+
+
+
+                                        
+  
+                                
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                <TD class="align-middle" style="width:10%;" rowspan="2">DF2</TD>
+
+                            </TR>
+
+                            <TR class="fixed_height_row odd">
+                                
+                                    <TD class= "align-middle">
+                                            37.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            150.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            73.6
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            61.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            83.0
+                                    </TD>
+                                
+                                    <TD class= "align-middle">
+                                            57
+                                    </TD>
+                                
+                            </TR>
+                    <!-- Extra row to act as a separator -->
+                    <TR style="height:1px"></TR>
+
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+    </div>
+
+    
+    <!-- Optional Crosstab section-->
+
+    
+
+    <!-- Optional Ridge Plot section-->
+
+    
+
+</div>
+<br>
+<br>
+
+<script src="c:\users\germap01\python\git projects\summarize_two\summarize2\static/scripts/bokeh-1.4.0.min.js"></script>
+<script> 
+// Use BokehJS to rended frequency difference plots from their JSON representation
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1252", "doc": {"roots": {"references": [{"attributes": {}, "id": "1262", "type": "CategoricalTicker"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1296", "type": "Selection"}, "selection_policy": {"id": "1295", "type": "UnionRenderers"}}, "id": "1281", "type": "ColumnDataSource"}, {"attributes": {"callback": null, "factors": ["FEMALE", "MALE"]}, "id": "1253", "type": "FactorRange"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#527563"], "DF1": [2818, 2182], "DF2": [2806, 2194], "DIFF_ABS": [-12, 12], "DIFF_PCT": [-0.004267425320056899, 0.005484460694698354], "VAR": ["FEMALE", "MALE"], "index": [0, 1]}, "selected": {"id": "1294", "type": "Selection"}, "selection_policy": {"id": "1293", "type": "UnionRenderers"}}, "id": "1250", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1290", "type": "CategoricalTickFormatter"}, {"attributes": {"formatter": {"id": "1290", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1262", "type": "CategoricalTicker"}, "visible": false}, "id": "1261", "type": "CategoricalAxis"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1286", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1266", "type": "BasicTicker"}}, "id": "1265", "type": "LinearAxis"}, {"attributes": {}, "id": "1257", "type": "CategoricalScale"}, {"attributes": {}, "id": "1296", "type": "Selection"}, {"attributes": {}, "id": "1266", "type": "BasicTicker"}, {"attributes": {"data_source": {"id": "1281", "type": "ColumnDataSource"}, "glyph": {"id": "1282", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1283", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1285", "type": "CDSView"}}, "id": "1284", "type": "GlyphRenderer"}, {"attributes": {"source": {"id": "1250", "type": "ColumnDataSource"}}, "id": "1280", "type": "CDSView"}, {"attributes": {"dimension": 1, "ticker": {"id": "1266", "type": "BasicTicker"}, "visible": false}, "id": "1269", "type": "Grid"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 2}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1282", "type": "Ray"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 2}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1283", "type": "Ray"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1277", "type": "VBar"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1278", "type": "VBar"}, {"attributes": {}, "id": "1295", "type": "UnionRenderers"}, {"attributes": {"data_source": {"id": "1250", "type": "ColumnDataSource"}, "glyph": {"id": "1277", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1278", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1280", "type": "CDSView"}}, "id": "1279", "type": "GlyphRenderer"}, {"attributes": {"source": {"id": "1281", "type": "ColumnDataSource"}}, "id": "1285", "type": "CDSView"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1251", "type": "HoverTool"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1261", "type": "CategoricalAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "center": [{"id": "1264", "type": "Grid"}, {"id": "1269", "type": "Grid"}], "left": [{"id": "1265", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1279", "type": "GlyphRenderer"}, {"id": "1284", "type": "GlyphRenderer"}], "title": {"id": "1288", "type": "Title"}, "toolbar": {"id": "1272", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1253", "type": "FactorRange"}, "x_scale": {"id": "1257", "type": "CategoricalScale"}, "y_range": {"id": "1255", "type": "DataRange1d"}, "y_scale": {"id": "1259", "type": "LinearScale"}}, "id": "1252", "subtype": "Figure", "type": "Plot"}, {"attributes": {"format": "0.0%"}, "id": "1286", "type": "NumeralTickFormatter"}, {"attributes": {"callback": null}, "id": "1255", "type": "DataRange1d"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1271", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1251", "type": "HoverTool"}, {"id": "1270", "type": "PanTool"}, {"id": "1271", "type": "WheelZoomTool"}]}, "id": "1272", "type": "Toolbar"}, {"attributes": {}, "id": "1294", "type": "Selection"}, {"attributes": {"ticker": {"id": "1262", "type": "CategoricalTicker"}, "visible": false}, "id": "1264", "type": "Grid"}, {"attributes": {}, "id": "1259", "type": "LinearScale"}, {"attributes": {}, "id": "1271", "type": "WheelZoomTool"}, {"attributes": {}, "id": "1270", "type": "PanTool"}, {"attributes": {}, "id": "1293", "type": "UnionRenderers"}, {"attributes": {"text": ""}, "id": "1288", "type": "Title"}], "root_ids": ["1252"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_sex');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1335", "doc": {"roots": {"references": [{"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1369", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1349", "type": "BasicTicker"}}, "id": "1348", "type": "LinearAxis"}, {"attributes": {"ticker": {"id": "1345", "type": "CategoricalTicker"}, "visible": false}, "id": "1347", "type": "Grid"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1334", "type": "HoverTool"}, {"attributes": {}, "id": "1379", "type": "Selection"}, {"attributes": {}, "id": "1340", "type": "CategoricalScale"}, {"attributes": {}, "id": "1376", "type": "UnionRenderers"}, {"attributes": {"text": ""}, "id": "1371", "type": "Title"}, {"attributes": {"callback": null, "factors": ["65+", "45-59", "60-64", "16-24", "nan", "25-34", "35-44"]}, "id": "1336", "type": "FactorRange"}, {"attributes": {"data_source": {"id": "1333", "type": "ColumnDataSource"}, "glyph": {"id": "1360", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1361", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1363", "type": "CDSView"}}, "id": "1362", "type": "GlyphRenderer"}, {"attributes": {"formatter": {"id": "1373", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1345", "type": "CategoricalTicker"}, "visible": false}, "id": "1344", "type": "CategoricalAxis"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#876388", "#876388", "#527563", "#527563"], "DF1": [943, 1361, 516, 702, 0, 726, 748], "DF2": [907, 1325, 506, 694, 0, 766, 796], "DIFF_ABS": [-36, -36, -10, -8, 0, 40, 48], "DIFF_PCT": [-0.03891891891891892, -0.02680565897244974, -0.019569471624266144, -0.011461318051575931, 0, 0.05361930294906166, 0.06217616580310881], "VAR": ["65+", "45-59", "60-64", "16-24", "nan", "25-34", "35-44"], "index": [5, 6, 4, 0, 2, 1, 3]}, "selected": {"id": "1377", "type": "Selection"}, "selection_policy": {"id": "1376", "type": "UnionRenderers"}}, "id": "1333", "type": "ColumnDataSource"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1361", "type": "VBar"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 7}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1366", "type": "Ray"}, {"attributes": {"callback": null}, "id": "1338", "type": "DataRange1d"}, {"attributes": {"source": {"id": "1364", "type": "ColumnDataSource"}}, "id": "1368", "type": "CDSView"}, {"attributes": {}, "id": "1354", "type": "WheelZoomTool"}, {"attributes": {}, "id": "1353", "type": "PanTool"}, {"attributes": {"dimension": 1, "ticker": {"id": "1349", "type": "BasicTicker"}, "visible": false}, "id": "1352", "type": "Grid"}, {"attributes": {}, "id": "1378", "type": "UnionRenderers"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1379", "type": "Selection"}, "selection_policy": {"id": "1378", "type": "UnionRenderers"}}, "id": "1364", "type": "ColumnDataSource"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 7}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1365", "type": "Ray"}, {"attributes": {"data_source": {"id": "1364", "type": "ColumnDataSource"}, "glyph": {"id": "1365", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1366", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1368", "type": "CDSView"}}, "id": "1367", "type": "GlyphRenderer"}, {"attributes": {"source": {"id": "1333", "type": "ColumnDataSource"}}, "id": "1363", "type": "CDSView"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1360", "type": "VBar"}, {"attributes": {}, "id": "1373", "type": "CategoricalTickFormatter"}, {"attributes": {"format": "0.0%"}, "id": "1369", "type": "NumeralTickFormatter"}, {"attributes": {}, "id": "1349", "type": "BasicTicker"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1354", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1334", "type": "HoverTool"}, {"id": "1353", "type": "PanTool"}, {"id": "1354", "type": "WheelZoomTool"}]}, "id": "1355", "type": "Toolbar"}, {"attributes": {}, "id": "1377", "type": "Selection"}, {"attributes": {}, "id": "1342", "type": "LinearScale"}, {"attributes": {"background_fill_color": {"value": "gainsboro"}, "below": [{"id": "1344", "type": "CategoricalAxis"}], "border_fill_color": {"value": "gainsboro"}, "center": [{"id": "1347", "type": "Grid"}, {"id": "1352", "type": "Grid"}], "left": [{"id": "1348", "type": "LinearAxis"}], "outline_line_color": {"value": "gainsboro"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1362", "type": "GlyphRenderer"}, {"id": "1367", "type": "GlyphRenderer"}], "title": {"id": "1371", "type": "Title"}, "toolbar": {"id": "1355", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1336", "type": "FactorRange"}, "x_scale": {"id": "1340", "type": "CategoricalScale"}, "y_range": {"id": "1338", "type": "DataRange1d"}, "y_scale": {"id": "1342", "type": "LinearScale"}}, "id": "1335", "subtype": "Figure", "type": "Plot"}, {"attributes": {}, "id": "1345", "type": "CategoricalTicker"}], "root_ids": ["1335"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_agegr');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1418", "doc": {"roots": {"references": [{"attributes": {"text": ""}, "id": "1454", "type": "Title"}, {"attributes": {"ticker": {"id": "1428", "type": "CategoricalTicker"}, "visible": false}, "id": "1430", "type": "Grid"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 5}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1449", "type": "Ray"}, {"attributes": {}, "id": "1459", "type": "UnionRenderers"}, {"attributes": {"data_source": {"id": "1447", "type": "ColumnDataSource"}, "glyph": {"id": "1448", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1449", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1451", "type": "CDSView"}}, "id": "1450", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1436", "type": "PanTool"}, {"attributes": {"callback": null}, "id": "1421", "type": "DataRange1d"}, {"attributes": {"source": {"id": "1447", "type": "ColumnDataSource"}}, "id": "1451", "type": "CDSView"}, {"attributes": {}, "id": "1432", "type": "BasicTicker"}, {"attributes": {"callback": null, "factors": ["VOCATIONAL/GRAMMAR", "PRIMARY/NO EDUCATION", "nan", "POST-SECONDARY OR HIGHER", "SECONDARY"]}, "id": "1419", "type": "FactorRange"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#527563", "#527563"], "DF1": [1613, 962, 0, 936, 1482], "DF2": [1539, 924, 0, 953, 1580], "DIFF_ABS": [-74, -38, 0, 17, 98], "DIFF_PCT": [-0.046954314720812185, -0.04029692470837752, 0, 0.017998941238750663, 0.06401045068582625], "VAR": ["VOCATIONAL/GRAMMAR", "PRIMARY/NO EDUCATION", "nan", "POST-SECONDARY OR HIGHER", "SECONDARY"], "index": [3, 2, 0, 4, 1]}, "selected": {"id": "1460", "type": "Selection"}, "selection_policy": {"id": "1459", "type": "UnionRenderers"}}, "id": "1416", "type": "ColumnDataSource"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1444", "type": "VBar"}, {"attributes": {}, "id": "1461", "type": "UnionRenderers"}, {"attributes": {"dimension": 1, "ticker": {"id": "1432", "type": "BasicTicker"}, "visible": false}, "id": "1435", "type": "Grid"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 5}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1448", "type": "Ray"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1417", "type": "HoverTool"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1443", "type": "VBar"}, {"attributes": {}, "id": "1428", "type": "CategoricalTicker"}, {"attributes": {"source": {"id": "1416", "type": "ColumnDataSource"}}, "id": "1446", "type": "CDSView"}, {"attributes": {}, "id": "1456", "type": "CategoricalTickFormatter"}, {"attributes": {"formatter": {"id": "1456", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1428", "type": "CategoricalTicker"}, "visible": false}, "id": "1427", "type": "CategoricalAxis"}, {"attributes": {"format": "0.0%"}, "id": "1452", "type": "NumeralTickFormatter"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1452", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1432", "type": "BasicTicker"}}, "id": "1431", "type": "LinearAxis"}, {"attributes": {}, "id": "1460", "type": "Selection"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1462", "type": "Selection"}, "selection_policy": {"id": "1461", "type": "UnionRenderers"}}, "id": "1447", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1437", "type": "WheelZoomTool"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1427", "type": "CategoricalAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "center": [{"id": "1430", "type": "Grid"}, {"id": "1435", "type": "Grid"}], "left": [{"id": "1431", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1445", "type": "GlyphRenderer"}, {"id": "1450", "type": "GlyphRenderer"}], "title": {"id": "1454", "type": "Title"}, "toolbar": {"id": "1438", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1419", "type": "FactorRange"}, "x_scale": {"id": "1423", "type": "CategoricalScale"}, "y_range": {"id": "1421", "type": "DataRange1d"}, "y_scale": {"id": "1425", "type": "LinearScale"}}, "id": "1418", "subtype": "Figure", "type": "Plot"}, {"attributes": {}, "id": "1462", "type": "Selection"}, {"attributes": {}, "id": "1425", "type": "LinearScale"}, {"attributes": {"data_source": {"id": "1416", "type": "ColumnDataSource"}, "glyph": {"id": "1443", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1444", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1446", "type": "CDSView"}}, "id": "1445", "type": "GlyphRenderer"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1437", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1417", "type": "HoverTool"}, {"id": "1436", "type": "PanTool"}, {"id": "1437", "type": "WheelZoomTool"}]}, "id": "1438", "type": "Toolbar"}, {"attributes": {}, "id": "1423", "type": "CategoricalScale"}], "root_ids": ["1418"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_edu');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1501", "doc": {"roots": {"references": [{"attributes": {}, "id": "1542", "type": "UnionRenderers"}, {"attributes": {"ticker": {"id": "1511", "type": "CategoricalTicker"}, "visible": false}, "id": "1513", "type": "Grid"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1535", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1515", "type": "BasicTicker"}}, "id": "1514", "type": "LinearAxis"}, {"attributes": {}, "id": "1545", "type": "Selection"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1527", "type": "VBar"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1500", "type": "HoverTool"}, {"attributes": {"text": ""}, "id": "1537", "type": "Title"}, {"attributes": {}, "id": "1515", "type": "BasicTicker"}, {"attributes": {}, "id": "1543", "type": "Selection"}, {"attributes": {"source": {"id": "1499", "type": "ColumnDataSource"}}, "id": "1529", "type": "CDSView"}, {"attributes": {"background_fill_color": {"value": "gainsboro"}, "below": [{"id": "1510", "type": "CategoricalAxis"}], "border_fill_color": {"value": "gainsboro"}, "center": [{"id": "1513", "type": "Grid"}, {"id": "1518", "type": "Grid"}], "left": [{"id": "1514", "type": "LinearAxis"}], "outline_line_color": {"value": "gainsboro"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1528", "type": "GlyphRenderer"}, {"id": "1533", "type": "GlyphRenderer"}], "title": {"id": "1537", "type": "Title"}, "toolbar": {"id": "1521", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1502", "type": "FactorRange"}, "x_scale": {"id": "1506", "type": "CategoricalScale"}, "y_range": {"id": "1504", "type": "DataRange1d"}, "y_scale": {"id": "1508", "type": "LinearScale"}}, "id": "1501", "subtype": "Figure", "type": "Plot"}, {"attributes": {"callback": null, "factors": ["LONG-TERM SICK/DISABLED", "RETIRED", "SELF-EMPLOYED", "nan", "PUPIL OR STUDENT", "EMPLOYED IN PRIVATE SECTOR", "EMPLOYED IN PUBLIC SECTOR", "FARMER", "UNEMPLOYED", "OTHER ECONOMICALLY INACTIVE"]}, "id": "1502", "type": "FactorRange"}, {"attributes": {"source": {"id": "1530", "type": "ColumnDataSource"}}, "id": "1534", "type": "CDSView"}, {"attributes": {}, "id": "1544", "type": "UnionRenderers"}, {"attributes": {"callback": null}, "id": "1504", "type": "DataRange1d"}, {"attributes": {"data_source": {"id": "1530", "type": "ColumnDataSource"}, "glyph": {"id": "1531", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1532", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1534", "type": "CDSView"}}, "id": "1533", "type": "GlyphRenderer"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#876388", "#527563", "#527563", "#527563", "#527563", "#527563", "#527563"], "DF1": [375, 1241, 166, 0, 548, 994, 600, 243, 356, 444], "DF2": [360, 1192, 163, 0, 551, 1009, 616, 250, 367, 459], "DIFF_ABS": [-15, -49, -3, 0, 3, 15, 16, 7, 11, 15], "DIFF_PCT": [-0.04081632653061224, -0.04027949034114262, -0.0182370820668693, 0, 0.00545950864422202, 0.014977533699450823, 0.02631578947368421, 0.028397565922920892, 0.030428769017980636, 0.03322259136212625], "VAR": ["LONG-TERM SICK/DISABLED", "RETIRED", "SELF-EMPLOYED", "nan", "PUPIL OR STUDENT", "EMPLOYED IN PRIVATE SECTOR", "EMPLOYED IN PUBLIC SECTOR", "FARMER", "UNEMPLOYED", "OTHER ECONOMICALLY INACTIVE"], "index": [4, 9, 3, 0, 8, 7, 1, 6, 2, 5]}, "selected": {"id": "1543", "type": "Selection"}, "selection_policy": {"id": "1542", "type": "UnionRenderers"}}, "id": "1499", "type": "ColumnDataSource"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1520", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1500", "type": "HoverTool"}, {"id": "1519", "type": "PanTool"}, {"id": "1520", "type": "WheelZoomTool"}]}, "id": "1521", "type": "Toolbar"}, {"attributes": {}, "id": "1508", "type": "LinearScale"}, {"attributes": {}, "id": "1520", "type": "WheelZoomTool"}, {"attributes": {"format": "0.0%"}, "id": "1535", "type": "NumeralTickFormatter"}, {"attributes": {"data_source": {"id": "1499", "type": "ColumnDataSource"}, "glyph": {"id": "1526", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1527", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1529", "type": "CDSView"}}, "id": "1528", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1506", "type": "CategoricalScale"}, {"attributes": {}, "id": "1539", "type": "CategoricalTickFormatter"}, {"attributes": {}, "id": "1519", "type": "PanTool"}, {"attributes": {"formatter": {"id": "1539", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1511", "type": "CategoricalTicker"}, "visible": false}, "id": "1510", "type": "CategoricalAxis"}, {"attributes": {"dimension": 1, "ticker": {"id": "1515", "type": "BasicTicker"}, "visible": false}, "id": "1518", "type": "Grid"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 10}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1531", "type": "Ray"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 10}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1532", "type": "Ray"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1545", "type": "Selection"}, "selection_policy": {"id": "1544", "type": "UnionRenderers"}}, "id": "1530", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1511", "type": "CategoricalTicker"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1526", "type": "VBar"}], "root_ids": ["1501"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_socprof');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1584", "doc": {"roots": {"references": [{"attributes": {}, "id": "1626", "type": "Selection"}, {"attributes": {"formatter": {"id": "1622", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1594", "type": "CategoricalTicker"}, "visible": false}, "id": "1593", "type": "CategoricalAxis"}, {"attributes": {}, "id": "1628", "type": "Selection"}, {"attributes": {"data_source": {"id": "1582", "type": "ColumnDataSource"}, "glyph": {"id": "1609", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1610", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1612", "type": "CDSView"}}, "id": "1611", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1591", "type": "LinearScale"}, {"attributes": {}, "id": "1625", "type": "UnionRenderers"}, {"attributes": {}, "id": "1589", "type": "CategoricalScale"}, {"attributes": {"callback": null}, "id": "1587", "type": "DataRange1d"}, {"attributes": {}, "id": "1594", "type": "CategoricalTicker"}, {"attributes": {"callback": null, "factors": ["LEGALLY SEPARATED", "DE FACTO SEPARATED", "WIDOWED", "SINGLE", "nan", "DIVORCED", "MARRIED"]}, "id": "1585", "type": "FactorRange"}, {"attributes": {"ticker": {"id": "1594", "type": "CategoricalTicker"}, "visible": false}, "id": "1596", "type": "Grid"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#876388", "#876388", "#527563", "#527563"], "DF1": [7, 22, 531, 1253, 0, 199, 2979], "DF2": [4, 13, 456, 1251, 0, 200, 3067], "DIFF_ABS": [-3, -9, -75, -2, 0, 1, 88], "DIFF_PCT": [-0.5454545454545454, -0.5142857142857142, -0.1519756838905775, -0.001597444089456869, 0, 0.005012531328320802, 0.029110155474694012], "VAR": ["LEGALLY SEPARATED", "DE FACTO SEPARATED", "WIDOWED", "SINGLE", "nan", "DIVORCED", "MARRIED"], "index": [6, 4, 3, 2, 0, 1, 5]}, "selected": {"id": "1626", "type": "Selection"}, "selection_policy": {"id": "1625", "type": "UnionRenderers"}}, "id": "1582", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1598", "type": "BasicTicker"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1628", "type": "Selection"}, "selection_policy": {"id": "1627", "type": "UnionRenderers"}}, "id": "1613", "type": "ColumnDataSource"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1603", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1583", "type": "HoverTool"}, {"id": "1602", "type": "PanTool"}, {"id": "1603", "type": "WheelZoomTool"}]}, "id": "1604", "type": "Toolbar"}, {"attributes": {}, "id": "1627", "type": "UnionRenderers"}, {"attributes": {}, "id": "1622", "type": "CategoricalTickFormatter"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1583", "type": "HoverTool"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1618", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1598", "type": "BasicTicker"}}, "id": "1597", "type": "LinearAxis"}, {"attributes": {"dimension": 1, "ticker": {"id": "1598", "type": "BasicTicker"}, "visible": false}, "id": "1601", "type": "Grid"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 7}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1615", "type": "Ray"}, {"attributes": {}, "id": "1603", "type": "WheelZoomTool"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1610", "type": "VBar"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1609", "type": "VBar"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1593", "type": "CategoricalAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "center": [{"id": "1596", "type": "Grid"}, {"id": "1601", "type": "Grid"}], "left": [{"id": "1597", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1611", "type": "GlyphRenderer"}, {"id": "1616", "type": "GlyphRenderer"}], "title": {"id": "1620", "type": "Title"}, "toolbar": {"id": "1604", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1585", "type": "FactorRange"}, "x_scale": {"id": "1589", "type": "CategoricalScale"}, "y_range": {"id": "1587", "type": "DataRange1d"}, "y_scale": {"id": "1591", "type": "LinearScale"}}, "id": "1584", "subtype": "Figure", "type": "Plot"}, {"attributes": {"data_source": {"id": "1613", "type": "ColumnDataSource"}, "glyph": {"id": "1614", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1615", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1617", "type": "CDSView"}}, "id": "1616", "type": "GlyphRenderer"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 7}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1614", "type": "Ray"}, {"attributes": {}, "id": "1602", "type": "PanTool"}, {"attributes": {"text": ""}, "id": "1620", "type": "Title"}, {"attributes": {"source": {"id": "1582", "type": "ColumnDataSource"}}, "id": "1612", "type": "CDSView"}, {"attributes": {"source": {"id": "1613", "type": "ColumnDataSource"}}, "id": "1617", "type": "CDSView"}, {"attributes": {"format": "0.0%"}, "id": "1618", "type": "NumeralTickFormatter"}], "root_ids": ["1584"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_marital');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1667", "doc": {"roots": {"references": [{"attributes": {}, "id": "1674", "type": "LinearScale"}, {"attributes": {"source": {"id": "1696", "type": "ColumnDataSource"}}, "id": "1700", "type": "CDSView"}, {"attributes": {}, "id": "1681", "type": "BasicTicker"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1701", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1681", "type": "BasicTicker"}}, "id": "1680", "type": "LinearAxis"}, {"attributes": {"source": {"id": "1665", "type": "ColumnDataSource"}}, "id": "1695", "type": "CDSView"}, {"attributes": {}, "id": "1677", "type": "CategoricalTicker"}, {"attributes": {}, "id": "1710", "type": "UnionRenderers"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1698", "type": "Ray"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1711", "type": "Selection"}, "selection_policy": {"id": "1710", "type": "UnionRenderers"}}, "id": "1696", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1685", "type": "PanTool"}, {"attributes": {}, "id": "1711", "type": "Selection"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1686", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1666", "type": "HoverTool"}, {"id": "1685", "type": "PanTool"}, {"id": "1686", "type": "WheelZoomTool"}]}, "id": "1687", "type": "Toolbar"}, {"attributes": {}, "id": "1686", "type": "WheelZoomTool"}, {"attributes": {"background_fill_color": {"value": "gainsboro"}, "below": [{"id": "1676", "type": "CategoricalAxis"}], "border_fill_color": {"value": "gainsboro"}, "center": [{"id": "1679", "type": "Grid"}, {"id": "1684", "type": "Grid"}], "left": [{"id": "1680", "type": "LinearAxis"}], "outline_line_color": {"value": "gainsboro"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1694", "type": "GlyphRenderer"}, {"id": "1699", "type": "GlyphRenderer"}], "title": {"id": "1703", "type": "Title"}, "toolbar": {"id": "1687", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1668", "type": "FactorRange"}, "x_scale": {"id": "1672", "type": "CategoricalScale"}, "y_range": {"id": "1670", "type": "DataRange1d"}, "y_scale": {"id": "1674", "type": "LinearScale"}}, "id": "1667", "subtype": "Figure", "type": "Plot"}, {"attributes": {"ticker": {"id": "1677", "type": "CategoricalTicker"}, "visible": false}, "id": "1679", "type": "Grid"}, {"attributes": {}, "id": "1672", "type": "CategoricalScale"}, {"attributes": {"callback": null}, "id": "1670", "type": "DataRange1d"}, {"attributes": {"formatter": {"id": "1705", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1677", "type": "CategoricalTicker"}, "visible": false}, "id": "1676", "type": "CategoricalAxis"}, {"attributes": {"data_source": {"id": "1696", "type": "ColumnDataSource"}, "glyph": {"id": "1697", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1698", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1700", "type": "CDSView"}}, "id": "1699", "type": "GlyphRenderer"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1693", "type": "VBar"}, {"attributes": {}, "id": "1708", "type": "UnionRenderers"}, {"attributes": {"data_source": {"id": "1665", "type": "ColumnDataSource"}, "glyph": {"id": "1692", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1693", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1695", "type": "CDSView"}}, "id": "1694", "type": "GlyphRenderer"}, {"attributes": {"dimension": 1, "ticker": {"id": "1681", "type": "BasicTicker"}, "visible": false}, "id": "1684", "type": "Grid"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1692", "type": "VBar"}, {"attributes": {}, "id": "1709", "type": "Selection"}, {"attributes": {"text": ""}, "id": "1703", "type": "Title"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1666", "type": "HoverTool"}, {"attributes": {"format": "0.0%"}, "id": "1701", "type": "NumeralTickFormatter"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1697", "type": "Ray"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#527563"], "DF1": [508, 678, 0, 3777], "DF2": [485, 660, 0, 3819], "DIFF_ABS": [-23, -18, 0, 42], "DIFF_PCT": [-0.04632426988922457, -0.026905829596412557, 0, 0.011058451816745656], "VAR": ["IT`S DIFFICULT TO TELL", "MOST PEOPLE CAN BE TRUSTED", "nan", "ONE CAN`T BE TOO CAREFUL"], "index": [2, 3, 1, 0]}, "selected": {"id": "1709", "type": "Selection"}, "selection_policy": {"id": "1708", "type": "UnionRenderers"}}, "id": "1665", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1705", "type": "CategoricalTickFormatter"}, {"attributes": {"callback": null, "factors": ["IT`S DIFFICULT TO TELL", "MOST PEOPLE CAN BE TRUSTED", "nan", "ONE CAN`T BE TOO CAREFUL"]}, "id": "1668", "type": "FactorRange"}], "root_ids": ["1667"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_trust');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1750", "doc": {"roots": {"references": [{"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#876388", "#527563"], "DF1": [191, 4470, 0, 328], "DF2": [189, 4461, 0, 341], "DIFF_ABS": [-2, -9, 0, 13], "DIFF_PCT": [-0.010526315789473684, -0.002015451797111186, 0, 0.03886397608370702], "VAR": ["NO", "YES", "nan", "NO OPINION"], "index": [1, 2, 0, 3]}, "selected": {"id": "1792", "type": "Selection"}, "selection_policy": {"id": "1791", "type": "UnionRenderers"}}, "id": "1748", "type": "ColumnDataSource"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1780", "type": "Ray"}, {"attributes": {}, "id": "1760", "type": "CategoricalTicker"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1781", "type": "Ray"}, {"attributes": {}, "id": "1768", "type": "PanTool"}, {"attributes": {}, "id": "1788", "type": "CategoricalTickFormatter"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1749", "type": "HoverTool"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1784", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1764", "type": "BasicTicker"}}, "id": "1763", "type": "LinearAxis"}, {"attributes": {}, "id": "1764", "type": "BasicTicker"}, {"attributes": {"data_source": {"id": "1748", "type": "ColumnDataSource"}, "glyph": {"id": "1775", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1776", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1778", "type": "CDSView"}}, "id": "1777", "type": "GlyphRenderer"}, {"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1794", "type": "Selection"}, "selection_policy": {"id": "1793", "type": "UnionRenderers"}}, "id": "1779", "type": "ColumnDataSource"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1769", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1749", "type": "HoverTool"}, {"id": "1768", "type": "PanTool"}, {"id": "1769", "type": "WheelZoomTool"}]}, "id": "1770", "type": "Toolbar"}, {"attributes": {}, "id": "1793", "type": "UnionRenderers"}, {"attributes": {}, "id": "1792", "type": "Selection"}, {"attributes": {"formatter": {"id": "1788", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1760", "type": "CategoricalTicker"}, "visible": false}, "id": "1759", "type": "CategoricalAxis"}, {"attributes": {}, "id": "1791", "type": "UnionRenderers"}, {"attributes": {"format": "0.0%"}, "id": "1784", "type": "NumeralTickFormatter"}, {"attributes": {"callback": null, "factors": ["NO", "YES", "nan", "NO OPINION"]}, "id": "1751", "type": "FactorRange"}, {"attributes": {"text": ""}, "id": "1786", "type": "Title"}, {"attributes": {}, "id": "1757", "type": "LinearScale"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1776", "type": "VBar"}, {"attributes": {"ticker": {"id": "1760", "type": "CategoricalTicker"}, "visible": false}, "id": "1762", "type": "Grid"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1775", "type": "VBar"}, {"attributes": {"source": {"id": "1779", "type": "ColumnDataSource"}}, "id": "1783", "type": "CDSView"}, {"attributes": {"data_source": {"id": "1779", "type": "ColumnDataSource"}, "glyph": {"id": "1780", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1781", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1783", "type": "CDSView"}}, "id": "1782", "type": "GlyphRenderer"}, {"attributes": {"source": {"id": "1748", "type": "ColumnDataSource"}}, "id": "1778", "type": "CDSView"}, {"attributes": {}, "id": "1794", "type": "Selection"}, {"attributes": {}, "id": "1769", "type": "WheelZoomTool"}, {"attributes": {"callback": null}, "id": "1753", "type": "DataRange1d"}, {"attributes": {"dimension": 1, "ticker": {"id": "1764", "type": "BasicTicker"}, "visible": false}, "id": "1767", "type": "Grid"}, {"attributes": {}, "id": "1755", "type": "CategoricalScale"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1759", "type": "CategoricalAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "center": [{"id": "1762", "type": "Grid"}, {"id": "1767", "type": "Grid"}], "left": [{"id": "1763", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1777", "type": "GlyphRenderer"}, {"id": "1782", "type": "GlyphRenderer"}], "title": {"id": "1786", "type": "Title"}, "toolbar": {"id": "1770", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1751", "type": "FactorRange"}, "x_scale": {"id": "1755", "type": "CategoricalScale"}, "y_range": {"id": "1753", "type": "DataRange1d"}, "y_scale": {"id": "1757", "type": "LinearScale"}}, "id": "1750", "subtype": "Figure", "type": "Plot"}], "root_ids": ["1750"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_trustfam');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1833", "doc": {"roots": {"references": [{"attributes": {"callback": null, "data": {"x": [0], "y": [0]}, "selected": {"id": "1877", "type": "Selection"}, "selection_policy": {"id": "1876", "type": "UnionRenderers"}}, "id": "1862", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1847", "type": "BasicTicker"}, {"attributes": {}, "id": "1875", "type": "Selection"}, {"attributes": {"text": ""}, "id": "1869", "type": "Title"}, {"attributes": {}, "id": "1876", "type": "UnionRenderers"}, {"attributes": {"callback": null, "data": {"COLOR": ["#876388", "#876388", "#527563", "#527563"], "DF1": [2959, 0, 955, 1075], "DF2": [2940, 0, 963, 1089], "DIFF_ABS": [-19, 0, 8, 14], "DIFF_PCT": [-0.006441769791490083, 0, 0.008342022940563087, 0.012939001848428836], "VAR": ["YES", "nan", "NO", "NO OPINION"], "index": [2, 0, 1, 3]}, "selected": {"id": "1875", "type": "Selection"}, "selection_policy": {"id": "1874", "type": "UnionRenderers"}}, "id": "1831", "type": "ColumnDataSource"}, {"attributes": {"background_fill_color": {"value": "gainsboro"}, "below": [{"id": "1842", "type": "CategoricalAxis"}], "border_fill_color": {"value": "gainsboro"}, "center": [{"id": "1845", "type": "Grid"}, {"id": "1850", "type": "Grid"}], "left": [{"id": "1846", "type": "LinearAxis"}], "outline_line_color": {"value": "gainsboro"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1860", "type": "GlyphRenderer"}, {"id": "1865", "type": "GlyphRenderer"}], "title": {"id": "1869", "type": "Title"}, "toolbar": {"id": "1853", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1834", "type": "FactorRange"}, "x_scale": {"id": "1838", "type": "CategoricalScale"}, "y_range": {"id": "1836", "type": "DataRange1d"}, "y_scale": {"id": "1840", "type": "LinearScale"}}, "id": "1833", "subtype": "Figure", "type": "Plot"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1863", "type": "Ray"}, {"attributes": {}, "id": "1843", "type": "CategoricalTicker"}, {"attributes": {}, "id": "1852", "type": "WheelZoomTool"}, {"attributes": {}, "id": "1877", "type": "Selection"}, {"attributes": {"callback": null, "factors": ["YES", "nan", "NO", "NO OPINION"]}, "id": "1834", "type": "FactorRange"}, {"attributes": {"format": "0.0%"}, "id": "1867", "type": "NumeralTickFormatter"}, {"attributes": {"source": {"id": "1862", "type": "ColumnDataSource"}}, "id": "1866", "type": "CDSView"}, {"attributes": {}, "id": "1874", "type": "UnionRenderers"}, {"attributes": {"source": {"id": "1831", "type": "ColumnDataSource"}}, "id": "1861", "type": "CDSView"}, {"attributes": {}, "id": "1840", "type": "LinearScale"}, {"attributes": {}, "id": "1838", "type": "CategoricalScale"}, {"attributes": {"callback": null}, "id": "1836", "type": "DataRange1d"}, {"attributes": {"axis_line_width": {"value": 0.5}, "formatter": {"id": "1867", "type": "NumeralTickFormatter"}, "minor_tick_line_alpha": {"value": 0}, "ticker": {"id": "1847", "type": "BasicTicker"}}, "id": "1846", "type": "LinearAxis"}, {"attributes": {"fill_alpha": {"value": 0.1}, "fill_color": {"value": "#1f77b4"}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1859", "type": "VBar"}, {"attributes": {"callback": null, "point_policy": "follow_mouse", "tooltips": [["Name", "@VAR"], ["DF1 Value", "@DF1"], ["DF2 Value", "@DF2"], ["Absolute difference", "@DIFF_ABS"], ["Percent difference", "@DIFF_PCT{0.0%}"]]}, "id": "1832", "type": "HoverTool"}, {"attributes": {"fill_alpha": {"value": 0.8}, "fill_color": {"field": "COLOR"}, "line_alpha": {"value": 0.8}, "line_color": {"value": "white"}, "top": {"field": "DIFF_PCT"}, "width": {"value": 0.9}, "x": {"field": "VAR"}}, "id": "1858", "type": "VBar"}, {"attributes": {"formatter": {"id": "1871", "type": "CategoricalTickFormatter"}, "ticker": {"id": "1843", "type": "CategoricalTicker"}, "visible": false}, "id": "1842", "type": "CategoricalAxis"}, {"attributes": {"dimension": 1, "ticker": {"id": "1847", "type": "BasicTicker"}, "visible": false}, "id": "1850", "type": "Grid"}, {"attributes": {"data_source": {"id": "1831", "type": "ColumnDataSource"}, "glyph": {"id": "1858", "type": "VBar"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1859", "type": "VBar"}, "selection_glyph": null, "view": {"id": "1861", "type": "CDSView"}}, "id": "1860", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1871", "type": "CategoricalTickFormatter"}, {"attributes": {"ticker": {"id": "1843", "type": "CategoricalTicker"}, "visible": false}, "id": "1845", "type": "Grid"}, {"attributes": {"angle": {"units": "rad", "value": 0}, "length": {"units": "data", "value": 4}, "line_alpha": {"value": 0.1}, "line_color": {"value": "#1f77b4"}, "line_width": {"value": 0.5}, "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1864", "type": "Ray"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1852", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1832", "type": "HoverTool"}, {"id": "1851", "type": "PanTool"}, {"id": "1852", "type": "WheelZoomTool"}]}, "id": "1853", "type": "Toolbar"}, {"attributes": {"data_source": {"id": "1862", "type": "ColumnDataSource"}, "glyph": {"id": "1863", "type": "Ray"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1864", "type": "Ray"}, "selection_glyph": null, "view": {"id": "1866", "type": "CDSView"}}, "id": "1865", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1851", "type": "PanTool"}], "root_ids": ["1833"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'cat_trustneigh');
+
+
+
+</script>
+
+
+<script> 
+// Use BokehJS to rended KDE plots from their JSON representation
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1001", "doc": {"roots": {"references": [{"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1010", "type": "LinearAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "center": [{"id": "1014", "type": "Grid"}, {"id": "1019", "type": "Grid"}], "left": [{"id": "1015", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1030", "type": "GlyphRenderer"}, {"id": "1035", "type": "GlyphRenderer"}], "title": {"id": "1039", "type": "Title"}, "toolbar": {"id": "1023", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1002", "type": "Range1d"}, "x_scale": {"id": "1006", "type": "LinearScale"}, "y_range": {"id": "1004", "type": "DataRange1d"}, "y_scale": {"id": "1008", "type": "LinearScale"}}, "id": "1001", "subtype": "Figure", "type": "Plot"}, {"attributes": {"axis_line_color": {"value": null}, "formatter": {"id": "1042", "type": "BasicTickFormatter"}, "major_tick_line_color": {"value": null}, "minor_tick_line_color": {"value": null}, "ticker": {"id": "1016", "type": "BasicTicker"}, "visible": false}, "id": "1015", "type": "LinearAxis"}, {"attributes": {"fill_alpha": 0.1, "fill_color": "#1f77b4", "line_alpha": 0.1, "line_color": "#1f77b4", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1029", "type": "Patch"}, {"attributes": {}, "id": "1046", "type": "UnionRenderers"}, {"attributes": {}, "id": "1016", "type": "BasicTicker"}, {"attributes": {"source": {"id": "1032", "type": "ColumnDataSource"}}, "id": "1036", "type": "CDSView"}, {"attributes": {}, "id": "1047", "type": "Selection"}, {"attributes": {"text": ""}, "id": "1039", "type": "Title"}, {"attributes": {}, "id": "1042", "type": "BasicTickFormatter"}, {"attributes": {"dimension": 1, "grid_line_color": null, "ticker": {"id": "1016", "type": "BasicTicker"}}, "id": "1019", "type": "Grid"}, {"attributes": {}, "id": "1022", "type": "ResetTool"}, {"attributes": {}, "id": "1041", "type": "BasicTickFormatter"}, {"attributes": {"desired_num_ticks": 2}, "id": "1037", "type": "BasicTicker"}, {"attributes": {"callback": null, "end": 21.0}, "id": "1002", "type": "Range1d"}, {"attributes": {"callback": null}, "id": "1004", "type": "DataRange1d"}, {"attributes": {}, "id": "1020", "type": "PanTool"}, {"attributes": {"callback": null, "data": {"x": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}, "y": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}}, "selected": {"id": "1045", "type": "Selection"}, "selection_policy": {"id": "1044", "type": "UnionRenderers"}}, "id": "1027", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1044", "type": "UnionRenderers"}, {"attributes": {"data_source": {"id": "1027", "type": "ColumnDataSource"}, "glyph": {"id": "1028", "type": "Patch"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1029", "type": "Patch"}, "selection_glyph": null, "view": {"id": "1031", "type": "CDSView"}}, "id": "1030", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1011", "type": "BasicTicker"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1021", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1020", "type": "PanTool"}, {"id": "1021", "type": "WheelZoomTool"}, {"id": "1022", "type": "ResetTool"}]}, "id": "1023", "type": "Toolbar"}, {"attributes": {"data_source": {"id": "1032", "type": "ColumnDataSource"}, "glyph": {"id": "1033", "type": "Patch"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1034", "type": "Patch"}, "selection_glyph": null, "view": {"id": "1036", "type": "CDSView"}}, "id": "1035", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1021", "type": "WheelZoomTool"}, {"attributes": {}, "id": "1045", "type": "Selection"}, {"attributes": {"fill_alpha": 0.25, "fill_color": "#DD8452", "line_color": "#DD8452", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1028", "type": "Patch"}, {"attributes": {"callback": null, "data": {"x": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}, "y": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}}, "selected": {"id": "1047", "type": "Selection"}, "selection_policy": {"id": "1046", "type": "UnionRenderers"}}, "id": "1032", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1006", "type": "LinearScale"}, {"attributes": {"source": {"id": "1027", "type": "ColumnDataSource"}}, "id": "1031", "type": "CDSView"}, {"attributes": {"fill_alpha": 0.25, "fill_color": "#4C72B0", "line_color": "#4C72B0", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1033", "type": "Patch"}, {"attributes": {}, "id": "1008", "type": "LinearScale"}, {"attributes": {"axis_line_color": {"value": null}, "formatter": {"id": "1041", "type": "BasicTickFormatter"}, "major_tick_line_color": {"value": null}, "ticker": {"id": "1037", "type": "BasicTicker"}}, "id": "1010", "type": "LinearAxis"}, {"attributes": {"fill_alpha": 0.1, "fill_color": "#1f77b4", "line_alpha": 0.1, "line_color": "#1f77b4", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1034", "type": "Patch"}, {"attributes": {"grid_line_color": null, "ticker": {"id": "1011", "type": "BasicTicker"}}, "id": "1014", "type": "Grid"}], "root_ids": ["1001"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'kde_depress');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1084", "doc": {"roots": {"references": [{"attributes": {}, "id": "1099", "type": "BasicTicker"}, {"attributes": {"text": ""}, "id": "1122", "type": "Title"}, {"attributes": {}, "id": "1089", "type": "LinearScale"}, {"attributes": {"source": {"id": "1115", "type": "ColumnDataSource"}}, "id": "1119", "type": "CDSView"}, {"attributes": {"axis_line_color": {"value": null}, "formatter": {"id": "1125", "type": "BasicTickFormatter"}, "major_tick_line_color": {"value": null}, "minor_tick_line_color": {"value": null}, "ticker": {"id": "1099", "type": "BasicTicker"}, "visible": false}, "id": "1098", "type": "LinearAxis"}, {"attributes": {"grid_line_color": null, "ticker": {"id": "1094", "type": "BasicTicker"}}, "id": "1097", "type": "Grid"}, {"attributes": {"callback": null, "data": {"x": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}, "y": {"__ndarray__": "AAAAAAAAAABIdzmouIg7PynxNEprDDs/2bN01I4pOT/pAqxRpEA2P0cwVnh81DI/kbq9ZgDTLj/EK1koXNQoP5ZpRf27MCQ/HFtcdGIZIT8ru1k9EwEfP0DjVt1+aR4/U4mkFlTyHz9j2fLHvJQhP/IvNZrM1yM/nIyY/PGaJj/stVvUMbspP42c5rSmFi0/V6RXo7JFMD+l47+1d/wxP5/QadHMoTM/HKHEo2MsNT/zJvMgUZk2P9zCApfo7Dc/dYepUeExOT/WTSDNWXY6P+6NBqvuxjs/B08RhQgpPT/la1RaXpY+P1UCoC3i+z8/tYgmB7eeQD/5icVw0B5BP2cBdVuZc0E/UIkYCOyZQT8JTeebwZZBP09CWQmwdEE/2ivvk4M/QT/Yq0BAJgBBP3B7713GukA/bpZgy9VvQD+4Ynct2B5AP4RIKhT/kT8/S8HWHrHjPj+ZJbJvIjs+P+toixbamz0/MKseibr/PD9bg2YX4lY8PwliU+gjjTs/TgL47OuSOj94JjaWaGU5P2H/ofgNEjg/4AZzlcmzNj8b57ViSGs1P2hT1ujcVTQ/jnWlcsqGMz+UzA8MBwUzP6wZHcv8zDI/eO7nlunTMj+3jW6OOQozP5U6/mCmWzM/7aIKBBKuMz9gDrIZk+EzPzDhyB3w0zM/p1i3ZdNnMz/ODai9d40yP5fL2PMJSTE/xx1q6BlnLz/dPoSC7uorP+vpylE2eig/AwnLyCdpJT+HsVUxL/UiP1Uo5OdGPyE/EiI+RI5NID87+DCLORAgP4HRhChfZiA/aiusdYAhIT/e4JovEwkiPzf1ToUo4CI/uUPQiCZuIz9nPtLqOokjP7AzGJlFHyM/0fL+RcA5Ij9aaAwK3/ogP+qBdXfGKR8/OOuZF6t9HD9tNIh1x1QaP9q8D9eM+hg/VY3WqZWcGD+0A3fFoUgZP5anKiSl6ho/uK/hc99JHT8jMIuQBAQgP8S0Pn4AVCE/pOaMD+xPIj9nfZGbZLoiPzvcsA+ubCI/K8gPikxhIT8ybw6fUmsfPzTJEreSQxs/VWeDQHvSFj849FHI/5USPzZcului1g0/klppAAYLCD9Ay/iPa+IDP4YMMODtPgE/rmzXeTHF/z48rZikg//+Pj5P7Sdkg/8+Gz/mpadRAD8iZ0Bl89wAP88YImUqHgE/awvJGJXnAD8tRlmTxyoAP3tveHSq8/0+/gG0o3wC+z5qgyNZbvn3Pqaql/cBVfU+g5vQuS+B8z6028B8T8ryPgA28g/ZU/M+5rditPUS9T4n+MCfRMz3PrPzZujJFvs+Fa9Jg1xn/j7u9nB8K5MAP4BiS6p/ZgE/eh6ocKKBAT9qlzjIEtoAP68p+qRDEf8+LbeGmFmE+z6zinFcQ5T3Pqfir++Hx/M+IC6WI5iN8D7auVQzVGbsPvxsipqQwOk+Y4TmTEk26T7H1x9MI5bqPht+lTGLdO0+Cqc78bCY8D79OhJUroPyPk9vwZObFPQ+AUXoP3309D7jOruFFe/0Pn1OBOC3/vM+chZaqINM8j4gjiweXSXwPpubh4q70Os+GrnWb0jq5z79/x8pXj3lPgKralM9R+Q+P3lPhLdS5T7KSb9PuG3oPvWRSCwRXO0+VGEuTKHG8T4VwPXsNhD1Pvf8shIWAPg+QbtyFHIL+j51S5vWuMf6PuZvQHBXBvo+DRCKAFnh9z6duMpnpbP0PsSYyVms//A+O7y1lsGb6j60y8KK2xzkPmQRV+phGt4+DRsVfjMy1z6J68uNADzTPgnGFzMzjdE+jHl/Rc1S0T44UcGIbcTRPuu5ezaNRtI+pt2WErB60j5taecEVj/SPvDcR5J0o9E+nuVsfQnT0D5W3W8VrgPQPiezUTm2z84+ut5JOspZzj7HOF7DrgXPPsweeMbPp9A+Mr/1GNvs0j7czcp++KrWPugJVTrdJNw+CBcW3PSt4T49OjOvQ/TlPprNJ01Kdeo+O1DZO8eQ7j60N8j2dMvwPgJXsyOEevE+34RRPp8v8T4Dwg78cefvPu3BElPz+Os+lWV1ack65z6BkrxkM2TiPoJD3cFjJdw+Y0SSjr1b1T7z9qCcKrzQPoeS+p5QTsw+pQyPfApeyj5JnLxZPH/KPoMSm+qRg8s+hwpAfRFrzD7A4nmao4PMPvAQ/wXddMs+KxlId786yT5V5YHcdhPGPlzIMj2ZZcI+f2MVY8NKvT78hpxCrH22PgdkJ0r9ELE+0Sq6CsT7qj4Byp9B4RioPpSGi1Wksak+7Vr/o06lrz6uJEItRbS0Poc56Y0h97o+LJN6DkbowD6Cw58s7SDEPv1vJHASoMY+RKJrVRn2xz6Rmtqjg+THPjSEJMFibsY+rS13a1XXwz6a72ygW5HAPmSE2dwFQbo+4dA6ZRT9sz7fnrYjdBuuPv1Vz3vBuKc+C5hjnuEOpT5j7X8YhNylPsbDRQgYfKk+Jxgy49r5rj4ZD8iQv5WyPoOL4ZlEabU+d9bgRFdmtz72cHXuNCW4PgfDhA2ffbc+YA08u3+PtT45oTsjZrqyPm/yg14NDq8+9KFfSw8WqT71lk9n/Z+kPvPJdThdhaI+jaOq5h1Uoz7t7kDYI0SnPq7CYPBYLa4+0o7cFsi/sz7Oa2k8YyO5Pl2JHNVopL4+V/LSwUfQwT6xNoIBmMvDPkVQw0eLJcU+M6N0q7DnxT6ZKojhMDvGPinA/a92U8Y+BcR7KuNUxj5/T+q8D0PGPhEjXaz+/sU+hVdvjgxWxT5q/2fMcRrEPpzaRAroOcI+bhVWQDqRvz5i2Jmvi/m5PtO8Br6WPLQ+30o46j/KrT5AtX8VtbGkPp/f5Ol1KZs+TRsVOHn2kD63YS8ti8eEPprNDMm5p3s+6TNRmbW4eD5bzsiennCAPmRqV/9eE4s+FQ+4GmgPlz61wPo6sfSiPt3j0AUugq0+5E8F+M2ktT6h+bt3f+K9Pq29cSf9acM+7/68As+7xz6ookAV6UzLPlo55GTRjM0+pBDIc0cazj48k+9Pnd/MPstDzHoLG8o+UChPTEZQxj5G4KPdkCnCPiOjVGgjqLw+tdePglfFtj4Bgi78C3qzPtZkj9X2MrM+Q9J9iQL5tT7cFyLFZHG7Pjgkhq8Ib8E+oecYDYGTxT4XBoTE3HvJPgwrIwfVesw+sL72QGADzj53Yae+gsnNPrbGY6SO1Ms+BOaWW0J7yD7dtjVI1krEPlYF0hqJxL8+DhDgJW6dtz6/0e9jU+ewPk9cq6GRC6g+2jGU8fwGoj4W307NsqqePsCjjMJ9e54+QgivK23ioD4rfkpBMF2jPoHTwXjZ1aU+Wc08qlmYpz6PLJBYUSqoPg894HVUWqc+Rf+JSdhBpT7UiDIjrjaiPgez3C0QX50+vxEusZxIlj5B19ijhdCPPn1CNwhbXoU+N+hobRACez4ryuzjGQ9wPj7DaDfp92E+9KLpOpXqUj7V0dDXrrxCPjHtSeJYdjE+hf8KrtmfHj495ec/KEQJPl0YsUj+nPM9zgx+G2im3D2ZG/zBL7DDPdVMnb2zdak9FbZ+qxn6jj0PEnvwF7txPWj1LsIQGVM9sJOLirdaMz2hpQF5anQSPRj6aLWDjvA8AtrHOJfzyzxBMLzhEzOmPDqwKC7DloA8x/bWarVTVzxIo0GY4dwuPNaDiKSpNQM8Og7whs9/1ju81vU9X8uoO8Qp5HBdtXk7h8vhiJQUSTs6hEiVcAUXOzPq977J4eM6wkDqld4nsDpcNRMpH7R4OgcHQz9AxUE6oOyCWhYOCDpKb4sLG6POOeSK+DRWW5I5iG67AXuyVDn96bbm2vQVOZeB0ctY6tU4d4+cw9GUlDg83jbQki9SOBGmvVUKPQ44sAZO2z6nxzdGX7AzkWiBN9QSAZ0iHDg3S3s6AMpq7zbVvbZcbEKjNmF7OByWN1Y2S7uE8SodCDYPsdSOHqC4NcgyY4xFqWc1vOfNHAhkFTVbVKwO6THCNDEn1X2ZH2008L7XHhruFTQXhsJLExO/MxBatvXptmQz/zTgn/v7CTMyLhA9+6quMnbBIpUpB1Ey9I8eupTK8TFiyPBvcX2RMVQ44mhoLTAxCFxUBUoozDB4O8WnUQ5nMINGt5hBwwEw90CUH2LAmS8JxonyKJAxL1vA8EtrisYuL5DD1uI+Wy7PuxHsHlIrLiA0750EEpYupnN5KUkNAi998x533chrLya9QQNNHtQvSdOUf5JpOzBQNBJKSpKhMFVhgH7uMQUxvanc2PcNaDG8tf03n6/JMQWcDSuEzikyxFiFOyxliDLmlKQ/mbLlMj0Y8RtVKEIzQplvgPKXnDMSVFZT0S71M2hsavjDh0006X1k4OZdozRGR2jcn+b3NOeGiAu0wEs1p2giWANSnjU7qpHN0yrvNR5icIbZJD42OyXEKERuizaSokHbcHzXNhcTib+D6yI3F+ZpjGCubDcLWRjiO3S0N+wZ+4H2cvs3ygr1IVFUQTjnP2TlZpaEOLh5qTwqA8c4QCOgvcMzCDnNuYjY6PJHOWpcwEoYTIY51pgk8UWIwzmXWOq+SBkAOimHMlsD+Dg6y9Q13OU3cjpRW0/7ogOpOuVZvlVJKOA6mhK/3ZmjEzufMeFNunVGO8WdNDjbKng738GPNax3qDvvj4uRkE7XO4FSaDKQ4wQ8tIPtv3OdMTzz99qUy/NbPMqbe3Du3YQ8jB+4wzVQrTzYyvakRV/TPJPGk15UF/g81wwunkQwHD0R+lL8dQg/Pd3TfCSNEmA9xYsohwtUfz1ZYPa+O7qcPdQR5/AJybg9A8IWybYe1D0Dk9ShC7zuPTEJLdo3FgY+1zewKS7eHT6I/FTKUwAzPlj4KnNGv0Y+6p98iCifWT7tsMdZSSdrPuhWSIJcE3s+EsMBlupmiT6LENEJS2yWPlfhTZWPn6I+3G0OgCwbrT5D8f7BeGa1PqONw8HYm70+osyKjaRFwz4AJeiY15rHPvaM5nPgM8s+7GEii99+zT6dRZ1BWRfOPunqosRR4sw+Y/QFcxoWyj6VNVX7tyrGPoSsJB4IucE+sTFwGv2puj7+cNFSUd+yPiLmu9nAIqk+cDJ8BbR/nz6Dp5zR1JGSPsanttjFmYQ+t+GxPOeAdT73SGw7qx9lPhdE0z19jVM+g1YlyR4yQT6kYnaCRkguPub1FxeBLiE+xNqAHb+YIz4K73qPApAyPldmggeRR0M+GzybkBZWUz56laYNu1FiPk5IMxTnVnA+1z7KZzhtez7y3DChdqiFPteO+MB9F5A+nsjFcZ9/lj7Xa+9etpidPsFNsFXuUKI+gyjkYoJUpT7mYfZWIl+nPvprBAk7GKg+AAAAAAAAAAA=", "dtype": "float64", "shape": [502]}}, "selected": {"id": "1130", "type": "Selection"}, "selection_policy": {"id": "1129", "type": "UnionRenderers"}}, "id": "1115", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1124", "type": "BasicTickFormatter"}, {"attributes": {}, "id": "1103", "type": "PanTool"}, {"attributes": {"axis_line_color": {"value": null}, "formatter": {"id": "1124", "type": "BasicTickFormatter"}, "major_tick_line_color": {"value": null}, "ticker": {"id": "1120", "type": "BasicTicker"}}, "id": "1093", "type": "LinearAxis"}, {"attributes": {"data_source": {"id": "1110", "type": "ColumnDataSource"}, "glyph": {"id": "1111", "type": "Patch"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1112", "type": "Patch"}, "selection_glyph": null, "view": {"id": "1114", "type": "CDSView"}}, "id": "1113", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1125", "type": "BasicTickFormatter"}, {"attributes": {}, "id": "1094", "type": "BasicTicker"}, {"attributes": {}, "id": "1129", "type": "UnionRenderers"}, {"attributes": {}, "id": "1091", "type": "LinearScale"}, {"attributes": {}, "id": "1130", "type": "Selection"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1104", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1103", "type": "PanTool"}, {"id": "1104", "type": "WheelZoomTool"}, {"id": "1105", "type": "ResetTool"}]}, "id": "1106", "type": "Toolbar"}, {"attributes": {}, "id": "1127", "type": "UnionRenderers"}, {"attributes": {"callback": null, "end": 16000.0, "start": -8.0}, "id": "1085", "type": "Range1d"}, {"attributes": {"fill_alpha": 0.25, "fill_color": "#DD8452", "line_color": "#DD8452", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1111", "type": "Patch"}, {"attributes": {"source": {"id": "1110", "type": "ColumnDataSource"}}, "id": "1114", "type": "CDSView"}, {"attributes": {"fill_alpha": 0.1, "fill_color": "#1f77b4", "line_alpha": 0.1, "line_color": "#1f77b4", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1117", "type": "Patch"}, {"attributes": {"data_source": {"id": "1115", "type": "ColumnDataSource"}, "glyph": {"id": "1116", "type": "Patch"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1117", "type": "Patch"}, "selection_glyph": null, "view": {"id": "1119", "type": "CDSView"}}, "id": "1118", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1104", "type": "WheelZoomTool"}, {"attributes": {"desired_num_ticks": 2}, "id": "1120", "type": "BasicTicker"}, {"attributes": {"fill_alpha": 0.1, "fill_color": "#1f77b4", "line_alpha": 0.1, "line_color": "#1f77b4", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1112", "type": "Patch"}, {"attributes": {}, "id": "1105", "type": "ResetTool"}, {"attributes": {"callback": null, "data": {"x": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}, "y": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}}, "selected": {"id": "1128", "type": "Selection"}, "selection_policy": {"id": "1127", "type": "UnionRenderers"}}, "id": "1110", "type": "ColumnDataSource"}, {"attributes": {"callback": null}, "id": "1087", "type": "DataRange1d"}, {"attributes": {}, "id": "1128", "type": "Selection"}, {"attributes": {"background_fill_color": {"value": "gainsboro"}, "below": [{"id": "1093", "type": "LinearAxis"}], "border_fill_color": {"value": "gainsboro"}, "center": [{"id": "1097", "type": "Grid"}, {"id": "1102", "type": "Grid"}], "left": [{"id": "1098", "type": "LinearAxis"}], "outline_line_color": {"value": "gainsboro"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1113", "type": "GlyphRenderer"}, {"id": "1118", "type": "GlyphRenderer"}], "title": {"id": "1122", "type": "Title"}, "toolbar": {"id": "1106", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1085", "type": "Range1d"}, "x_scale": {"id": "1089", "type": "LinearScale"}, "y_range": {"id": "1087", "type": "DataRange1d"}, "y_scale": {"id": "1091", "type": "LinearScale"}}, "id": "1084", "subtype": "Figure", "type": "Plot"}, {"attributes": {"dimension": 1, "grid_line_color": null, "ticker": {"id": "1099", "type": "BasicTicker"}}, "id": "1102", "type": "Grid"}, {"attributes": {"fill_alpha": 0.25, "fill_color": "#4C72B0", "line_color": "#4C72B0", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1116", "type": "Patch"}], "root_ids": ["1084"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'kde_income');
+
+
+
+    var item = JSON.parse('{"target_id": null, "root_id": "1167", "doc": {"roots": {"references": [{"attributes": {}, "id": "1210", "type": "UnionRenderers"}, {"attributes": {"data_source": {"id": "1198", "type": "ColumnDataSource"}, "glyph": {"id": "1199", "type": "Patch"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1200", "type": "Patch"}, "selection_glyph": null, "view": {"id": "1202", "type": "CDSView"}}, "id": "1201", "type": "GlyphRenderer"}, {"attributes": {"active_drag": "auto", "active_inspect": "auto", "active_multi": null, "active_scroll": {"id": "1187", "type": "WheelZoomTool"}, "active_tap": "auto", "tools": [{"id": "1186", "type": "PanTool"}, {"id": "1187", "type": "WheelZoomTool"}, {"id": "1188", "type": "ResetTool"}]}, "id": "1189", "type": "Toolbar"}, {"attributes": {"dimension": 1, "grid_line_color": null, "ticker": {"id": "1182", "type": "BasicTicker"}}, "id": "1185", "type": "Grid"}, {"attributes": {"fill_alpha": 0.1, "fill_color": "#1f77b4", "line_alpha": 0.1, "line_color": "#1f77b4", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1200", "type": "Patch"}, {"attributes": {}, "id": "1207", "type": "BasicTickFormatter"}, {"attributes": {"fill_alpha": 0.25, "fill_color": "#4C72B0", "line_color": "#4C72B0", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1199", "type": "Patch"}, {"attributes": {"callback": null, "data": {"x": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}, "y": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}}, "selected": {"id": "1213", "type": "Selection"}, "selection_policy": {"id": "1212", "type": "UnionRenderers"}}, "id": "1198", "type": "ColumnDataSource"}, {"attributes": {}, "id": "1208", "type": "BasicTickFormatter"}, {"attributes": {"text": ""}, "id": "1205", "type": "Title"}, {"attributes": {}, "id": "1182", "type": "BasicTicker"}, {"attributes": {"axis_line_color": {"value": null}, "formatter": {"id": "1208", "type": "BasicTickFormatter"}, "major_tick_line_color": {"value": null}, "minor_tick_line_color": {"value": null}, "ticker": {"id": "1182", "type": "BasicTicker"}, "visible": false}, "id": "1181", "type": "LinearAxis"}, {"attributes": {"background_fill_color": {"value": "#e6e5e3"}, "below": [{"id": "1176", "type": "LinearAxis"}], "border_fill_color": {"value": "#e6e5e3"}, "center": [{"id": "1180", "type": "Grid"}, {"id": "1185", "type": "Grid"}], "left": [{"id": "1181", "type": "LinearAxis"}], "outline_line_color": {"value": "#e6e5e3"}, "plot_height": 170, "plot_width": 165, "renderers": [{"id": "1196", "type": "GlyphRenderer"}, {"id": "1201", "type": "GlyphRenderer"}], "title": {"id": "1205", "type": "Title"}, "toolbar": {"id": "1189", "type": "Toolbar"}, "toolbar_location": null, "x_range": {"id": "1168", "type": "Range1d"}, "x_scale": {"id": "1172", "type": "LinearScale"}, "y_range": {"id": "1170", "type": "DataRange1d"}, "y_scale": {"id": "1174", "type": "LinearScale"}}, "id": "1167", "subtype": "Figure", "type": "Plot"}, {"attributes": {"grid_line_color": null, "ticker": {"id": "1177", "type": "BasicTicker"}}, "id": "1180", "type": "Grid"}, {"attributes": {}, "id": "1211", "type": "Selection"}, {"attributes": {"axis_line_color": {"value": null}, "formatter": {"id": "1207", "type": "BasicTickFormatter"}, "major_tick_line_color": {"value": null}, "ticker": {"id": "1203", "type": "BasicTicker"}}, "id": "1176", "type": "LinearAxis"}, {"attributes": {"callback": null}, "id": "1170", "type": "DataRange1d"}, {"attributes": {}, "id": "1186", "type": "PanTool"}, {"attributes": {}, "id": "1212", "type": "UnionRenderers"}, {"attributes": {}, "id": "1172", "type": "LinearScale"}, {"attributes": {}, "id": "1188", "type": "ResetTool"}, {"attributes": {}, "id": "1187", "type": "WheelZoomTool"}, {"attributes": {"fill_alpha": 0.25, "fill_color": "#DD8452", "line_color": "#DD8452", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1194", "type": "Patch"}, {"attributes": {}, "id": "1177", "type": "BasicTicker"}, {"attributes": {"source": {"id": "1198", "type": "ColumnDataSource"}}, "id": "1202", "type": "CDSView"}, {"attributes": {"desired_num_ticks": 2}, "id": "1203", "type": "BasicTicker"}, {"attributes": {"callback": null, "end": 150.0, "start": 37.0}, "id": "1168", "type": "Range1d"}, {"attributes": {"source": {"id": "1193", "type": "ColumnDataSource"}}, "id": "1197", "type": "CDSView"}, {"attributes": {"fill_alpha": 0.1, "fill_color": "#1f77b4", "line_alpha": 0.1, "line_color": "#1f77b4", "x": {"field": "x"}, "y": {"field": "y"}}, "id": "1195", "type": "Patch"}, {"attributes": {}, "id": "1174", "type": "LinearScale"}, {"attributes": {"data_source": {"id": "1193", "type": "ColumnDataSource"}, "glyph": {"id": "1194", "type": "Patch"}, "hover_glyph": null, "muted_glyph": null, "nonselection_glyph": {"id": "1195", "type": "Patch"}, "selection_glyph": null, "view": {"id": "1197", "type": "CDSView"}}, "id": "1196", "type": "GlyphRenderer"}, {"attributes": {}, "id": "1213", "type": "Selection"}, {"attributes": {"callback": null, "data": {"x": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}, "y": {"__ndarray__": "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", "dtype": "float64", "shape": [502]}}, "selected": {"id": "1211", "type": "Selection"}, "selection_policy": {"id": "1210", "type": "UnionRenderers"}}, "id": "1193", "type": "ColumnDataSource"}], "root_ids": ["1167"]}, "title": "", "version": "1.4.0"}}');
+    Bokeh.embed.embed_item(item, 'kde_weight');
+
+
+
+</script>
+
+<script> 
+// Use BokehJS to rended xtab plot from their JSON representation
+var item = JSON.parse('None');
+Bokeh.embed.embed_item(item, 'xtab_plot_id');
+</script>
+
+<script> 
+// Use BokehJS to rended ridge plot from their JSON representation
+var item = JSON.parse('None');
+Bokeh.embed.embed_item(item, 'ridge_plot_id');
+</script>
+
+</body>
+</html>

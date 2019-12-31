@@ -21,7 +21,7 @@ setup(name='summarize2',
         "PyYAML",
         "matplotlib",
         "jinja2",
-        "bokeh=1.4.0"
+        "bokeh==1.4.0"
       ],
       packages=find_packages(),
       entry_points={
