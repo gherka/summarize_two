@@ -25,6 +25,10 @@ class referenceTests(unittest.TestCase):
         '''
         Run summarize2 with two basic .csv from sample data and
         compare it with the reference report
+
+        Pay attention to Bokeh versions between test build
+        and reference build as this could be one of the reasons
+        behind test failure.
         '''
 
         test_output = StringIO()
@@ -52,19 +56,20 @@ class referenceTests(unittest.TestCase):
         tm.main(user_dtypes=test_dtypes)
 
         #Bokeh adds a 4 digit ID to various elements that are unique to each generation
-        #also, the paths in the files can be upper or lower case
-        #by casting everything into upper some information (__ndarray__) is lost!
-        a_clean = re.sub(
-            r'"\d{4}"|.*bootstrap.min.css">\n|.*main.css">\n|.*bokeh-1.4.0.min.js">\n',
-            '',
-            ref_output
-            ).upper()
+        #it also can store values in JS objects in a different order
+        #depending on where the test are run, root file paths might be different
+        #__ndarray__ string is calculated differently each time, so we strip it out
 
-        b_clean = re.sub(
-            r'"\d{4}"|.*bootstrap.min.css">\n|.*main.css">\n|.*bokeh-1.4.0.min.js">\n',
-            '',
-            test_output.getvalue()
-            ).upper()
+        pattern = re.compile(
+            r'"\d{4}"|'
+            r'.*bootstrap.min.css">\n|'
+            r'.*main.css">\n|'
+            r'.*bokeh-1.4.0.min.js">|'
+            r'__ndarray__":.*?",'
+            )
+
+        a_clean = re.sub(pattern, '', ref_output).upper()
+        b_clean = re.sub(pattern, '', test_output.getvalue()).upper()
 
         a = ''.join(sorted(a_clean))
         b = ''.join(sorted(b_clean))
@@ -112,10 +117,20 @@ class referenceTests(unittest.TestCase):
         tm.main(user_dtypes=test_dtypes)
 
         #Bokeh adds a 4 digit ID to various elements that are unique to each generation
-        #also, the paths in the files can be upper or lower case
-        #by casting everything into upper some information (__ndarray__) is lost!
-        a_clean = re.sub(r'"\d{4}"', '', ref_output).upper()
-        b_clean = re.sub(r'"\d{4}"', '', test_output.getvalue()).upper()
+        #it also can store values in JS objects in a different order
+        #depending on where the test are run, root file paths might be different
+        #__ndarray__ string is calculated differently each time, so we strip it out
+
+        pattern = re.compile(
+            r'"\d{4}"|'
+            r'.*bootstrap.min.css">\n|'
+            r'.*main.css">\n|'
+            r'.*bokeh-1.4.0.min.js">|'
+            r'__ndarray__":.*?",'
+            )
+
+        a_clean = re.sub(pattern, '', ref_output).upper()
+        b_clean = re.sub(pattern, '', test_output.getvalue()).upper()
 
         a = ''.join(sorted(a_clean))
         b = ''.join(sorted(b_clean))

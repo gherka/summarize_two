@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/gherka/summarize_two.svg?branch=master)](https://travis-ci.com/gherka/summarize_two)
+
 ## Summarize2: visualisation tool for comparing datasets
 
 #### Main features:
