@@ -15,17 +15,17 @@ setup(name='summarize2',
       author='German Priks',
       python_requires=">3.6",
       install_requires=[
-        "pandas",
-        "numpy",
-        "scipy",
-        "PyYAML",
-        "matplotlib",
-        "jinja2",
-        "bokeh==1.4.0"
+          "pandas",
+          "numpy",
+          "scipy",
+          "PyYAML",
+          "matplotlib",
+          "jinja2",
+          "bokeh"
       ],
       packages=find_packages(),
       entry_points={
-        'console_scripts': [
-            'summarize2 = summarize2.command.bootstrap:main'
-        ]}
+          'console_scripts': [
+              'summarize2 = summarize2.command.bootstrap:main'
+          ]}
      )

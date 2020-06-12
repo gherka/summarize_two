@@ -277,8 +277,12 @@ def generate_summary(df1, df2, user_dtypes):
             "table_columns": table_columns
             },
         "DFs" : {
-            "DF1" : {"file_name": df1._metadata["file_name"], "shape" : shape_1},
-            "DF2" : {"file_name": df2._metadata["file_name"], "shape" : shape_2}
+            "DF1" : {
+                "file_name": df1._metadata["file_name"] if df1._metadata else "First file",
+                "shape" : shape_1},
+            "DF2" : {
+                "file_name": df2._metadata["file_name"] if df2._metadata else "Second file",
+                "shape" : shape_2}
             }
         }
 
