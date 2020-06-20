@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ root }}/css/main.css">
+    <title>Dataset comparison report</title>
+</head>
+<body>
+<main>
+<!-- Title across the entire container -->
+<div class="text-centered">
+    <h1 class="title">Visual report comparing two datasets</h1>
+    <p class="subtitle">Built using Bokeh and Jinja2 templates</p>
+</div>
+<!-- Summary tables with number of rows and columns in each dataset -->
+{% include "templates/sections/summary.jinja" %}
+<!-- Mismatching columns -->
+<section>
+    <h2 class="section-title"><u>Mismatching</u> variable names:</h2>
+    <ul>
+        {% for item in summary['Metadata']['different_columns'] %}
+
+            <li class="mismatching-li">
+
+            {% if item|length == 2 %}
+                {{ item[0] }} - only in {{ item[1] }}
+            {% else %}
+                {{ item }}
+            {% endif %}
+            
+            </li>
+
+        {% endfor %}
+    </ul>
+</section>
+<!-- Detailed tables generator -->
+<!-- Create a table for each column dtype: Categorical, Continuous, Timeseries -->
+{% if "Categorical" in summary["Metadata"]["common_columns"] %}
+    {% include "templates/sections/categorical.jinja" %}
+{% endif %}
+
+{% if "Continuous" in summary["Metadata"]["common_columns"] %}
+    {% include "templates/sections/continuous.jinja" %}
+{% endif %}
+
+{% if "Timeseries" in summary["Metadata"]["common_columns"] %}
+    {% include "templates/sections/timeseries.jinja" %}
+{% endif %}
+
+<!-- Optional Crosstab section-->
+{% if xtab_plot is not none  %}
+
+    {{
+    '<div style="text-align: center">'
+        '<h5>Crosstab</h5>'
+        '<i>If two frequencies of two sets of data are the same, the clock will be at 6PM mark.</i>'
+    '</div>'
+    '<div id="xtab_plot_id"></div>'
+    }}
+
+{% endif %}
+
+<!-- Optional Ridge Plot section-->
+{% if ridge_plot is not none  %}
+
+    {{
+    '<div style="text-align: center">'
+        '<h5>Ridge plot showing 5 combinations with the most different distributions</h5>'
+        '<i>Click on a legend item to toggle the visibility of plot elements</i>'
+    '</div>'
+    '<div id="ridge_plot_id"></div>'
+    }}
+
+{% endif %}
+</main>
+
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-{{cdn_bokeh_version[0]}}.{{cdn_bokeh_version[1]}}.{{cdn_bokeh_version[2]}}.min.js"
+        crossorigin="anonymous">
+</script>
+
+<script>
+        if ("{{local_bokeh_version}}" !== "None") {
+            let [x, y, z] = "{{local_bokeh_version}}".split(".");
+            window.Bokeh || document.write(`<script src="{{ root }}/scripts/bokeh-${x}.${y}.${z}.min.js"><\/script>`);
+        } else {
+            window.Bokeh || console.log("Unable to load Bokeh either from CDN or locally.")   
+        }
+</script>
+
+<script> 
+// Use BokehJS to rended frequency difference plots from their JSON representation
+{% for v in summary['Metadata']['common_columns']['Categorical'].keys() %}
+
+    var item = JSON.parse('{{cat_plots[v]}}');
+    Bokeh.embed.embed_item(item, 'cat_{{v}}');
+
+{% endfor %}
+
+</script>
+
+<script> 
+// Use BokehJS to rended KDE plots from their JSON representation
+{% for v in summary['Metadata']['common_columns']['Continuous'].keys() %}
+    {% if kde_plots[v] is not none %}
+        var item = JSON.parse('{{kde_plots[v]}}');
+        Bokeh.embed.embed_item(item, 'kde_{{v}}');
+    {% endif %}
+
+
+{% endfor %}
+
+</script>
+
+<script> 
+// Use BokehJS to rended xtab plot from their JSON representation
+{% if xtab_plot is not none %}
+    var item = JSON.parse('{{ xtab_plot }}');
+    Bokeh.embed.embed_item(item, 'xtab_plot_id');
+{% endif %}
+</script>
+
+<script> 
+// Use BokehJS to rended ridge plot from their JSON representation
+{% if ridge_plot is not none %}
+    var item = JSON.parse('{{ ridge_plot }}');
+    Bokeh.embed.embed_item(item, 'ridge_plot_id');
+{% endif %}
+</script>
+
+</body>
+</html>

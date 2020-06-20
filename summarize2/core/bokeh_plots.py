@@ -1,5 +1,5 @@
 '''
-Bokeh plots for interactive visualisations (v 1.4.0)
+Bokeh plots for interactive visualisations (v 2.0.2)
 '''
 
 # Standard library imports
@@ -26,11 +26,8 @@ def colour_mapper(angles, preset):
     Map angle values to colours
     presets are either default or ml
     '''        
-    
-    if preset == "default":
-        return "black"
-    
-    elif preset == "ml":
+        
+    if preset == "ml":
     
         cond = (
 
@@ -43,6 +40,7 @@ def colour_mapper(angles, preset):
 
         return np.where(cond, "#d01c8b", "#4dac26")
 
+    return "black"
 
 def generate_xtab_plot(df1, df2, spec):
     '''
@@ -75,14 +73,12 @@ def generate_xtab_plot(df1, df2, spec):
         df1[y_col] = df1[y_axis[0]].str.cat(df1[y_axis[1:]], sep=" - ")
         df2[y_col] = df2[y_axis[0]].str.cat(df2[y_axis[1:]], sep=" - ")
 
-
     df1_xtab = (
         pd.crosstab(
             index=df1[y_col],
             columns=df1[x_col])
                 .reset_index()
                 .melt(id_vars=y_col, value_name='o'))
-
 
     df2_xtab = (
         pd.crosstab(
@@ -123,17 +119,17 @@ def generate_xtab_plot(df1, df2, spec):
     wedge_radius = 0.25 * aspect
     ray_length = wedge_radius * 2.1
 
-
     if spec['options']['column_sort']:
 
-        p = figure(plot_width=plot_width, plot_height=plot_height,
-               toolbar_location=None,
-               tools=["pan, wheel_zoom", MyHover],
-               active_scroll="wheel_zoom",
-               x_range=df_xtab[x_col].unique(),
-               y_range=FactorRange(
-                   factors=[str(x) for x in range(df_xtab[y_col].nunique())]),
-               x_axis_location='above')
+        p = figure(
+            plot_width=plot_width, plot_height=plot_height,
+            toolbar_location=None,
+            tools=["pan, wheel_zoom", MyHover],
+            active_scroll="wheel_zoom",
+            x_range=df_xtab[x_col].unique(),
+            y_range=FactorRange(
+                factors=[str(x) for x in range(df_xtab[y_col].nunique())]),
+            x_axis_location='above')
     
         p.extra_y_ranges = {}
 
@@ -152,22 +148,25 @@ def generate_xtab_plot(df1, df2, spec):
             x_df['line_colour'] = colour_mapper(
                 x_df['angle_s'], preset=spec['options']['colour_preset'])
 
-            p.wedge(x=x_col, y='sorted_index', radius=wedge_radius,
-                    y_range_name=x_col_val,
-                    start_angle=90, end_angle='angle_s', start_angle_units="deg",
-                    end_angle_units="deg", direction="clock", alpha=0.05,
-                    line_color="black", color=DF1_COLOR, source=x_df)
+            p.wedge(
+                x=x_col, y='sorted_index', radius=wedge_radius,
+                y_range_name=x_col_val,
+                start_angle=90, end_angle='angle_s', start_angle_units="deg",
+                end_angle_units="deg", direction="clock", alpha=0.05,
+                line_color="black", color=DF1_COLOR, source=x_df)
 
-            p.ray(x=x_col, y='sorted_index', length=ray_length,
+            p.ray(
+                x=x_col, y='sorted_index', length=ray_length,
                 angle='angle_s', angle_units="deg",
                 line_width=1.5, y_range_name=x_col_val,
                 line_color="line_colour", source=x_df)
 
-            p.wedge(x=x_col, y='sorted_index', radius=wedge_radius,
-                    y_range_name=x_col_val, start_angle='angle_s',
-                    end_angle=90, start_angle_units="deg",
-                    end_angle_units="deg", direction="clock", alpha=0.05,
-                    line_color="black", color=DF2_COLOR, source=x_df)
+            p.wedge(
+                x=x_col, y='sorted_index', radius=wedge_radius,
+                y_range_name=x_col_val, start_angle='angle_s',
+                end_angle=90, start_angle_units="deg",
+                end_angle_units="deg", direction="clock", alpha=0.05,
+                line_color="black", color=DF2_COLOR, source=x_df)
             
             p.xaxis.visible = True
             p.yaxis.visible = False
@@ -175,32 +174,36 @@ def generate_xtab_plot(df1, df2, spec):
     else:
 
         df_xtab['line_colour'] = colour_mapper(
-                df_xtab['angle_s'], preset=spec['options']['colour_preset'])
+            df_xtab['angle_s'], preset=spec['options']['colour_preset'])
 
         df_xtab.dropna(inplace=True)
 
-        p = figure(plot_width=plot_width, plot_height=plot_height,
-                toolbar_location=None,
-                tools=["pan, wheel_zoom", MyHover],
-                active_scroll="wheel_zoom",
-                x_range=df_xtab[x_col].unique(),
-                y_range=df_xtab[y_col].unique(),
-                x_axis_location='above')
+        p = figure(
+            plot_width=plot_width, plot_height=plot_height,
+            toolbar_location=None,
+            tools=["pan, wheel_zoom", MyHover],
+            active_scroll="wheel_zoom",
+            x_range=df_xtab[x_col].unique(),
+            y_range=df_xtab[y_col].unique(),
+            x_axis_location='above')
 
-        p.wedge(x=x_col, y=y_col, radius=wedge_radius,
-                start_angle=90, end_angle='angle_s', start_angle_units="deg",
-                end_angle_units="deg", direction="clock", alpha=0.05,
-                line_color="black", color=DF1_COLOR, source=df_xtab)
+        p.wedge(
+            x=x_col, y=y_col, radius=wedge_radius,
+            start_angle=90, end_angle='angle_s', start_angle_units="deg",
+            end_angle_units="deg", direction="clock", alpha=0.05,
+            line_color="black", color=DF1_COLOR, source=df_xtab)
 
-        p.ray(x=x_col, y=y_col, length=ray_length,
+        p.ray(
+            x=x_col, y=y_col, length=ray_length,
             angle='angle_s', angle_units="deg",
             line_width=1.5,
             line_color="line_colour", source=df_xtab)
 
-        p.wedge(x=x_col, y=y_col, radius=wedge_radius,
-                start_angle='angle_s', end_angle=90, start_angle_units="deg",
-                end_angle_units="deg", direction="clock", alpha=0.05,
-                line_color="black", color=DF2_COLOR, source=df_xtab)
+        p.wedge(
+            x=x_col, y=y_col, radius=wedge_radius,
+            start_angle='angle_s', end_angle=90, start_angle_units="deg",
+            end_angle_units="deg", direction="clock", alpha=0.05,
+            line_color="black", color=DF2_COLOR, source=df_xtab)
 
         p.xaxis.visible = spec['options']['x_labels_visible']
         p.yaxis.visible = spec['options']['y_labels_visible']
@@ -327,7 +330,6 @@ def generate_ridge_plot(df1, df2, spec):
             band_color = '#e6e5e3'
         else:
             band_color = 'gainsboro'
-
 
         bins = sorted(s1.append(s2).unique())
 

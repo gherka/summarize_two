@@ -50,7 +50,6 @@ def generate_report(df1, df2, user_dtypes, **kwargs):
     else:
         xtab_plot = None
 
-
     #Template loading machinery
     root_path = package_dir("static")
 
@@ -66,13 +65,13 @@ def generate_report(df1, df2, user_dtypes, **kwargs):
     elif len(local_bokeh_scripts) == 1:
         local_bokeh_version = local_bokeh_scripts[0].stem[6:11]
         if local_bokeh_version != bokeh.__version__:
-            print("WARNING: local copy of the Bokeh script doesn't match the Python environment.")
+            print("WARNING: local copy of Bokeh doesn't match Python environment")
     else:
-        print("WARNING: No local backup script of Bokeh is available. Loading from CDN.")
+        print("WARNING: No local copy of Bokeh is available. Loading from CDN.")
 
     env = Environment(loader=FileSystemLoader(root_path))
         
-    template = env.get_template("templates/template.jinja")
+    template = env.get_template("templates/main.jinja")
 
     output = StringIO()
 

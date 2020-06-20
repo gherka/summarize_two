@@ -9,7 +9,6 @@ import datetime
 # External library imports
 import pandas as pd
 
-
 def generate_default_dict(col_dtype):
     '''
     Generate a default summary stats dictionary for each data type.
@@ -29,7 +28,7 @@ def generate_default_dict(col_dtype):
                             "Uniques":0,
                             "NAs":0}}}
     
-    elif col_dtype == "Continuous":
+    if col_dtype == "Continuous":
 
         return {
             "DFs":
@@ -96,6 +95,7 @@ def guess_dateseries_format(series):
     '''
     Look at the first 5 values to see if they all match a date pattern.
     '''
+
     matches = series.head().apply(guess_date_format).unique()
 
     if len(matches) == 1:
@@ -108,39 +108,61 @@ def guess_date_frequency(timeseries):
     '''
     Try to guess if the sorted timestamps have any pattern to them.
     
-    Pandas diff() on the sorted duplicate-less datafraeme computes
+    Pandas diff() on the sorted duplicate-less dataframe computes
     the difference between each element with its previous row which
-    gives as the time lapsed between discrete time stamps. 
+    gives us the time lapsed between discrete time stamps. 
 
     We then look at how many such differences exist and what their values
     are in days.
 
-    If the period between two unique timestamps is between 28 and 31 days
+    If the periods between two unique timestamps are between 28 and 31 days
     then we guess it's a monthly timerseries and so on.
+
+    See description of time alises on Pandas website.
+
+    Parameters
+    ----------
+    timeseries : pd.Series
+        only columns identified as datetime by date_parser()
+        will get analysed by this function
+    
+    Returns
+    -------
+    Time alias string or unknown
     '''
     
-    time_diff_counts = timeseries.drop_duplicates().sort_values().diff().value_counts()
+    time_diff_counts = (timeseries
+                        .drop_duplicates()
+                        .sort_values()
+                        .diff()
+                        .value_counts())
     
-    if len(time_diff_counts.index) == 1:
-        
-        if time_diff_counts.index[0].days in range(28, 32):
-            return "month"
-        elif time_diff_counts.index[0].days in range(90, 93):
-            return "quarter"
-        elif time_diff_counts.index[0].days in range(365, 367):
-            return "year"
-    
-    elif time_diff_counts.index[0].days - time_diff_counts.index[1].days in range(0, 3):
-        
-        if time_diff_counts.index[0].days in range(28, 32):
-            return "month"
-        elif time_diff_counts.index[0].days in range(90, 93):
-            return "quarter"
-        elif time_diff_counts.index[0].days in range(365, 367):
-            return "year"
-        
-    else:
-        return "no idea"
+    day_diff = (
+        max(time_diff_counts.index).days -
+        min(time_diff_counts.index).days
+    )
+
+    #the maximum difference between two timestamps in a single period is 3
+    #as in a monthly timeseries with February (28) and March (31). Business
+    #Years are a bit weird so we increase to 4 and have a wider interval for YS
+
+    if day_diff > 4: # pragma: no cover
+        return None
+
+    aliases = {
+        range(0, 2)     : "day",
+        range(28, 32)   : "month",
+        range(90, 93)   : "quarter",
+        range(364, 369) : "year",
+    }
+
+    first_period = time_diff_counts.index[0].days
+
+    for period_range, period_alias in aliases.items():
+        if first_period in period_range:
+            return period_alias
+            
+    return "unknown"
 
 def guess_date_continuity(timeseries):
     '''
@@ -152,7 +174,7 @@ def guess_date_continuity(timeseries):
     if len(time_diffs.value_counts().index) == 1:
         return "continuous"
     
-    elif time_diffs.max().days - time_diffs.min().days in range(0, 3):
+    if time_diffs.max().days - time_diffs.min().days in range(0, 3):
         return "continuous"
     
     return "interruped"     
@@ -249,14 +271,12 @@ def generate_summary(df1, df2, user_dtypes):
                 cc["DFs"]["DF2"]["Breaks?"] = guess_date_continuity(df2[col])
                 cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
             
-
             else:
 
                 cc["DFs"]["DF1"]["Uniques"] = df1[col].nunique()
                 cc["DFs"]["DF1"]["NAs"] = sum(df1[col].isna())
                 cc["DFs"]["DF2"]["Uniques"] = df2[col].nunique()
                 cc["DFs"]["DF2"]["NAs"] = sum(df2[col].isna())
-
 
     if not diff_cols:
         diff_cols = ["None"]

@@ -62,7 +62,6 @@ class referenceTests(unittest.TestCase):
 
         pattern = re.compile(
             r'"\d{4}"|'
-            r'.*bootstrap.min.css">\n|'
             r'.*main.css">\n|'
             r'.*bokeh-.{5}.min.js">|'
             r'__ndarray__":.*?",'
@@ -123,7 +122,6 @@ class referenceTests(unittest.TestCase):
 
         pattern = re.compile(
             r'"\d{4}"|'
-            r'.*bootstrap.min.css">\n|'
             r'.*main.css">\n|'
             r'.*bokeh-.{5}.min.js">|'
             r'__ndarray__":.*?",'

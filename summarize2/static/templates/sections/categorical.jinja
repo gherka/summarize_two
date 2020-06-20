@@ -1,0 +1,58 @@
+{% from "templates/macros.jinja" import diff %}
+
+<section>
+<h2 class="section-title text-centered">Categorical variables</h2>
+    <table>
+        <thead>
+            <TR>
+                <TD>Variable Name</TD>
+                <TD></TD>
+                {% for col_name in summary['Metadata']['table_columns']["Categorical"] %}
+                    <TD>{{ col_name }}</TD>
+                {% endfor %}
+                <TD>Frequencies Plot</TD>
+            </TR>
+        </thead>
+        <tbody>
+            <!-- Each row in the table corresponds to a variable in the dataset; rows are also generated in a loop -->
+            {% for col_name in summary['Metadata']['common_columns']["Categorical"].keys() %}
+                <!-- Save the long dict path to an internal Jinja variable for clarity -->
+                {% set root_dict = summary['Metadata']['common_columns']["Categorical"][col_name]['DFs'] %}
+                
+                <TR class="{{ loop.cycle('odd', 'even') }}">
+                    <TD class="table-row-name" rowspan="4">{{ col_name }}</TD>
+                    <TD class="table-df" rowspan="2">DF1</TD>
+                    <!-- Since we don't know how many columns each column dtype has, we need another loop -->
+                    {% for col_name in summary['Metadata']['table_columns']["Categorical"] %}
+                        <TD class="table-cat-columns">
+                            {{ root_dict['DF1'][col_name] }}
+                        </TD>
+                    {% endfor %}
+                    <TD class="table-plot" id="cat_{{col_name}}" rowspan="4"></TD>
+                </TR>
+
+                <TR class="{{ loop.cycle('odd', 'even') }}">
+                    {% for col_name in summary['Metadata']['table_columns']["Categorical"] %}
+
+                        {% set diff_output = diff(root_dict['DF1'][col_name], root_dict['DF2'][col_name], col_name) %}
+                            
+                            {{ diff_output }}
+
+                    {% endfor %}
+                </TR>
+
+                <TR class="{{ loop.cycle('odd', 'even') }}">            
+                    <TD class="table-df" rowspan="2">DF2</TD>
+                </TR>
+
+                <TR class="{{ loop.cycle('odd', 'even') }}">
+                    {% for col_name in summary['Metadata']['table_columns']["Categorical"] %}
+                        <TD>
+                            {{ root_dict['DF2'][col_name] }}
+                        </TD>
+                    {% endfor %}
+                </TR>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>

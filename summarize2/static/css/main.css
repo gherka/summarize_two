@@ -1,47 +1,121 @@
+/* CSS VARIABLES */
+:root {
+  --background-color: gainsboro;
+}
+
+/* TAG STYLES */
 body {
-    background-color: gainsboro;
+    background-color: var(--background-color);
+    font-family: Gill Sans,Arial,sans-serif;
 }
 
-.table_top {
-  border-top: 1px solid gainsboro !important;
-  border-left: 1px solid gainsboro !important;
-  border-right: 1px solid gainsboro !important;
+main {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.file_name {
+section {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* TITLES AND SUBTITLES */
+.title {
+  font-size: 24px;
+}
+
+.subtitle {
+  font-size: 16px;
   font-style: italic;
 }
 
-table, th, td {
-    border: 1px dotted grey !important;
-    border-collapse: collapse;
-    text-align: center;
-  }
+.section-title {
+  text-align: left;
+  font-size: 20px;
+  color: rgba(0,0,0,0.9)
+}
 
+.text-centered {
+  text-align: center;
+}
+
+/* SUMMARY TABLE STYLES */
+.summary-flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+.summary-flex-item {
+  width: 350px;
+  margin: 10px;
+}
+
+.file-name {
+  font-style: italic;
+}
+
+/* MISMATCHING COLOMNS STYLES */
+.mismatching-li {
+  font-size: 18px;
+}
+
+/* TABLE STYLES */
 table {
-    border-spacing: 5px;
-  }
+  border-collapse: collapse; 
+  width: 100%;
+}
 
-th, td {
-    padding: 5px;
-  }
+td {
+  text-align: center;
+  vertical-align: middle;
+  height: 40px;
+  border: 1px dotted grey;
+}
+
+.table-row-name {
+  text-align: left;
+  padding-left: 5px;
+  width: 20%;
+}
+
+.table-df {
+  width: 10%;
+}
+
+.table-plot {
+  width: 20%;
+  height: 180px;
+}
+
+.table-cat-columns {
+  width: calc(50% / 3);
+}
+
+.table-cont-columns {
+  width: calc(50% / 6);
+}
+
+.table-date-columns {
+  width: calc(70% / 6);
+}
 
 .diff_highlight_time {
-  color: rgb(87, 89, 110) !important;
+  color: rgb(87, 89, 110);
   font-size: 1rem;
-  font-weight: bold !important;
+  font-weight: bold;
 }
 
 .diff_highlight_greater {
-  color: rgb(82, 117, 99) !important;
+  color: rgb(82, 117, 99);
   font-size: 1rem;
-  font-weight: bold !important;
+  font-weight: bold;
 }
 
 .diff_highlight_less {
-  color: rgb(135, 99, 136) !important;
+  color: rgb(135, 99, 136);
   font-size: 1rem;
-  font-weight: bold !important;
+  font-weight: bold;
 }
 
 .odd { 
@@ -50,21 +124,17 @@ th, td {
 
 }
 
-.fixed_height_row {
-
-  height: 40px !important;
-
-}
+/* REVIEW! */
 
 #ridge_plot_id {
 
-  border: 1px dotted grey !important;
+  border: 1px dotted grey;
 }
 
 #xtab_plot_id {
 
-  border: 1px dotted grey !important;
-  overflow: hidden !important;
-  height:602px !important;
-  width:967px !important;
+  border: 1px dotted grey;
+  overflow: hidden;
+  height:602px;
+  width:967px;
 }

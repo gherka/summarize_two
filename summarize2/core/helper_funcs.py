@@ -22,9 +22,10 @@ def convert_dtypes(dtype):
     '''
     Rename pandas default dtypes for readability
     '''
+
     if is_numeric_dtype(dtype):
         return "Continuous"
-    elif is_datetime64_dtype(dtype):
+    if is_datetime64_dtype(dtype):
         return "Timeseries"
     return "Categorical"
 
@@ -87,7 +88,6 @@ def launch_temp_file(file_type, **kwargs):
         )
         temp_name = "xtab.yml"
 
-
     with tempfile.TemporaryDirectory() as td:
         f_name = join(td, temp_name)
         with open(f_name, 'w') as f:
@@ -114,27 +114,29 @@ def launch_temp_file(file_type, **kwargs):
             output = yaml.safe_load(f)
             return output
 
-
 def open_report_in_default_browser(file_path):
     '''
-    Doc string
+    Use platform-specific process to launch the report in the default
+    application for .HTML files.
     '''
+
     if sys.platform == "win32":
         os.startfile(file_path) # pylint: disable=no-member
+    elif sys.platform == "Darwin":
+        subprocess.call(["open", file_path])
     else:
         subprocess.call(["xdg-open", file_path])
-
 
 def path_checker(string):
     '''
     Improves error message for user if wrong path entered.
     Returns Path object.
     '''
+
     if not exists(string):
         msg = "Can't find specified file"
         raise FileNotFoundError(msg)
     return Path(string)
-
 
 def package_dir(*args):
     '''
@@ -148,8 +150,8 @@ def package_dir(*args):
     imposes certain constrains of the file structure of
     the project.
     '''
-    return abspath(join(dirname(__file__), "..", *args))
 
+    return abspath(join(dirname(__file__), "..", *args))
 
 def transform_frequencies(df1, df2, col_name):
     '''
@@ -178,7 +180,7 @@ def transform_frequencies(df1, df2, col_name):
     bar_1 = np.array(new_freq_1, dtype=object).T
     bar_2 = np.array(new_freq_2, dtype=object).T
 
-    return(bar_1, bar_2)
+    return (bar_1, bar_2)
 
 def read_data(data_path_1, data_path_2):
     '''

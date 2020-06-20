@@ -2,6 +2,7 @@
 Launch module of the tool.
 Defines command line parameters, runs through logic.
 '''
+
 # Standard library imports
 import argparse
 import textwrap

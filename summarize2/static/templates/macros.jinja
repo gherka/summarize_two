@@ -1,0 +1,21 @@
+{% macro diff(a, b, col) %}
+    
+    {% if a == b %}
+
+        <TD rowspan="2">Same</TD>
+
+    {% elif a != b and (col == 'Format' or col == 'Breaks?' or col == 'Frequency') %}
+
+        <TD class="diff_highlight_time" rowspan="2">Different</TD>
+
+    {% elif a > b %}
+        
+        <TD class="diff_highlight_greater" rowspan="2">Greater</TD>
+
+    {% elif a < b  %}
+
+        <TD class="diff_highlight_less" rowspan="2">Less</TD>
+
+    {% endif %}
+
+{% endmacro %}

@@ -1,0 +1,25 @@
+<section>
+<!-- Summary text -->
+<h2 class="section-title">Summary information and dataset shapes:</h2>
+<!-- Summary tables with number of rows and columns in each dataset -->
+<div class="summary-flex-container">
+        {% for df in summary['DFs'] %}
+        <table class="summary-flex-item">
+            <TR>
+                <TD colspan="2">{{ df }}</TD>
+            </TR>
+            <TR>
+                <TD class="file-name" colspan="2">{{ summary['DFs'][df]['file_name'] }}</TD>
+            </TR>
+            <TR>
+                <TD>Number of rows</TD>
+                <TD>Number of columns</TD>
+            </TR>
+            <TR>
+                <TD>{{ summary['DFs'][df]['shape'][0] }}</TD>
+                <TD>{{ summary['DFs'][df]['shape'][1] }}</TD>
+            </TR>
+        </table>
+        {% endfor %}
+</div>
+</section>
