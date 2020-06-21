@@ -13,7 +13,7 @@ setup(name='summarize2',
       version='0.1',
       description='Command line tool for comparing datasets',
       author='German Priks',
-      python_requires=">3.6",
+      python_requires=">=3.6",
       install_requires=[
           "pandas",
           "numpy",
@@ -21,7 +21,7 @@ setup(name='summarize2',
           "PyYAML",
           "matplotlib",
           "jinja2",
-          "bokeh"
+          "bokeh==2.1.0"
       ],
       packages=find_packages(),
       entry_points={
